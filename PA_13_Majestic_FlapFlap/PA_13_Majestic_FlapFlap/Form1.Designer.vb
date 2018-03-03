@@ -26,6 +26,7 @@ Partial Class Form1
         Me.FlyRadioButton = New System.Windows.Forms.RadioButton()
         Me.WalkRadioButton = New System.Windows.Forms.RadioButton()
         Me.CoordinatesLabel = New System.Windows.Forms.Label()
+        Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.MainCanvas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -69,11 +70,21 @@ Partial Class Form1
         Me.CoordinatesLabel.TabIndex = 3
         Me.CoordinatesLabel.Text = "Coordinates: X = 0, Y = 0"
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(636, 111)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 4
+        Me.Button1.Text = "Button1"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(806, 508)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.CoordinatesLabel)
         Me.Controls.Add(Me.WalkRadioButton)
         Me.Controls.Add(Me.FlyRadioButton)
@@ -90,4 +101,5 @@ Partial Class Form1
     Friend WithEvents FlyRadioButton As RadioButton
     Friend WithEvents WalkRadioButton As RadioButton
     Friend WithEvents CoordinatesLabel As Label
+    Friend WithEvents Button1 As Button
 End Class
