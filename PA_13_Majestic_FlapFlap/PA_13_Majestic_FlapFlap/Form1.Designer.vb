@@ -26,6 +26,8 @@ Partial Class Form1
         Me.FlyRadioButton = New System.Windows.Forms.RadioButton()
         Me.WalkRadioButton = New System.Windows.Forms.RadioButton()
         Me.CoordinatesLabel = New System.Windows.Forms.Label()
+        Me.btnChicken01 = New System.Windows.Forms.Button()
+        Me.btnChicken02 = New System.Windows.Forms.Button()
         CType(Me.MainCanvas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -69,11 +71,31 @@ Partial Class Form1
         Me.CoordinatesLabel.TabIndex = 3
         Me.CoordinatesLabel.Text = "Coordinates: X = 0, Y = 0"
         '
+        'btnChicken01
+        '
+        Me.btnChicken01.Location = New System.Drawing.Point(639, 140)
+        Me.btnChicken01.Name = "btnChicken01"
+        Me.btnChicken01.Size = New System.Drawing.Size(155, 32)
+        Me.btnChicken01.TabIndex = 4
+        Me.btnChicken01.Text = "Chicken 01"
+        Me.btnChicken01.UseVisualStyleBackColor = True
+        '
+        'btnChicken02
+        '
+        Me.btnChicken02.Location = New System.Drawing.Point(639, 202)
+        Me.btnChicken02.Name = "btnChicken02"
+        Me.btnChicken02.Size = New System.Drawing.Size(155, 32)
+        Me.btnChicken02.TabIndex = 5
+        Me.btnChicken02.Text = "Chicken 02"
+        Me.btnChicken02.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(806, 508)
+        Me.Controls.Add(Me.btnChicken02)
+        Me.Controls.Add(Me.btnChicken01)
         Me.Controls.Add(Me.CoordinatesLabel)
         Me.Controls.Add(Me.WalkRadioButton)
         Me.Controls.Add(Me.FlyRadioButton)
@@ -90,4 +112,6 @@ Partial Class Form1
     Friend WithEvents FlyRadioButton As RadioButton
     Friend WithEvents WalkRadioButton As RadioButton
     Friend WithEvents CoordinatesLabel As Label
+    Friend WithEvents btnChicken01 As Button
+    Friend WithEvents btnChicken02 As Button
 End Class

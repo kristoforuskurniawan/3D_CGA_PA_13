@@ -7,4 +7,5 @@
         CoordinatesLabel.Text = "Coordinates: X = " + e.X.ToString() + ", Y = " + e.Y.ToString()
     End Sub
 
+
 End Class
