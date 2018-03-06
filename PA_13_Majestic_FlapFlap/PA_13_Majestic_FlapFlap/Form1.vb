@@ -28,6 +28,12 @@
     End Sub
 
     Private Sub InitProjectionMatrix(ByRef pm(,) As Integer) 'Initialize projection matrix that is to convert 3D coordinate system into 2D coordinate system
+
+        '1 0 0 0
+        '0 1 0 0
+        '0 0 0 0
+        '0 0 0 1
+
         For i = 0 To 4
             For j = 0 To 4
                 If j = i And j <> 2 Then
@@ -40,10 +46,16 @@
     End Sub
 
     Private Sub InitPerspectiveMatrix(ByRef persM(,) As Integer) 'Initialize perspective matrix
+
+        '1 0 0 0
+        '0 1 0 0
+        '0 0 1 -1/Zc
+        '0 0 0 1
+
         For i = 0 To 4
             For j = 0 To 4
                 If j = 3 And i = 2 Then
-                    persM(i, j) = -1
+                    persM(i, j) = -1 'Zc hasn't included yet
                 ElseIf j = i Then
                     persM(i, j) = 1
                 Else
