@@ -81,11 +81,14 @@
     End Sub
 
     Private Sub MatrixMultiplication_4x4(ByRef Matrix_A(,) As Integer, ByRef Matrix_B(,) As Integer, ByRef OutputMatrix(,) As Integer) 'Is this required or is there any built-in library for 4x4 multiplication matrix?
-        For i = 0 To 4
-            For j = 0 To 4
+        'For i = 0 To 4
+        '    For j = 0 To 4
 
-            Next
-        Next
+        '    Next
+        'Next
+
+
+
     End Sub
 
     Private Sub DrawCube(ByRef EdgesList As List(Of TLine)) 'Drawing is edge processing?
