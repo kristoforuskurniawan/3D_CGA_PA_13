@@ -99,6 +99,7 @@
     <Compile Include="TPoint.vb" />
     <Compile Include="TPolygon.vb" />
     <Compile Include="TSurface.vb" />
+    <Compile Include="TVertex.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
