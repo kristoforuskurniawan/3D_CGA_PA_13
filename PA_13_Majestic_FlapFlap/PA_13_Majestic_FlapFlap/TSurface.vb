@@ -1,4 +1,16 @@
-﻿Public Class TSurface 'Surface is made of polygon mesh which is a collection of polygons
-    Public PolygonIndexList As List(Of Integer)
-    Public SurfaceIndex As Integer
+﻿Public Class TSurface 'Surface is made of polygon mesh (triangle mesh)
+    Public SurfaceMesh() As TPolygon
+
+    Public Sub New() 'Default uses 256 Triangles
+        For i = 0 To 256
+            SurfaceMesh(i) = New TPolygon()
+        Next
+    End Sub
+
+    Public Sub New(ByVal NumberOfTriangle As Integer) 'Defined number of meshes
+        For i = 0 To NumberOfTriangle
+            SurfaceMesh(i) = New TPolygon()
+        Next
+    End Sub
+
 End Class

@@ -1,4 +1,8 @@
 ﻿Public Class TLine
-    Public PointIndexList As List(Of Integer) 'Store the index from TPoint class
-    Public LineIndex As Integer 'To make polygon indexing easier, use the line index
+    Public Points(2) As TPoint 'One line consists of two points
+
+    Public Sub New()
+        Points(0) = New TPoint()
+        Points(1) = New TPoint()
+    End Sub
 End Class

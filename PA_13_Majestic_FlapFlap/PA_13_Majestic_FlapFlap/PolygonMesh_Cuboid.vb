@@ -1,4 +1,9 @@
 ﻿Public Class PolygonMesh_Cuboid
-    Public SurfaceIndexList As List(Of Integer)
-    Public PolygonMesh_Cuboid_Index As Integer
+    Public Cuboid(6) As TSurface
+
+    Public Sub New()
+        For i = 0 To 6
+            Cuboid(i) = New TSurface()
+        Next
+    End Sub
 End Class
