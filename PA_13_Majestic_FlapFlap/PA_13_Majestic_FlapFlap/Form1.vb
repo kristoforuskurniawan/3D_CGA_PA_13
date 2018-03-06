@@ -34,7 +34,7 @@
         Dim Vt(4, 4) As Double 'Vt
         FillRow(0, 1, 0, 0, 0, Vt)
         FillRow(1, 0, 1, 0, 0, Vt)
-        FillRow(2, 0, 0, 1, 0, Vt)
+        FillRow(2, 0, 0, 0, 0, Vt)
         FillRow(3, 0, 0, 0, 1, Vt)
         Dim St(4, 4) As Double 'St
         FillRow(0, 50, 0, 0, 300, St)
