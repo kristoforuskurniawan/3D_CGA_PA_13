@@ -3,16 +3,12 @@
     Private bitmapCanvas As Bitmap
     Private graphics As Graphics
     Private Vertices As List(Of TPoint)
-    Private Edges As TLine
-    Private Polygon As TPolygon
+    Private Edges As List(Of TLine)
+    Private Polygon As List(Of TPolygon)
     Private Cuboid_Surface As TSurface
     Private Cuboid As PolygonMesh_Cuboid
-
-    'Private CubeVertices As List(Of List(Of Point)) 'Pakai built-in List(Of T) biar ga ribet. Fok off class
-    'Private CubeEdges As List(Of List(Of Integer)) 'Index of CubeVertices
-    'Private Poly As List(Of List(Of Integer)) 'Index of CubeEdges
-    'Private Surface As List(Of List(Of Integer)) 'Index of Poly
-    'Private CuboidShape As List(Of List(Of Integer)) 'Index of Surface
+    Private ProjectionMatrix()() As Integer
+    Private PerspectiveProjection()() As Integer
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Vertices = Nothing
@@ -21,17 +17,39 @@
         Cuboid_Surface = Nothing
         Cuboid = Nothing
 
+        InitProjectionMatrix(ProjectionMatrix)
+
         bitmapCanvas = New Bitmap(MainCanvas.Width, MainCanvas.Height)
         graphics = CreateGraphics()
         graphics = Graphics.FromImage(bitmapCanvas)
         MainCanvas.Image = bitmapCanvas
 
-        'CubeVertices = New List(Of List(Of Point))
-        'CubeEdges = New List(Of List(Of Integer))
-        'Poly = New List(Of List(Of Integer))
-        'Surface = New List(Of List(Of Integer))
-        'CuboidShape = New List(Of List(Of Integer))
+    End Sub
 
+    Private Sub InitProjectionMatrix(ByRef pm()() As Integer)
+        For i = 0 To 4 'Initialize projection matrix
+            For j = 0 To 4
+                If j = i And j <> 2 Then
+                    pm(i)(j) = 1
+                Else
+                    pm(i)(j) = 0
+                End If
+            Next
+        Next
+    End Sub
+
+    Private Sub InitPerspectiveMatrix(ByRef persM()() As Integer)
+        For i = 0 To 4
+            For j = 0 To 4
+                If j = 3 And i = 2 Then
+                    'persM(i)(j) = This is the -1/Zc
+                ElseIf j = i Then
+                    persM(i)(j) = 1
+                Else
+                    persM(i)(j) = 0
+                End If
+            Next
+        Next
     End Sub
 
     Private Sub MainCanvas_MouseOver(sender As Object, e As MouseEventArgs) Handles MainCanvas.MouseMove
@@ -47,13 +65,6 @@
     End Sub
 
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
-        'For i = 0 To CubeVertices.Count - 1
-        '    MessageBox.Show(CubeVertices(i).X & ", " & CubeVertices(i).Y)
-        'Next
-        'Vertices = Insert(Vertices, e.X, e.Y, 0)
-        'While (Vertices IsNot Nothing)
-        '    MessageBox.Show(Vertices.X & " with index " & Vertices.PointIndex.ToString())
-        '    Vertices = Vertices.NextPoint
-        'End While
+
     End Sub
 End Class
