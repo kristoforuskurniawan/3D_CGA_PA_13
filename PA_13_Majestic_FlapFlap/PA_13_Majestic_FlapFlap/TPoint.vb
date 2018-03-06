@@ -1,5 +1,5 @@
 ﻿Public Class TPoint
-    Public X, Y, Z, W As Integer 'Store the x,y and z coord of this vertex as well as its index number
+    Public X, Y, Z, W As Integer 'Store the x,y and z coord of this vertex as well as its index number + w for perspective
     'Public PointIndex As Integer = -1
 
     Public Sub New()
@@ -14,7 +14,7 @@
         Me.X = X
         Me.Y = Y
         Me.Z = Z
-        Me.W = 1
+        W = 1
         '  Me.PointIndex = 0
     End Sub
 
@@ -22,6 +22,5 @@
         Me.X = X
         Me.Y = Y
         Me.Z = Z
-        Me.W = 1
     End Sub
 End Class

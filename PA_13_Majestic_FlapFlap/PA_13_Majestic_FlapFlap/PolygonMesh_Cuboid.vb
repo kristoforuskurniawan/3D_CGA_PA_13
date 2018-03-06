@@ -1,4 +1,3 @@
 ﻿Public Class PolygonMesh_Cuboid
-    Public SurfaceIndexList As List(Of Integer)
-    Public PolygonMesh_Cuboid_Index As Integer
+    Public CuboidSurfaces(6) As TSurface 'Cuboid consists of six surfaces
 End Class

@@ -1,3 +1,3 @@
-﻿Public Class TSurface 'Surface is made of polygon mesh which is a collection of polygons
-    Public PolygonIndexList() As Integer
+﻿Public Class TSurface
+    Public PolygonMesh() As TPolygon 'Each cuboid surface is represented as a collection of polygons
 End Class
