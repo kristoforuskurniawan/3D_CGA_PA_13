@@ -1,4 +1,14 @@
 ﻿Public Class Form1
+
+    ''' <summary>
+    ''' P' = P.Wt.Vt.St, where:
+    '''     P = 3D representation of object
+    '''     P' = 2D view of object
+    '''     Wt = Transformations required to put the object on the world scene(OCS to WCS)
+    '''     Vt = Transformations required to view the object (WCS to VCS)
+    '''     St = Transformations required to display the object on the screen (VCS to SCS)
+    ''' </summary>
+
     Private bitmapCanvas As Bitmap
     Private graphics As Graphics
     Private Vertices As List(Of TPoint) 'So that it can store multiple points
@@ -6,8 +16,9 @@
     Private Polygon As List(Of TPolygon)
     Private Cuboid_Surface As TSurface
     Private Cuboid As PolygonMesh_Cuboid
-    Private ProjectionMatrix(,) As Integer
-    Private PerspectiveProjection(,) As Integer
+    Private PR2_ProjectionMatrix(,) As Integer
+    Private PR1_PerspectiveProjection(,) As Integer
+    Private Vt(,) As Integer
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Vertices = New List(Of TPoint)
@@ -16,10 +27,10 @@
         Cuboid_Surface = New TSurface
         Cuboid = New PolygonMesh_Cuboid
 
-        ProjectionMatrix = New Integer(4, 4) {} 'Yes this is a weird way to declare 2D Array xD
-        PerspectiveProjection = New Integer(4, 4) {}
-        InitProjectionMatrix(ProjectionMatrix)
-        InitPerspectiveMatrix(PerspectiveProjection)
+        PR2_ProjectionMatrix = New Integer(4, 4) {} 'Yes this is a weird way to declare 2D Array xD
+        PR1_PerspectiveProjection = New Integer(4, 4) {}
+        InitProjectionMatrix(PR2_ProjectionMatrix)
+        InitPerspectiveMatrix(PR1_PerspectiveProjection)
 
         bitmapCanvas = New Bitmap(MainCanvas.Width, MainCanvas.Height)
         graphics = CreateGraphics()
@@ -69,7 +80,7 @@
         CoordinatesLabel.Text = "Coordinates: X = " + e.X.ToString() + ", Y = " + e.Y.ToString()
     End Sub
 
-    Private Sub MatrixMultiplication_4x4(Matrix_A()() As Integer, Matrix_B()() As Integer) 'Is this required or is there any built-in library for 4x4 multiplication matrix?
+    Private Sub MatrixMultiplication_4x4(ByRef Matrix_A(,) As Integer, ByRef Matrix_B(,) As Integer, ByRef OutputMatrix(,) As Integer) 'Is this required or is there any built-in library for 4x4 multiplication matrix?
         For i = 0 To 4
             For j = 0 To 4
 
