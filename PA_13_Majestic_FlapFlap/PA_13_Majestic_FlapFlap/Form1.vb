@@ -97,6 +97,6 @@
     End Sub
 
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
-        Cuboid.CuboidSurfaces(0).PolygonMesh(0).Line(0).Points(0).X = 0
+
     End Sub
 End Class
