@@ -74,6 +74,10 @@
 
     End Sub
 
+    Private Sub MainCanvas_Click(sender As Object, e As EventArgs) Handles MainCanvas.Click
+
+    End Sub
+
     'Private Sub Perspective(x As Double, y As Double, z As Double)
     '    If x = 0 Then
     '        x = 0

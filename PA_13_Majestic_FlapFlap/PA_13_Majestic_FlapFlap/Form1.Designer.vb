@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Form1
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,14 +20,13 @@ Partial Class Form1
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.MainCanvas = New System.Windows.Forms.PictureBox()
         Me.FlyRadioButton = New System.Windows.Forms.RadioButton()
         Me.WalkRadioButton = New System.Windows.Forms.RadioButton()
         Me.CoordinatesLabel = New System.Windows.Forms.Label()
         Me.DrawChickenButton = New System.Windows.Forms.Button()
-        Me.Button2 = New System.Windows.Forms.Button()
         CType(Me.MainCanvas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -80,21 +79,11 @@ Partial Class Form1
         Me.DrawChickenButton.Text = "Draw Chicken"
         Me.DrawChickenButton.UseVisualStyleBackColor = True
         '
-        'Button2
-        '
-        Me.Button2.Location = New System.Drawing.Point(639, 98)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(75, 23)
-        Me.Button2.TabIndex = 6
-        Me.Button2.Text = "Button2"
-        Me.Button2.UseVisualStyleBackColor = True
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(806, 508)
-        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.DrawChickenButton)
         Me.Controls.Add(Me.CoordinatesLabel)
         Me.Controls.Add(Me.WalkRadioButton)
@@ -113,5 +102,4 @@ Partial Class Form1
     Friend WithEvents WalkRadioButton As RadioButton
     Friend WithEvents CoordinatesLabel As Label
     Friend WithEvents DrawChickenButton As Button
-    Friend WithEvents Button2 As Button
 End Class
