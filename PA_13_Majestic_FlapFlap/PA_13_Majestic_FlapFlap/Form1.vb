@@ -9,10 +9,11 @@
     Private TriMesh As TPolygon
     Private CubeSurface As TSurface
     Private Cuboid As PolygonMesh_Cuboid
-    Private M(,), Wt(,), Vt(,), St(,) As Double
+    Private M(,), Wt(,), Vt(,), St(,), TrMat(,) As Double
 
     'Private Test_CubePoint As TPoint
     Private Test_CubeLine(12) As TLine
+    Private Zc As Double = -10.0 'Vanishing Point
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Vertices = New TPoint()
@@ -30,10 +31,11 @@
         Wt = New Double(4, 4) {}
         Vt = New Double(4, 4) {}
         St = New Double(4, 4) {}
+        TrMat = New Double(4, 4) {}
 
         'Test_CubePoint = New List(Of TPoint)
         For i = 0 To 12
-            Test_CubeLine(i) = New TLine()
+            Test_CubeLine(i) = New TLine() 'Inside the class TLine, all TPoint are already instantiated (objectnya udah dibuat)
         Next
         InitCube()
     End Sub
@@ -56,7 +58,7 @@
         Dim Current As Integer = 32
 
         For i = 0 To 11 'Initialize cube coordinate to be like above's example
-            If Current Mod 2 = 0 Then
+            If Current Mod 2 = 0 Then '32, 34, 36 etc
                 Test_CubeLine(i).Points(0).SetCoordinates(0, 0, 0, Current)
             Else
                 Test_CubeLine(i).Points(1).SetCoordinates(0, 0, 0, Current)
