@@ -11,7 +11,7 @@
     Private Cuboid As PolygonMesh_Cuboid
     Private M(,), Wt(,), Vt(,), St(,), TrMat(,), ViewScreen(,) As Double
 
-    'Private Test_CubePoint As TPoint
+    Private Test_CubePoint(8) As TPoint
     Private Test_CubeLine(12) As TLine
     Private Zc As Double = -10.0 'Vanishing Point
 
@@ -36,11 +36,15 @@
 
         InitProjection()
 
-        'Test_CubePoint = New List(Of TPoint)
-        For i = 0 To 12
+        For i = 0 To 7
+            Test_CubePoint(i) = New TPoint()
+        Next
+
+        For i = 0 To 11
             Test_CubeLine(i) = New TLine() 'Inside the class TLine, all TPoint are already instantiated (objectnya udah dibuat)
         Next
         InitCube()
+        DrawCube()
     End Sub
 
     Private Sub MainCanvas_MouseOver(sender As Object, e As MouseEventArgs) Handles MainCanvas.MouseMove
@@ -48,6 +52,40 @@
     End Sub
 
     Private Sub InitCube()
+
+        Test_CubePoint(0).SetCoordinates(-10, -10, -10, 1)
+        Test_CubePoint(1).SetCoordinates(-10, -10, 10, 1)
+        Test_CubePoint(2).SetCoordinates(-10, 10, 10, 1)
+        Test_CubePoint(3).SetCoordinates(-10, 10, -10, 1)
+        Test_CubePoint(4).SetCoordinates(10, -10, -10, 1)
+        Test_CubePoint(5).SetCoordinates(10, -10, 10, 1)
+        Test_CubePoint(6).SetCoordinates(10, 10, -10, 1)
+        Test_CubePoint(7).SetCoordinates(10, 10, 10, 1)
+
+        Test_CubeLine(0).Points(0) = Test_CubePoint(0)
+        Test_CubeLine(0).Points(1) = Test_CubePoint(1)
+        Test_CubeLine(1).Points(0) = Test_CubePoint(2)
+        Test_CubeLine(1).Points(1) = Test_CubePoint(3)
+        Test_CubeLine(2).Points(0) = Test_CubePoint(4)
+        Test_CubeLine(2).Points(1) = Test_CubePoint(5)
+        Test_CubeLine(3).Points(0) = Test_CubePoint(6)
+        Test_CubeLine(3).Points(1) = Test_CubePoint(7)
+        Test_CubeLine(4).Points(0) = Test_CubePoint(0)
+        Test_CubeLine(4).Points(1) = Test_CubePoint(4)
+        Test_CubeLine(5).Points(0) = Test_CubePoint(0)
+        Test_CubeLine(5).Points(1) = Test_CubePoint(1)
+        Test_CubeLine(6).Points(0) = Test_CubePoint(5)
+        Test_CubeLine(6).Points(1) = Test_CubePoint(2)
+        Test_CubeLine(7).Points(0) = Test_CubePoint(7)
+        Test_CubeLine(7).Points(1) = Test_CubePoint(3)
+        Test_CubeLine(8).Points(0) = Test_CubePoint(6)
+        Test_CubeLine(8).Points(1) = Test_CubePoint(0)
+        Test_CubeLine(9).Points(0) = Test_CubePoint(2)
+        Test_CubeLine(9).Points(1) = Test_CubePoint(0)
+        Test_CubeLine(10).Points(0) = Test_CubePoint(0)
+        Test_CubeLine(10).Points(1) = Test_CubePoint(0)
+        Test_CubeLine(11).Points(0) = Test_CubePoint(0)
+        Test_CubeLine(11).Points(1) = Test_CubePoint(0)
 
         'temp.SetPoint(0, 0, 0, 32)
         'temp.SetPoint(0, 0, 0, 33)
@@ -58,16 +96,24 @@
         'temp.SetPoint(0, 0, 0, 38)
         'temp.SetPoint(0, 0, 0, 39)
 
-        Dim Current As Integer = 32
+        'Dim Current As Integer = 32
 
-        For i = 0 To 11 'Initialize cube coordinate to be like above's example
-            If Current Mod 2 = 0 Then '32, 34, 36 etc
-                Test_CubeLine(i).Points(0).SetCoordinates(0, 0, 0, Current)
-            Else
-                Test_CubeLine(i).Points(1).SetCoordinates(0, 0, 0, Current)
-            End If
-            Current += 1
-        Next
+        'For i = 0 To 11 'Initialize cube coordinate to be like above's example
+        '    If Current Mod 2 = 0 Then '32, 34, 36 etc
+        '        Test_CubeLine(i).Points(0).SetCoordinates(0, 0, 0, Current)
+        '    Else
+        '        Test_CubeLine(i).Points(1).SetCoordinates(0, 0, 0, Current)
+        '    End If
+        '    Current += 1
+        'Next
+
+        'For i = 0 To 11
+        '    MessageBox.Show("Point 1 x: " & Test_CubeLine(i).Points(0).X & vbNewLine &
+        '                    "Point 1 y: " & Test_CubeLine(i).Points(0).Y & vbNewLine &
+        '                    "Point 2 x: " & Test_CubeLine(i).Points(1).X & vbNewLine &
+        '                    "Point 2 y: " & Test_CubeLine(i).Points(1).Y & vbNewLine)
+        'Next
+
     End Sub
 
     Private Sub declare_all_object()
@@ -115,7 +161,7 @@
         Dim j As Integer
         Dim x1, y1, x2, y2 As Single
 
-        For j = 0 To 12
+        For j = 0 To 11
             x1 = Test_CubeLine(j).Points(0).X
             y1 = Test_CubeLine(j).Points(0).Y
             x2 = Test_CubeLine(j).Points(1).X
