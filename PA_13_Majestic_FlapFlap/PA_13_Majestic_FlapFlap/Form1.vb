@@ -9,7 +9,7 @@
     Private TriMesh As TPolygon
     Private CubeSurface As TSurface
     Private Cuboid As PolygonMesh_Cuboid
-    Private M(,), Wt(,), Vt(,), St(,), TrMat(,) As Double
+    Private M(,), Wt(,), Vt(,), St(,), TrMat(,), ViewScreen(,) As Double
 
     'Private Test_CubePoint As TPoint
     Private Test_CubeLine(12) As TLine
@@ -32,6 +32,7 @@
         Vt = New Double(4, 4) {}
         St = New Double(4, 4) {}
         TrMat = New Double(4, 4) {}
+        ViewScreen = New Double(4, 4) {}
 
         'Test_CubePoint = New List(Of TPoint)
         For i = 0 To 12
@@ -104,19 +105,22 @@
     '    SetPoint(V(7), -1, 1, -1)
     'End Sub
 
-    'Sub DrawCube()
-    '    Dim i, j As Integer
-    '    For j = 0 To 3
-    '        G.DrawLine(Pens.Red, VS(Edge(j).p1).x, VS(Edge(j).p1).y, VS(Edge(j).p2).x, VS(Edge(j).p2).y)
-    '    Next
-    '    For i = 4 To 11
-    '        G.DrawLine(Pens.Black, VS(Edge(i).p1).x, VS(Edge(i).p1).y, VS(Edge(i).p2).x, VS(Edge(i).p2).y)
-    '    Next
-    '    MainCanvas.Image = BitmapCanvas
-    'End Sub
+    Private Sub DrawCube()
+        Dim j As Integer
+        Dim x1, y1, x2, y2 As Single
+
+        For j = 0 To 12
+            x1 = Test_CubeLine(j).Points(0).X
+            y1 = Test_CubeLine(j).Points(0).Y
+            x2 = Test_CubeLine(j).Points(1).X
+            y2 = Test_CubeLine(j).Points(1).Y
+            G.DrawLine(Pens.Black, x1, y1, x2, y2)
+        Next
+        MainCanvas.Image = BitmapCanvas
+    End Sub
 
     Private Sub DrawChickenButton_Click(sender As Object, e As EventArgs) Handles DrawChickenButton.Click
-        'DrawCube()
+        DrawCube()
     End Sub
 
     Function MultiplyMat(point As TPoint, M(,) As Double) As TPoint
@@ -141,11 +145,11 @@
         FillRow(2, 0, 0, 1, 0, Wt)
         FillRow(3, 0, 0, 0, 1, Wt)
 
-        'Vt (View)
+        'Vt (View) -> Use projection matrix
         FillRow(0, 1, 0, 0, 0, Vt)
         FillRow(1, 0, 1, 0, 0, Vt)
-        FillRow(2, 0, 0, 0, 0, Vt)
-        FillRow(3, 0, 0, 0, 1, Vt)
+        FillRow(2, 0, 0, 0, -1 / Zc, Vt)
+        FillRow(3, 3, 0, 0, 1, Vt)
 
         'St (Screen)
         FillRow(0, 50, 0, 0, 300, St)
