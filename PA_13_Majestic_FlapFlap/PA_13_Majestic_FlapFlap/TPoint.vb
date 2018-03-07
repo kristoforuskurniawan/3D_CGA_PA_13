@@ -9,7 +9,7 @@
         W = 1
     End Sub
 
-    Public Sub New(ByVal X As Double, ByVal Y As Double, ByVal Z As Double)
+    Public Sub New(ByVal X As Double, ByVal Y As Double, ByVal Z As Double) 'In case you need overload constructor
         Me.X = X
         Me.Y = Y
         Me.Z = Z
