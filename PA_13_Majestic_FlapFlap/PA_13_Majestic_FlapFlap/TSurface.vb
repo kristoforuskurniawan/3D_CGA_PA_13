@@ -1,5 +1,5 @@
 ﻿Public Class TSurface 'Surface is made of polygon mesh (triangle mesh)
-    Public SurfaceMesh() As TPolygon
+    Public SurfaceMesh(256) As TPolygon
 
     Public Sub New() 'Default uses 256 Triangles
         For i = 0 To 256

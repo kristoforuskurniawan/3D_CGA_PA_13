@@ -32,7 +32,10 @@
         St = New Double(4, 4) {}
 
         'Test_CubePoint = New List(Of TPoint)
-        Test_CubeLine = New TLine(11) {}
+        For i = 0 To 12
+            Test_CubeLine(i) = New TLine()
+        Next
+        InitCube()
     End Sub
 
     Private Sub MainCanvas_MouseOver(sender As Object, e As MouseEventArgs) Handles MainCanvas.MouseMove
@@ -41,12 +44,25 @@
 
     Private Sub InitCube()
 
-        For i = 0 To 11
-            Test_CubeLine(i).Points = New TPoint(2) {} 'Initialize array of TPoint
+        'temp.SetPoint(0, 0, 0, 32)
+        'temp.SetPoint(0, 0, 0, 33)
+        'temp.SetPoint(0, 0, 0, 34)
+        'temp.SetPoint(0, 0, 0, 35)
+        'temp.SetPoint(0, 0, 0, 36)
+        'temp.SetPoint(0, 0, 0, 37)
+        'temp.SetPoint(0, 0, 0, 38)
+        'temp.SetPoint(0, 0, 0, 39)
+
+        Dim Current As Integer = 32
+
+        For i = 0 To 11 'Initialize cube coordinate to be like above's example
+            If Current Mod 2 = 0 Then
+                Test_CubeLine(i).Points(0).SetCoordinates(0, 0, 0, Current)
+            Else
+                Test_CubeLine(i).Points(1).SetCoordinates(0, 0, 0, Current)
+            End If
+            Current += 1
         Next
-
-
-
     End Sub
 
     Private Sub declare_all_object()
@@ -117,19 +133,19 @@
         ' P -> object
         ' P'-> projection
 
-        'World
+        'Wt (Wolrd)
         FillRow(0, 1, 0, 0, 0, Wt)
         FillRow(1, 0, 1, 0, 0, Wt)
         FillRow(2, 0, 0, 1, 0, Wt)
         FillRow(3, 0, 0, 0, 1, Wt)
 
-        'Vt
+        'Vt (View)
         FillRow(0, 1, 0, 0, 0, Vt)
         FillRow(1, 0, 1, 0, 0, Vt)
         FillRow(2, 0, 0, 0, 0, Vt)
         FillRow(3, 0, 0, 0, 1, Vt)
 
-        'St
+        'St (Screen)
         FillRow(0, 50, 0, 0, 300, St)
         FillRow(1, 0, -50, 0, 180, St)
         FillRow(2, 0, 0, 0, 0, St)

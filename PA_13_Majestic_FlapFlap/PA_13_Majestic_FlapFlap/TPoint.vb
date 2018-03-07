@@ -9,11 +9,18 @@
         W = 1
     End Sub
 
-    Public Sub New(ByVal X As Integer, ByVal Y As Integer, ByVal Z As Integer)
+    Public Sub New(ByVal X As Double, ByVal Y As Double, ByVal Z As Double)
         Me.X = X
         Me.Y = Y
         Me.Z = Z
         W = 1
+    End Sub
+
+    Public Sub SetCoordinates(ByVal X As Double, ByVal Y As Double, ByVal Z As Double, ByVal W As Integer)
+        Me.X = X
+        Me.Y = Y
+        Me.Z = Z
+        Me.W = W
     End Sub
 
 End Class
