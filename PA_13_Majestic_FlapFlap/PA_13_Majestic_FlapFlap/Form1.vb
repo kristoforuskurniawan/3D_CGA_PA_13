@@ -39,7 +39,13 @@
         CoordinatesLabel.Text = "Coordinates: X = " + e.X.ToString() + ", Y = " + e.Y.ToString()
     End Sub
 
-    Private Sub InitChicken()
+    Private Sub InitCube()
+
+        For i = 0 To 11
+            Test_CubeLine(i).Points = New TPoint(2) {} 'Initialize array of TPoint
+        Next
+
+
 
     End Sub
 
