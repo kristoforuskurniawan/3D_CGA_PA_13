@@ -98,7 +98,6 @@
     <Compile Include="TLine.vb" />
     <Compile Include="TPoint.vb" />
     <Compile Include="TPolygon.vb" />
-    <Compile Include="TSurface.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
