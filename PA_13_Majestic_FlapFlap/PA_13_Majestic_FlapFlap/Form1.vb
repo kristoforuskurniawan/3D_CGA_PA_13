@@ -30,7 +30,7 @@
     Public Sub DrawCube()
         g.Clear(Color.White)
         Dim a, b, c, d As Single
-        For i As Integer = 0 To 7
+        For i As Integer = 0 To 11
             a = VerticesList(EdgeList(i).PointA).X
             b = VerticesList(EdgeList(i).PointA).Y
             c = VerticesList(EdgeList(i).PointB).X
@@ -63,7 +63,7 @@
 
         'Vertices
         'Object A => Head and Torso
-        SetPoint(VerticesList(0), -1.0, -1.0, 1.0, 0)
+        SetPoint(VerticesList(0), -1, -1, 1, 0)
         SetPoint(VerticesList(1), 1, -1, 1, 1)
         SetPoint(VerticesList(2), 1, 1, 1, 2)
         SetPoint(VerticesList(3), -1, 1, 1, 3)
@@ -104,15 +104,15 @@
         SetEdges(EdgeList(0), 0, 1, 0)
         SetEdges(EdgeList(1), 1, 2, 1)
         SetEdges(EdgeList(2), 2, 3, 2)
-        SetEdges(EdgeList(3), 3, 4, 3)
+        SetEdges(EdgeList(3), 3, 0, 3)
         SetEdges(EdgeList(4), 4, 5, 4)
         SetEdges(EdgeList(5), 5, 6, 5)
         SetEdges(EdgeList(6), 6, 7, 6)
-        SetEdges(EdgeList(7), 7, 1, 7)
-        SetEdges(EdgeList(8), 8, 9, 8)
-        SetEdges(EdgeList(9), 9, 10, 9)
-        SetEdges(EdgeList(10), 10, 11, 10)
-        SetEdges(EdgeList(11), 11, 0, 11)
+        SetEdges(EdgeList(7), 7, 4, 7)
+        SetEdges(EdgeList(8), 0, 4, 8)
+        SetEdges(EdgeList(9), 1, 5, 9)
+        SetEdges(EdgeList(10), 2, 6, 10)
+        SetEdges(EdgeList(11), 3, 7, 11)
         'Object B
         'SetEdges(EdgeList(0), 0, 1, 0)
         'SetEdges(EdgeList(0), 0, 1, 0)
