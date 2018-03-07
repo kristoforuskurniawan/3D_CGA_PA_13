@@ -34,6 +34,8 @@
         TrMat = New Double(4, 4) {}
         ViewScreen = New Double(4, 4) {}
 
+        InitProjection()
+
         'Test_CubePoint = New List(Of TPoint)
         For i = 0 To 12
             Test_CubeLine(i) = New TLine() 'Inside the class TLine, all TPoint are already instantiated (objectnya udah dibuat)
@@ -120,6 +122,8 @@
     End Sub
 
     Private Sub DrawChickenButton_Click(sender As Object, e As EventArgs) Handles DrawChickenButton.Click
+        Dim Result As New TPoint()
+
         DrawCube()
     End Sub
 
@@ -134,7 +138,7 @@
         Return Result
     End Function
 
-    Private Sub Projection()
+    Private Sub InitProjection()
         ' P' = P.Wt.Vt.St
         ' P -> object
         ' P'-> projection
