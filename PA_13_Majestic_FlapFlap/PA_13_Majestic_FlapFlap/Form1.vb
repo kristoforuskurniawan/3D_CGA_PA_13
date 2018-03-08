@@ -66,22 +66,27 @@
         Test_CubeLine(0).Points(1) = Test_CubePoint(1)
         Test_CubeLine(1).Points(0) = Test_CubePoint(2)
         Test_CubeLine(1).Points(1) = Test_CubePoint(3)
+
         Test_CubeLine(2).Points(0) = Test_CubePoint(4)
         Test_CubeLine(2).Points(1) = Test_CubePoint(5)
         Test_CubeLine(3).Points(0) = Test_CubePoint(6)
         Test_CubeLine(3).Points(1) = Test_CubePoint(7)
+
         Test_CubeLine(4).Points(0) = Test_CubePoint(0)
         Test_CubeLine(4).Points(1) = Test_CubePoint(4)
         Test_CubeLine(5).Points(0) = Test_CubePoint(0)
         Test_CubeLine(5).Points(1) = Test_CubePoint(1)
+
         Test_CubeLine(6).Points(0) = Test_CubePoint(5)
         Test_CubeLine(6).Points(1) = Test_CubePoint(2)
         Test_CubeLine(7).Points(0) = Test_CubePoint(7)
         Test_CubeLine(7).Points(1) = Test_CubePoint(3)
+
         Test_CubeLine(8).Points(0) = Test_CubePoint(6)
         Test_CubeLine(8).Points(1) = Test_CubePoint(0)
         Test_CubeLine(9).Points(0) = Test_CubePoint(2)
         Test_CubeLine(9).Points(1) = Test_CubePoint(0)
+
         Test_CubeLine(10).Points(0) = Test_CubePoint(0)
         Test_CubeLine(10).Points(1) = Test_CubePoint(0)
         Test_CubeLine(11).Points(0) = Test_CubePoint(0)

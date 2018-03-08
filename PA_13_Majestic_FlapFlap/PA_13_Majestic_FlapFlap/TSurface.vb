@@ -2,7 +2,7 @@
     Public SurfaceMesh(256) As TPolygon
 
     Public Sub New() 'Default uses 256 Triangles
-        For i = 0 To 256
+        For i = 0 To 255
             SurfaceMesh(i) = New TPolygon()
         Next
     End Sub

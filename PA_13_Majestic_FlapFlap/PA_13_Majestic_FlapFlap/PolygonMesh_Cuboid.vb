@@ -1,4 +1,4 @@
-﻿Public Class PolygonMesh_Cuboid
+﻿Public Class PolygonMesh_Cuboid 'each 
     Public Cuboid(6) As TSurface
 
     Public Sub New()
