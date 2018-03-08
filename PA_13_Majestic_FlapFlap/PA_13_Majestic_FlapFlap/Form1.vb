@@ -237,14 +237,15 @@
         'Vt (View) -> Use projection matrix
         FillRow(0, 1, 0, 0, 0, Vt)
         FillRow(1, 0, 1, 0, 0, Vt)
-        FillRow(2, 0, 0, 0, -1 / Zc, Vt)
-        FillRow(3, 3, 0, 0, 1, Vt)
+        FillRow(2, Math.Cos(30), Math.Sin(45), 0, 0, Vt)
+        FillRow(3, 0, 0, 0, 1, Vt)
 
         'St (Screen)
-        FillRow(0, 1, 0, 0, 300, St)
-        FillRow(1, 0, 1, 0, 180, St)
+        FillRow(0, 45, 0, 0, 0, St)
+        FillRow(1, 0, -45, 0, 0, St)
         FillRow(2, 0, 0, 0, 0, St)
-        FillRow(3, -100, -100, 0, 1, St)
+        FillRow(3, 300, 180, 0, 1, St)
+
 
     End Sub
 
