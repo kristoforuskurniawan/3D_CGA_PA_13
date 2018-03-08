@@ -1,6 +1,7 @@
 ﻿Module Main
     Public Const PI As Double = 3.1415926535897931
     Public Const Sin45 As Double = 0.70710678118654757
+    Public Const Cos45 As Double = 0.70710678118654757
     Public Const Cos30 As Double = 0.8660254037844386
     Public Const DegToRad As Double = PI / 180
 
