@@ -172,7 +172,7 @@
 
         'Declare Object
         'Object A
-        ObjectList(0) = New Model3D
+        ObjectList(0) = New Model3D()
         ObjectList(0).EdgesIndexList.Add(EdgeList(0).LineIndex)
         ObjectList(0).EdgesIndexList.Add(EdgeList(1).LineIndex)
         ObjectList(0).EdgesIndexList.Add(EdgeList(2).LineIndex)
