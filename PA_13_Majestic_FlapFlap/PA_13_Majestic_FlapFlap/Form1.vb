@@ -329,8 +329,8 @@
         FillRow(2, 0.5, 0.5, 0, 0, Vt)
         FillRow(3, 0, 0, 0, 1, Vt)
         'St
-        FillRow(0, 45, 0, 0, 0, St)
-        FillRow(1, 0, -45, 0, 0, St)
+        FillRow(0, 20, 0, 0, 0, St)
+        FillRow(1, 0, -20, 0, 0, St)
         FillRow(2, 0, 0, 0, 0, St)
         FillRow(3, 300, 200, 0, 1, St)
 
