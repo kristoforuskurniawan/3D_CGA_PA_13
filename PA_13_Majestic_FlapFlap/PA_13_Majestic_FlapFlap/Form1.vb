@@ -44,7 +44,7 @@
             Test_CubeLine(i) = New TLine() 'Inside the class TLine, all TPoint are already instantiated (objectnya udah dibuat)
         Next
         InitCube()
-        DrawCube()
+        'DrawCube()
     End Sub
 
     Private Sub MainCanvas_MouseOver(sender As Object, e As MouseEventArgs) Handles MainCanvas.MouseMove
@@ -62,35 +62,35 @@
         Test_CubePoint(6).SetCoordinates(10, 10, -10, 1)
         Test_CubePoint(7).SetCoordinates(10, 10, 10, 1)
 
-        Test_CubeLine(0).Points(0) = Test_CubePoint(0)
-        Test_CubeLine(0).Points(1) = Test_CubePoint(1)
-        Test_CubeLine(1).Points(0) = Test_CubePoint(2)
-        Test_CubeLine(1).Points(1) = Test_CubePoint(3)
+        'Test_CubeLine(0).Points(0) = Test_CubePoint(0)
+        'Test_CubeLine(0).Points(1) = Test_CubePoint(1)
+        'Test_CubeLine(1).Points(0) = Test_CubePoint(2)
+        'Test_CubeLine(1).Points(1) = Test_CubePoint(3)
 
-        Test_CubeLine(2).Points(0) = Test_CubePoint(4)
-        Test_CubeLine(2).Points(1) = Test_CubePoint(5)
-        Test_CubeLine(3).Points(0) = Test_CubePoint(6)
-        Test_CubeLine(3).Points(1) = Test_CubePoint(7)
+        'Test_CubeLine(2).Points(0) = Test_CubePoint(4)
+        'Test_CubeLine(2).Points(1) = Test_CubePoint(5)
+        'Test_CubeLine(3).Points(0) = Test_CubePoint(6)
+        'Test_CubeLine(3).Points(1) = Test_CubePoint(7)
 
-        Test_CubeLine(4).Points(0) = Test_CubePoint(0)
-        Test_CubeLine(4).Points(1) = Test_CubePoint(4)
-        Test_CubeLine(5).Points(0) = Test_CubePoint(0)
-        Test_CubeLine(5).Points(1) = Test_CubePoint(1)
+        'Test_CubeLine(4).Points(0) = Test_CubePoint(0)
+        'Test_CubeLine(4).Points(1) = Test_CubePoint(4)
+        'Test_CubeLine(5).Points(0) = Test_CubePoint(0)
+        'Test_CubeLine(5).Points(1) = Test_CubePoint(1)
 
-        Test_CubeLine(6).Points(0) = Test_CubePoint(5)
-        Test_CubeLine(6).Points(1) = Test_CubePoint(2)
-        Test_CubeLine(7).Points(0) = Test_CubePoint(7)
-        Test_CubeLine(7).Points(1) = Test_CubePoint(3)
+        'Test_CubeLine(6).Points(0) = Test_CubePoint(5)
+        'Test_CubeLine(6).Points(1) = Test_CubePoint(2)
+        'Test_CubeLine(7).Points(0) = Test_CubePoint(7)
+        'Test_CubeLine(7).Points(1) = Test_CubePoint(3)
 
-        Test_CubeLine(8).Points(0) = Test_CubePoint(6)
-        Test_CubeLine(8).Points(1) = Test_CubePoint(0)
-        Test_CubeLine(9).Points(0) = Test_CubePoint(2)
-        Test_CubeLine(9).Points(1) = Test_CubePoint(0)
+        'Test_CubeLine(8).Points(0) = Test_CubePoint(6)
+        'Test_CubeLine(8).Points(1) = Test_CubePoint(0)
+        'Test_CubeLine(9).Points(0) = Test_CubePoint(2)
+        'Test_CubeLine(9).Points(1) = Test_CubePoint(0)
 
-        Test_CubeLine(10).Points(0) = Test_CubePoint(0)
-        Test_CubeLine(10).Points(1) = Test_CubePoint(0)
-        Test_CubeLine(11).Points(0) = Test_CubePoint(0)
-        Test_CubeLine(11).Points(1) = Test_CubePoint(0)
+        'Test_CubeLine(10).Points(0) = Test_CubePoint(0)
+        'Test_CubeLine(10).Points(1) = Test_CubePoint(0)
+        'Test_CubeLine(11).Points(0) = Test_CubePoint(0)
+        'Test_CubeLine(11).Points(1) = Test_CubePoint(0)
 
         'temp.SetPoint(0, 0, 0, 32)
         'temp.SetPoint(0, 0, 0, 33)
@@ -164,22 +164,33 @@
 
     Private Sub DrawCube()
         Dim j As Integer
-        Dim x1, y1, x2, y2 As Single
+        'Dim x1, y1, x2, y2 As Single
 
-        For j = 0 To 11
-            x1 = Test_CubeLine(j).Points(0).X
-            y1 = Test_CubeLine(j).Points(0).Y
-            x2 = Test_CubeLine(j).Points(1).X
-            y2 = Test_CubeLine(j).Points(1).Y
-            G.DrawLine(Pens.Black, x1, y1, x2, y2)
+        For i = 0 To 7
+            Test_CubePoint(i) = MultiplyMat(Test_CubePoint(i), Wt)
+            Test_CubePoint(i) = MultiplyMat(Test_CubePoint(i), Vt)
+            Test_CubePoint(i) = MultiplyMat(Test_CubePoint(i), St)
         Next
+
+        For i = 0 To 6
+            G.DrawLine(Pens.Black, Test_CubePoint(i).X, Test_CubePoint(i).Y, Test_CubePoint(i + 1).X, Test_CubePoint(i + 1).Y)
+        Next
+
+        'For j = 0 To 11
+        '    x1 = Test_CubeLine(j).Points(0).X
+        '    y1 = Test_CubeLine(j).Points(0).Y
+        '    x2 = Test_CubeLine(j).Points(1).X
+        '    y2 = Test_CubeLine(j).Points(1).Y
+        '    G.DrawLine(Pens.Black, x1, y1, x2, y2)
+        'Next
         MainCanvas.Image = BitmapCanvas
     End Sub
 
     Private Sub DrawChickenButton_Click(sender As Object, e As EventArgs) Handles DrawChickenButton.Click
-        Dim Result As New TPoint()
-
+        'Dim Result As New TPoint()
         DrawCube()
+        'BitmapCanvas.SetPixel(100, 100, Color.Black)
+        'MainCanvas.Image = BitmapCanvas
     End Sub
 
     Function MultiplyMat(point As TPoint, M(,) As Double) As TPoint
@@ -215,7 +226,7 @@
         'Vt (View) -> Use projection matrix
         FillRow(0, 1, 0, 0, 0, Vt)
         FillRow(1, 0, 1, 0, 0, Vt)
-        FillRow(2, 0, 0, 0, -1 / Zc, Vt)
+        FillRow(2, 0, 0, 0, -1 / 3, Vt)
         FillRow(3, 3, 0, 0, 1, Vt)
 
         'St (Screen)

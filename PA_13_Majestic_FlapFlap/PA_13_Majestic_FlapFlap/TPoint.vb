@@ -1,5 +1,5 @@
 ﻿Public Class TPoint
-    Public X, Y, Z As Double 'Store the x,y and z coord of this vertex as well as its index number
+    Public X, Y, Z As Single 'Store the x,y and z coord of this vertex as well as its index number
     Public W As Integer
 
     Public Sub New()
