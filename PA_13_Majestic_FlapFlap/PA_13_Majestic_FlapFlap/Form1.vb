@@ -61,6 +61,29 @@
     End Sub
 
     Private Sub declare_all_object()
+        'Init cube
+        SetPoint(VerticesList(0), -1, -1, 1, 0)
+        SetPoint(VerticesList(1), 1, -1, 1, 1)
+        SetPoint(VerticesList(2), 1, 1, 1, 2)
+        SetPoint(VerticesList(3), -1, 1, 1, 3)
+        SetPoint(VerticesList(4), -1, -1, -1, 4)
+        SetPoint(VerticesList(5), 1, -1, -1, 5)
+        SetPoint(VerticesList(6), 1, 1, -1, 6)
+        SetPoint(VerticesList(7), -1, 1, -1, 7)
+
+        'init edge
+        SetEdges(EdgeList(0), 0, 1, 0)
+        SetEdges(EdgeList(1), 1, 2, 1)
+        SetEdges(EdgeList(2), 2, 3, 2)
+        SetEdges(EdgeList(3), 3, 0, 3)
+        SetEdges(EdgeList(4), 4, 5, 4)
+        SetEdges(EdgeList(5), 5, 6, 5)
+        SetEdges(EdgeList(6), 6, 7, 6)
+        SetEdges(EdgeList(7), 7, 4, 7)
+        SetEdges(EdgeList(8), 0, 4, 8)
+        SetEdges(EdgeList(9), 1, 5, 9)
+        SetEdges(EdgeList(10), 2, 6, 10)
+        SetEdges(EdgeList(11), 3, 7, 11)
         'Dim temp As New TPoint
         ''Foot A
         'temp.SetPoint(0, 0, 0, 0)
@@ -210,6 +233,10 @@
         FillRow(1, 0, -45, 0, 0, St)
         FillRow(2, 0, 0, 0, 0, St)
         FillRow(3, 300, 180, 0, 1, St)
+
+    End Sub
+
+    Private Sub MainCanvas_Click(sender As Object, e As EventArgs) Handles MainCanvas.Click
 
     End Sub
 
