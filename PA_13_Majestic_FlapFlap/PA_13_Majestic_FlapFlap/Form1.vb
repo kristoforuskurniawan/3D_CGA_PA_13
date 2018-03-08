@@ -13,7 +13,7 @@
 
     Private Test_CubePoint(8) As TPoint
     Private Test_CubeLine(12) As TLine
-    Private Zc As Double = -3.0 'Vanishing Point
+    Private Zc As Double = 3.0 'Vanishing Point
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Vertices = New TPoint()
@@ -173,9 +173,19 @@
             Test_CubePoint(i) = MultiplyMat(Test_CubePoint(i), St)
         Next
 
-        For i = 0 To 6
-            G.DrawLine(Pens.Black, Test_CubePoint(i).X, Test_CubePoint(i).Y, Test_CubePoint(i + 1).X, Test_CubePoint(i + 1).Y)
+        G.Clear(Color.White)
+        Dim a, b, c, d As Single
+        For i As Integer = 0 To 11
+            a = Test_CubeLine(i).Points(0).X
+            b = Test_CubeLine(i).Points(0).Y
+            c = Test_CubeLine(i).Points(1).X
+            d = Test_CubeLine(i).Points(1).Y
+            G.DrawLine(Pens.Black, a, b, c, d)
         Next
+
+        'For i = 0 To 6
+        '    G.DrawLine(Pens.Black, Test_CubePoint(i).X, Test_CubePoint(i).Y, Test_CubePoint(i + 1).X, Test_CubePoint(i + 1).Y)
+        'Next
 
         'For j = 0 To 11
         '    x1 = Test_CubeLine(j).Points(0).X
@@ -227,14 +237,14 @@
         'Vt (View) -> Use projection matrix
         FillRow(0, 1, 0, 0, 0, Vt)
         FillRow(1, 0, 1, 0, 0, Vt)
-        FillRow(2, 0, 0, 0, 1 / Zc, Vt)
+        FillRow(2, 0, 0, 0, -1 / Zc, Vt)
         FillRow(3, 3, 0, 0, 1, Vt)
 
         'St (Screen)
-        FillRow(0, 50, 0, 0, 300, St)
-        FillRow(1, 0, -50, 0, 180, St)
+        FillRow(0, 1, 0, 0, 300, St)
+        FillRow(1, 0, 1, 0, 180, St)
         FillRow(2, 0, 0, 0, 0, St)
-        FillRow(3, 0, 0, 0, 1, St)
+        FillRow(3, -100, -100, 0, 1, St)
 
     End Sub
 
