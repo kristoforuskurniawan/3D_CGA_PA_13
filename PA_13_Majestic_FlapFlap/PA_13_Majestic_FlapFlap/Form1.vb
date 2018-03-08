@@ -206,10 +206,7 @@
     End Sub
 
     Private Sub DrawChickenButton_Click(sender As Object, e As EventArgs) Handles DrawChickenButton.Click
-        'Dim Result As New TPoint()
         DrawCube()
-        'BitmapCanvas.SetPixel(100, 100, Color.Black)
-        'MainCanvas.Image = BitmapCanvas
     End Sub
 
     Function MultiplyMat(point As TPoint, M(,) As Double) As TPoint
