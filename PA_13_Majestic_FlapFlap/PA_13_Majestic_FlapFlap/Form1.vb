@@ -193,6 +193,14 @@
         Return Result
     End Function
 
+    'Public Sub MultiMat()
+    '    For i As Integer = 0 To 7
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), St)
+    '    Next
+    'End Sub
+
     Private Sub InitProjection()
         ' P' = P.Wt.Vt.St
         ' P -> object
