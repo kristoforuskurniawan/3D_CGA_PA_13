@@ -13,7 +13,7 @@
 
     Private Test_CubePoint(8) As TPoint
     Private Test_CubeLine(12) As TLine
-    Private Zc As Double = -10.0 'Vanishing Point
+    Private Zc As Double = -3.0 'Vanishing Point
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Vertices = New TPoint()
@@ -43,6 +43,7 @@
         For i = 0 To 11
             Test_CubeLine(i) = New TLine() 'Inside the class TLine, all TPoint are already instantiated (objectnya udah dibuat)
         Next
+
         InitCube()
         'DrawCube()
     End Sub
@@ -62,35 +63,35 @@
         Test_CubePoint(6).SetCoordinates(10, 10, -10, 1)
         Test_CubePoint(7).SetCoordinates(10, 10, 10, 1)
 
-        'Test_CubeLine(0).Points(0) = Test_CubePoint(0)
-        'Test_CubeLine(0).Points(1) = Test_CubePoint(1)
-        'Test_CubeLine(1).Points(0) = Test_CubePoint(2)
-        'Test_CubeLine(1).Points(1) = Test_CubePoint(3)
+        Test_CubeLine(0).Points(0) = Test_CubePoint(0) 'Garis Surface kiri
+        Test_CubeLine(0).Points(1) = Test_CubePoint(1)
+        Test_CubeLine(1).Points(0) = Test_CubePoint(2)
+        Test_CubeLine(1).Points(1) = Test_CubePoint(3)
 
-        'Test_CubeLine(2).Points(0) = Test_CubePoint(4)
-        'Test_CubeLine(2).Points(1) = Test_CubePoint(5)
-        'Test_CubeLine(3).Points(0) = Test_CubePoint(6)
-        'Test_CubeLine(3).Points(1) = Test_CubePoint(7)
+        Test_CubeLine(2).Points(0) = Test_CubePoint(4) 'Garis Surface kanan
+        Test_CubeLine(2).Points(1) = Test_CubePoint(5)
+        Test_CubeLine(3).Points(0) = Test_CubePoint(7)
+        Test_CubeLine(3).Points(1) = Test_CubePoint(6)
 
-        'Test_CubeLine(4).Points(0) = Test_CubePoint(0)
-        'Test_CubeLine(4).Points(1) = Test_CubePoint(4)
-        'Test_CubeLine(5).Points(0) = Test_CubePoint(0)
-        'Test_CubeLine(5).Points(1) = Test_CubePoint(1)
+        Test_CubeLine(4).Points(0) = Test_CubePoint(0) 'Garis Surface bawah
+        Test_CubeLine(4).Points(1) = Test_CubePoint(4)
+        Test_CubeLine(5).Points(0) = Test_CubePoint(5)
+        Test_CubeLine(5).Points(1) = Test_CubePoint(1)
 
-        'Test_CubeLine(6).Points(0) = Test_CubePoint(5)
-        'Test_CubeLine(6).Points(1) = Test_CubePoint(2)
-        'Test_CubeLine(7).Points(0) = Test_CubePoint(7)
-        'Test_CubeLine(7).Points(1) = Test_CubePoint(3)
+        Test_CubeLine(6).Points(0) = Test_CubePoint(2) 'Garis Surface atas
+        Test_CubeLine(6).Points(1) = Test_CubePoint(7)
+        Test_CubeLine(7).Points(0) = Test_CubePoint(6)
+        Test_CubeLine(7).Points(1) = Test_CubePoint(3)
 
-        'Test_CubeLine(8).Points(0) = Test_CubePoint(6)
-        'Test_CubeLine(8).Points(1) = Test_CubePoint(0)
-        'Test_CubeLine(9).Points(0) = Test_CubePoint(2)
-        'Test_CubeLine(9).Points(1) = Test_CubePoint(0)
+        Test_CubeLine(8).Points(0) = Test_CubePoint(0) 'Garis Surface belakang
+        Test_CubeLine(8).Points(1) = Test_CubePoint(3)
+        Test_CubeLine(9).Points(0) = Test_CubePoint(4)
+        Test_CubeLine(9).Points(1) = Test_CubePoint(6)
 
-        'Test_CubeLine(10).Points(0) = Test_CubePoint(0)
-        'Test_CubeLine(10).Points(1) = Test_CubePoint(0)
-        'Test_CubeLine(11).Points(0) = Test_CubePoint(0)
-        'Test_CubeLine(11).Points(1) = Test_CubePoint(0)
+        Test_CubeLine(10).Points(0) = Test_CubePoint(1) 'Garis Surface depan
+        Test_CubeLine(10).Points(1) = Test_CubePoint(2)
+        Test_CubeLine(11).Points(0) = Test_CubePoint(5)
+        Test_CubeLine(11).Points(1) = Test_CubePoint(7)
 
         'temp.SetPoint(0, 0, 0, 32)
         'temp.SetPoint(0, 0, 0, 33)
@@ -163,7 +164,7 @@
     'End Sub
 
     Private Sub DrawCube()
-        Dim j As Integer
+        'Dim j As Integer
         'Dim x1, y1, x2, y2 As Single
 
         For i = 0 To 7
@@ -226,7 +227,7 @@
         'Vt (View) -> Use projection matrix
         FillRow(0, 1, 0, 0, 0, Vt)
         FillRow(1, 0, 1, 0, 0, Vt)
-        FillRow(2, 0, 0, 0, -1 / 3, Vt)
+        FillRow(2, 0, 0, 0, 1 / Zc, Vt)
         FillRow(3, 3, 0, 0, 1, Vt)
 
         'St (Screen)
