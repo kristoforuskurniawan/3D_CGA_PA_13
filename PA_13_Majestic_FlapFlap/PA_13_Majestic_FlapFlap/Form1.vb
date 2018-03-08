@@ -10,6 +10,7 @@
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         blackPen = New Pen(Color.Black, 5)
         bit = New Bitmap(MainCanvas.Width, MainCanvas.Height)
+        EdgeList = New TLine(48) {}
         g = Graphics.FromImage(bit)
         declare_all_object()
         Projection()
