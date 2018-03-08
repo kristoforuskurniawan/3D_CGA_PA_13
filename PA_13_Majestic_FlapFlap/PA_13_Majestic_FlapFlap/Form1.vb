@@ -15,6 +15,11 @@
     Private Test_CubeLine(12) As TLine
     Private Zc As Double = 3.0 'Vanishing Point
 
+    Private Const PI As Double = 3.1415926535897931
+    Private Const Sin45 As Double = 0.70710678118654757
+    Private Const Cos30 As Double = 0.8660254037844386
+    Private Const DegToRad As Double = PI / 180
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Vertices = New TPoint()
         Edges = New TLine()
@@ -167,7 +172,9 @@
         'Dim j As Integer
         'Dim x1, y1, x2, y2 As Single
 
+
         For i = 0 To 7
+            'Test_CubePoint(i) = MultiplyMat(MultiplyMat(MultiplyMat(Test_CubePoint(i), St), Vt), Wt)
             Test_CubePoint(i) = MultiplyMat(Test_CubePoint(i), Wt)
             Test_CubePoint(i) = MultiplyMat(Test_CubePoint(i), Vt)
             Test_CubePoint(i) = MultiplyMat(Test_CubePoint(i), St)
@@ -180,6 +187,7 @@
             b = Test_CubeLine(i).Points(0).Y
             c = Test_CubeLine(i).Points(1).X
             d = Test_CubeLine(i).Points(1).Y
+            'MessageBox.Show("X1 = " & a.ToString() & ", Y1 = " & b.ToString() & vbNewLine & "X2 = " & c.ToString() & ", Y2 = " & d.ToString())
             G.DrawLine(Pens.Black, a, b, c, d)
         Next
 
@@ -237,14 +245,14 @@
         'Vt (View) -> Use projection matrix
         FillRow(0, 1, 0, 0, 0, Vt)
         FillRow(1, 0, 1, 0, 0, Vt)
-        FillRow(2, Math.Cos(30), Math.Sin(45), 0, 0, Vt)
+        FillRow(2, 0, 0, 0, -1 / Zc, Vt)
         FillRow(3, 0, 0, 0, 1, Vt)
 
         'St (Screen)
-        FillRow(0, 45, 0, 0, 0, St)
-        FillRow(1, 0, -45, 0, 0, St)
+        FillRow(0, 100, 0, 0, 0, St)
+        FillRow(1, 0, 100, 0, 0, St)
         FillRow(2, 0, 0, 0, 0, St)
-        FillRow(3, 300, 180, 0, 1, St)
+        FillRow(3, 100, 100, 0, 1, St)
 
 
     End Sub
