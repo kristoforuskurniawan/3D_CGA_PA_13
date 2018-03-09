@@ -16,6 +16,8 @@
         drawChicken()
     End Sub
 
+
+
     Public Sub SetPoint(ByRef obj As TPoint, a As Double, b As Double, c As Double, d As Integer)
         obj = New TPoint
         obj.X = a
