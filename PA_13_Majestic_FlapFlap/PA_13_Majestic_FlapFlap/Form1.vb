@@ -6,7 +6,7 @@
     Dim EdgeList(12) As TLine
     Dim ObjectList(4) As Model3D
     Dim Wt(4, 4), Vt(4, 4), St(4, 4) As Double
-    Dim Scale(4, 4), Translate(4, 4), RotateZ(4, 4), ShearX(4, 4), ShearY(4, 4) As Double
+    Dim Scaling(4, 4), Translate(4, 4), RotateZ(4, 4), ShearX(4, 4), ShearY(4, 4) As Double
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         blackPen = New Pen(Color.Black, 1)
@@ -15,8 +15,6 @@
         g = Graphics.FromImage(bit)
         drawChicken()
     End Sub
-
-
 
     Public Sub SetPoint(ByRef obj As TPoint, a As Double, b As Double, c As Double, d As Integer)
         obj = New TPoint
@@ -102,31 +100,31 @@
     End Sub
 
     Public Sub ScalingNeck()
-        FillRow(0, 1, 0, 0, 0, Scale)
-        FillRow(1, 0, 0.5, 0, 0, Scale)
-        FillRow(2, 0, 0, 0.5, 0, Scale)
-        FillRow(3, 0, 0, 0, 1, Scale)
+        FillRow(0, 1, 0, 0, 0, Scaling)
+        FillRow(1, 0, 0.5, 0, 0, Scaling)
+        FillRow(2, 0, 0, 0.5, 0, Scaling)
+        FillRow(3, 0, 0, 0, 1, Scaling)
     End Sub
 
     Public Sub ScalingHead()
-        FillRow(0, 0.5, 0, 0, 0, Scale)
-        FillRow(1, 0, 0.5, 0, 0, Scale)
-        FillRow(2, 0, 0, 0.5, 0, Scale)
-        FillRow(3, 0, 0, 0, 1, Scale)
+        FillRow(0, 0.5, 0, 0, 0, Scaling)
+        FillRow(1, 0, 0.5, 0, 0, Scaling)
+        FillRow(2, 0, 0, 0.5, 0, Scaling)
+        FillRow(3, 0, 0, 0, 1, Scaling)
     End Sub
 
     Public Sub ScalingBeak()
-        FillRow(0, 0.5, 0, 0, 0, Scale)
-        FillRow(1, 0, 0.25, 0, 0, Scale)
-        FillRow(2, 0, 0, 0.25, 0, Scale)
-        FillRow(3, 0, 0, 0, 1, Scale)
+        FillRow(0, 0.5, 0, 0, 0, Scaling)
+        FillRow(1, 0, 0.25, 0, 0, Scaling)
+        FillRow(2, 0, 0, 0.25, 0, Scaling)
+        FillRow(3, 0, 0, 0, 1, Scaling)
     End Sub
 
     Public Sub ScalingUpperWings()
-        FillRow(0, 1, 0, 0, 0, Scale)
-        FillRow(1, 0, 0.5, 0, 0, Scale)
-        FillRow(2, 0, 0, 0.5, 0, Scale)
-        FillRow(3, 0, 0, 0, 1, Scale)
+        FillRow(0, 1, 0, 0, 0, Scaling)
+        FillRow(1, 0, 0.5, 0, 0, Scaling)
+        FillRow(2, 0, 0, 0.5, 0, Scaling)
+        FillRow(3, 0, 0, 0, 1, Scaling)
     End Sub
 
     Public Sub ShearUpperWings()
@@ -187,7 +185,7 @@
 
     Public Sub getNeck()
         For i As Integer = 0 To 7
-            VerticesList(i) = MultiplyMat(VerticesList(i), Scale)
+            VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
             VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
             VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
             VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
@@ -198,7 +196,7 @@
 
     Public Sub getHead()
         For i As Integer = 0 To 7
-            VerticesList(i) = MultiplyMat(VerticesList(i), Scale)
+            VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
             VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
             VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
             VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
@@ -208,7 +206,7 @@
 
     Public Sub getBeak()
         For i As Integer = 0 To 7
-            VerticesList(i) = MultiplyMat(VerticesList(i), Scale)
+            VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
             VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
             VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
             VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
@@ -220,7 +218,7 @@
         For i As Integer = 0 To 7
             VerticesList(i) = MultiplyMat(VerticesList(i), ShearX) 'Ini shear udah bisa.
             VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
-            VerticesList(i) = MultiplyMat(VerticesList(i), Scale)
+            VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
             VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
             VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
             VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
@@ -294,7 +292,7 @@
         'Vt
         FillRow(0, 1, 0, 0, 0, Vt)
         FillRow(1, 0, 1, 0, 0, Vt)
-        FillRow(2, 0.5, 0.5, 0, 0, Vt)
+        FillRow(2, 0, 0, 0, -1 / 3, Vt)
         FillRow(3, 0, 0, 0, 1, Vt)
         'St
         FillRow(0, 20, 0, 0, 0, St)
