@@ -2,7 +2,7 @@
     Public First As TElement3DObject
 
     Public Sub New()
-        First = Nothing
+        First = Nil
     End Sub
 
     Public Sub New(Target As TElement3DObject)

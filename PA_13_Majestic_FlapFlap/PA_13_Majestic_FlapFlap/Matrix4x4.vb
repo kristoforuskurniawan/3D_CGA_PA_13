@@ -21,6 +21,17 @@
         MultiplyMatrix4x4(temp)
     End Sub
 
+    Public Sub T1(x As Double, y As Double, z As Double, x1 As Double, y2 As Double, z3 As Double)
+        Dim temp As New Matrix4x4
+        temp.Mat(0, 0) = x
+        temp.Mat(1, 1) = y
+        temp.Mat(2, 2) = z
+        temp.Mat(3, 0) = x1
+        temp.Mat(3, 1) = y2
+        temp.Mat(3, 2) = z3
+        MultiplyMatrix4x4(temp)
+    End Sub
+
     Public Sub AxoProjection(omega As Double, tetha As Double)
         Dim temp As New Matrix4x4
         temp.Mat(0, 0) = CosTetha(omega)
@@ -51,6 +62,20 @@
         Dim temp As New Matrix4x4
         temp.Mat(2, 2) = 0
         temp.Mat(2, 3) = (-1 / c)
+        MultiplyMatrix4x4(temp)
+    End Sub
+
+    Public Sub Rotation(axis As Integer, angle As Double)
+        Dim temp As New Matrix4x4
+        If axis = 1 Then
+            temp.RotateX(angle)
+        ElseIf axis = 2 Then
+            temp.RotateY(angle)
+        ElseIf axis = 3 Then
+            temp.RotateZ(angle)
+        Else
+            'identity
+        End If
         MultiplyMatrix4x4(temp)
     End Sub
 

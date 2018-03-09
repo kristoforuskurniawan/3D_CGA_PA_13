@@ -7,12 +7,13 @@
     Public Transform As Matrix4x4
 
     Public Sub New()
-        Child = Nothing
-        Nxt = Nothing
-        Obj = Nothing
-        Rotation_Axis = Nothing
-        Rotation_Angle = Nothing
-        Transform = Nothing
+        Child = Nil
+        Nxt = Nil
+        Obj = Nil
+        Rotation_Axis = 0
+        Rotation_Angle = 0
+        Transform = New Matrix4x4
     End Sub
+
 
 End Class
