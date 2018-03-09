@@ -30,7 +30,7 @@
         drawNeck()
         drawHead()
         drawBeak()
-        drawLowerWings()
+        drawUpperWings()
     End Sub
 
     Public Sub drawTorso()
@@ -68,22 +68,14 @@
         DrawCube()
     End Sub
 
-    Public Sub drawLowerWings()
+    Public Sub drawUpperWings()
         declare_all_object()
-        ShearLowerWings()
-        ScalingLowerWings()
-        TranslatingLowerWings()
+        ShearUpperWings()
+        RotateAroundZUpperWings()
+        ScalingUpperWings()
+        TranslatingUpperWings()
         Projection()
-        getLowerWings()
-        DrawCube()
-    End Sub
-
-    Public Sub drawUpperWings() 'Still created
-        declare_all_object()
-        'ScalingUpperWings()
-        'TranslatingUpperWings()
-        Projection()
-        'getUpperWings()
+        getUpperWings()
         DrawCube()
     End Sub
 
@@ -108,7 +100,7 @@
     End Sub
 
     Public Sub ScalingNeck()
-        FillRow(0, 1.5, 0, 0, 0, Scale)
+        FillRow(0, 1, 0, 0, 0, Scale)
         FillRow(1, 0, 0.5, 0, 0, Scale)
         FillRow(2, 0, 0, 0.5, 0, Scale)
         FillRow(3, 0, 0, 0, 1, Scale)
@@ -128,8 +120,8 @@
         FillRow(3, 0, 0, 0, 1, Scale)
     End Sub
 
-    Public Sub ScalingLowerWings()
-        FillRow(0, 0.75, 0, 0, 0, Scale)
+    Public Sub ScalingUpperWings()
+        FillRow(0, 1, 0, 0, 0, Scale)
         FillRow(1, 0, 0.5, 0, 0, Scale)
         FillRow(2, 0, 0, 0.5, 0, Scale)
         FillRow(3, 0, 0, 0, 1, Scale)
@@ -143,7 +135,7 @@
     End Sub
 
     Public Sub ShearLowerWings()
-        FillRow(0, 1, -Cos45, 0, 0, ShearX)
+        FillRow(0, 1, Cos45, 0, 0, ShearX)
         FillRow(1, 0, 1, 0, 0, ShearX)
         FillRow(2, 0, 0, 1, 0, ShearX)
         FillRow(3, 0, 0, 0, 1, ShearX)
@@ -170,11 +162,11 @@
         FillRow(3, 4.75, 3.75, -0.5, 1, Translate)
     End Sub
 
-    Public Sub TranslatingLowerWings() ' Sayap kayanya di shear deh.
+    Public Sub TranslatingUpperWings() ' Sayap kayanya di shear deh.
         FillRow(0, 1, 0, 0, 0, Translate)
         FillRow(1, 0, 1, 0, 0, Translate)
         FillRow(2, 0, 0, 1, 0, Translate)
-        FillRow(3, -3, 1, 1.75, 1, Translate)
+        FillRow(3, -2, 0, 1.75, 1, Translate)
     End Sub
 
     Public Sub RotateAroundZNeck()
@@ -184,9 +176,9 @@
         FillRow(3, 0, 0, 0, 1, RotateZ)
     End Sub
 
-    Public Sub RotateAroundZLowerWings()
-        FillRow(0, Cos45 + Cos45, Sin45 + Sin45, 0, 0, RotateZ)
-        FillRow(1, -Sin45 - Sin45, Cos45 + Cos45, 0, 0, RotateZ)
+    Public Sub RotateAroundZUpperWings()
+        FillRow(0, Cos45, Sin45, 0, 0, RotateZ)
+        FillRow(1, -Sin45, Cos45, 0, 0, RotateZ)
         FillRow(2, 0, 0, 1, 0, RotateZ)
         FillRow(3, 0, 0, 0, 1, RotateZ)
     End Sub
@@ -222,11 +214,11 @@
         Next
     End Sub
 
-    Public Sub getLowerWings()
+    Public Sub getUpperWings()
         For i As Integer = 0 To 7
-            VerticesList(i) = MultiplyMat(VerticesList(i), ShearX) 'Ini shear udah bisa. Masih ngaco tapi xD
+            VerticesList(i) = MultiplyMat(VerticesList(i), ShearX) 'Ini shear udah bisa.
+            VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
             VerticesList(i) = MultiplyMat(VerticesList(i), Scale)
-            'VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
             VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
             VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
             VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
