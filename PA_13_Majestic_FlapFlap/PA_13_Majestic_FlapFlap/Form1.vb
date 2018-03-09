@@ -2,8 +2,8 @@
     Dim bit As Bitmap
     Dim g As Graphics
     Dim blackPen As Pen
-    Dim VerticesList(32) As TPoint
-    Dim EdgeList(48) As TLine
+    Dim VerticesList(8) As TPoint
+    Dim EdgeList(12) As TLine
     Dim ObjectList(4) As Model3D
     Dim Wt(4, 4), Vt(4, 4), St(4, 4) As Double
     Dim Scale(4, 4), Translate(4, 4), RotateZ(4, 4) As Double
@@ -32,7 +32,7 @@
     Public Sub drawTorso()
         declare_all_object()
         Projection()
-        MultiMat()
+        getTorso()
         DrawCube()
     End Sub
     Public Sub drawNeck()
@@ -72,7 +72,7 @@
         MainCanvas.Image = bit
     End Sub
 
-    Public Sub MultiMat()
+    Public Sub getTorso()
         For i As Integer = 0 To 7
             VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
             VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
