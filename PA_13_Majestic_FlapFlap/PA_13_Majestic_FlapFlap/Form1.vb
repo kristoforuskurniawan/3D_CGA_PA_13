@@ -2,28 +2,32 @@
     Dim bit As Bitmap
     Dim g As Graphics
     Dim blackPen As Pen
-    Dim VerticesList(8) As TPoint
-    Dim EdgeList(12) As TLine
-    Dim ObjectList(4) As Model3D
+    Dim VerticesList As List(Of TPoint)
+    Dim EdgeList As List(Of TLine)
+    Dim Object3D As Model3D
     Dim Wt(4, 4), Vt(4, 4), St(4, 4) As Double
     Dim Scaling(4, 4), Translate(4, 4), RotateZ(4, 4), ShearX(4, 4), ShearY(4, 4) As Double
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         blackPen = New Pen(Color.Black, 1)
         bit = New Bitmap(MainCanvas.Width, MainCanvas.Height)
-        EdgeList = New TLine(48) {}
+        EdgeList = New List(Of TLine)
+        VerticesList = New List(Of TPoint)
         g = Graphics.FromImage(bit)
         drawChicken()
+        'MsgBox(VerticesList(15).X)
     End Sub
 
-    Public Sub SetPoint(ByRef obj As TPoint, a As Double, b As Double, c As Double, d As Integer)
-        obj = New TPoint
-        obj.X = a
-        obj.Y = b
-        obj.Z = c
-        obj.w = 1
-        obj.PointIndex = d
+    Public Sub SetVertices(x As Double, y As Double, z As Double)
+        Dim temp As New TPoint(x, y, z)
+        VerticesList.Add(temp)
     End Sub
+
+    Public Sub SetEdges(x As Integer, y As Integer)
+        Dim temp As New TLine(x, y)
+        EdgeList.Add(temp)
+    End Sub
+
 
     Public Sub drawChicken()
         drawTorso()
@@ -226,12 +230,7 @@
         Next
     End Sub
 
-    Public Sub SetEdges(ByRef obj As TLine, a As Integer, b As Integer, c As Integer)
-        obj = New TLine
-        obj.PointA = a
-        obj.PointB = b
-        obj.LineIndex = c
-    End Sub
+
 
     Private Sub MainCanvas_MouseOver(sender As Object, e As MouseEventArgs) Handles MainCanvas.MouseMove
         CoordinatesLabel.Text = "Coordinates: X = " + e.X.ToString() + ", Y = " + e.Y.ToString()
@@ -239,40 +238,33 @@
 
     Private Sub declare_all_object()
         'Init cube
-        SetPoint(VerticesList(0), -1, -1, 1, 0)
-        SetPoint(VerticesList(1), 1, -1, 1, 1)
-        SetPoint(VerticesList(2), 1, 1, 1, 2)
-        SetPoint(VerticesList(3), -1, 1, 1, 3)
-        SetPoint(VerticesList(4), -1, -1, -1, 4)
-        SetPoint(VerticesList(5), 1, -1, -1, 5)
-        SetPoint(VerticesList(6), 1, 1, -1, 6)
-        SetPoint(VerticesList(7), -1, 1, -1, 7)
+        SetVertices(-1, -1, 1)
+        SetVertices(1, -1, 1)
+        SetVertices(1, 1, 1)
+        SetVertices(-1, 1, 1)
+        SetVertices(-1, -1, -1)
+        SetVertices(1, -1, -1)
+        SetVertices(1, 1, -1)
+        SetVertices(-1, 1, -1)
 
         'init edge
-        SetEdges(EdgeList(0), 0, 1, 0)
-        SetEdges(EdgeList(1), 1, 2, 1)
-        SetEdges(EdgeList(2), 2, 3, 2)
-        SetEdges(EdgeList(3), 3, 0, 3)
-        SetEdges(EdgeList(4), 4, 5, 4)
-        SetEdges(EdgeList(5), 5, 6, 5)
-        SetEdges(EdgeList(6), 6, 7, 6)
-        SetEdges(EdgeList(7), 7, 4, 7)
-        SetEdges(EdgeList(8), 0, 4, 8)
-        SetEdges(EdgeList(9), 1, 5, 9)
-        SetEdges(EdgeList(10), 2, 6, 10)
-        SetEdges(EdgeList(11), 3, 7, 11)
+        SetEdges(0, 1)
+        SetEdges(1, 2)
+        SetEdges(2, 3)
+        SetEdges(3, 0)
+        SetEdges(4, 5)
+        SetEdges(5, 6)
+        SetEdges(6, 7)
+        SetEdges(7, 4)
+        SetEdges(0, 4)
+        SetEdges(1, 5)
+        SetEdges(2, 6)
+        SetEdges(3, 7)
 
         'Declare Object
         'Object A
-        ObjectList(0) = New Model3D()
-        ObjectList(0).EdgesIndexList.Add(EdgeList(0).LineIndex)
-        ObjectList(0).EdgesIndexList.Add(EdgeList(1).LineIndex)
-        ObjectList(0).EdgesIndexList.Add(EdgeList(2).LineIndex)
-        ObjectList(0).EdgesIndexList.Add(EdgeList(3).LineIndex)
-        ObjectList(0).EdgesIndexList.Add(EdgeList(4).LineIndex)
-        ObjectList(0).EdgesIndexList.Add(EdgeList(5).LineIndex)
-        ObjectList(0).EdgesIndexList.Add(EdgeList(6).LineIndex)
-        ObjectList(0).EdgesIndexList.Add(EdgeList(7).LineIndex)
+        Object3D = New Model3D()
+        Object3D.Copy3DObject(VerticesList, EdgeList)
         'Object B
 
         'Object C
