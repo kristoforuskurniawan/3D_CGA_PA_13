@@ -6,9 +6,10 @@
     Public Const DegToRad As Double = PI / 180
 
     Public Enum RotationAxis
-        x = 0
-        y = 1
-        z = 2
+        none = 0
+        x = 1
+        y = 2
+        z = 3
     End Enum
 
     Structure TVector

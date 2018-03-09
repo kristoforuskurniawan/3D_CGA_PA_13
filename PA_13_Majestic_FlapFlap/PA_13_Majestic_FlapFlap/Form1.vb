@@ -6,11 +6,13 @@
     Dim EdgeList As List(Of TLine)
     Dim Object3D As Model3D
     Dim PV(4, 4), Vt(4, 4), St(4, 4) As Double
+    Dim HTree As TList3DObject
     Dim Scaling(4, 4), Translate(4, 4), RotateZ(4, 4), ShearX(4, 4), ShearY(4, 4) As Double
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         blackPen = New Pen(Color.Black, 1)
         bit = New Bitmap(MainCanvas.Width, MainCanvas.Height)
+        HTree = New TList3DObject
         EdgeList = New List(Of TLine)
         VerticesList = New List(Of TPoint)
         Object3D = New Model3D
@@ -44,6 +46,105 @@
             g.DrawLine(blackPen, a, b, c, d)
         Next
         MainCanvas.Image = bit
+    End Sub
+
+    Public Sub CreationOfChicken()
+        'Declaration of Chicken in Hierarchical Model
+        'Must start from the child
+        'still doesn't have transform matrix
+
+        Dim left_foot As New TElement3DObject
+        left_foot.Rotation_Angle = RotationAxis.none
+        left_foot.Rotation_Axis = 0
+        left_foot.Child = Nothing
+        left_foot.Nxt = Nothing
+
+        Dim LeftFoot As New TList3DObject(left_foot)
+
+        Dim right_foot As New TElement3DObject
+        right_foot.Rotation_Angle = RotationAxis.none
+        right_foot.Rotation_Axis = 0
+        right_foot.Child = Nothing
+        right_foot.Nxt = Nothing
+
+        Dim RightFoot As New TList3DObject(right_foot)
+
+        Dim left_upper_wing As New TElement3DObject
+        left_upper_wing.Rotation_Angle = RotationAxis.none
+        left_upper_wing.Rotation_Axis = 0
+        left_upper_wing.Child = Nothing
+        left_upper_wing.Nxt = Nothing
+
+        Dim LeftWing As New TList3DObject(left_upper_wing)
+
+        Dim right_upper_wing As New TElement3DObject
+        right_upper_wing.Rotation_Angle = RotationAxis.none
+        right_upper_wing.Rotation_Axis = 0
+        right_upper_wing.Child = Nothing
+        right_upper_wing.Nxt = Nothing
+
+        Dim RightWing As New TList3DObject(right_upper_wing)
+
+        Dim beak As New TElement3DObject
+        beak.Rotation_Angle = RotationAxis.none
+        beak.Rotation_Axis = 0
+        beak.Child = Nothing
+        beak.Nxt = Nothing
+
+        Dim MainBeak As New TList3DObject(beak)
+
+        Dim head As New TElement3DObject
+        head.Rotation_Angle = RotationAxis.none
+        head.Rotation_Axis = 0
+        head.Child = MainBeak
+        head.Nxt = Nothing
+
+        Dim MainHead As New TList3DObject(head)
+
+        Dim neck As New TElement3DObject
+        neck.Rotation_Angle = RotationAxis.none
+        neck.Rotation_Axis = 0
+        neck.Child = MainHead
+        neck.Nxt = Nothing
+
+        Dim right_lower_wing As New TElement3DObject
+        right_lower_wing.Rotation_Angle = RotationAxis.none
+        right_lower_wing.Rotation_Axis = 0
+        right_lower_wing.Child = RightWing
+        right_lower_wing.Nxt = neck
+
+        Dim left_lower_wing As New TElement3DObject
+        left_lower_wing.Rotation_Angle = RotationAxis.none
+        left_lower_wing.Rotation_Axis = 0
+        left_lower_wing.Child = LeftWing
+        left_lower_wing.Nxt = right_lower_wing
+
+        Dim right_leg As New TElement3DObject
+        right_leg.Rotation_Angle = RotationAxis.none
+        right_leg.Rotation_Axis = 0
+        right_leg.Child = RightFoot
+        right_leg.Nxt = left_lower_wing
+
+        Dim left_leg As New TElement3DObject
+        left_leg.Rotation_Angle = RotationAxis.none
+        left_leg.Rotation_Axis = 0
+        left_leg.Child = LeftFoot
+        left_leg.Nxt = right_leg
+
+        Dim After_Torso As New TList3DObject(left_leg)
+
+
+        Dim torso As New TElement3DObject
+        torso.Rotation_Angle = RotationAxis.none
+        torso.Rotation_Axis = 0
+        torso.Child = After_Torso
+        torso.Nxt = Nothing
+
+        Dim Chicken As New TList3DObject(torso)
+
+        'Root of Tree
+        HTree = Chicken
+
     End Sub
 
     Public Sub getTorso()
