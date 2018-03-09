@@ -6,13 +6,14 @@
     Dim EdgeList(12) As TLine
     Dim ObjectList(4) As Model3D
     Dim Wt(4, 4), Vt(4, 4), St(4, 4) As Double
-    Dim Scale(4, 4), Translate(4, 4), RotateZ(4, 4) As Double
+    Dim Scale(4, 4), Translate(4, 4), RotateZ(4, 4), ShearX(4, 4), ShearY(4, 4) As Double
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        blackPen = New Pen(Color.Black, 5)
+        blackPen = New Pen(Color.Black, 1)
         bit = New Bitmap(MainCanvas.Width, MainCanvas.Height)
         EdgeList = New TLine(48) {}
         g = Graphics.FromImage(bit)
+        drawChicken()
     End Sub
 
     Public Sub SetPoint(ByRef obj As TPoint, a As Double, b As Double, c As Double, d As Integer)
@@ -23,18 +24,22 @@
         obj.w = 1
         obj.PointIndex = d
     End Sub
+
     Public Sub drawChicken()
         drawTorso()
         drawNeck()
         drawHead()
         drawBeak()
+        drawLowerWings()
     End Sub
+
     Public Sub drawTorso()
         declare_all_object()
         Projection()
         getTorso()
         DrawCube()
     End Sub
+
     Public Sub drawNeck()
         declare_all_object()
         ScalingNeck()
@@ -44,6 +49,7 @@
         getNeck()
         DrawCube()
     End Sub
+
     Public Sub drawHead()
         declare_all_object()
         ScalingHead()
@@ -52,6 +58,7 @@
         getHead()
         DrawCube()
     End Sub
+
     Public Sub drawBeak()
         declare_all_object()
         ScalingBeak()
@@ -60,6 +67,25 @@
         getBeak()
         DrawCube()
     End Sub
+
+    Public Sub drawLowerWings()
+        declare_all_object()
+        ScalingLowerWings()
+        TranslatingLowerWings()
+        Projection()
+        getLowerWings()
+        DrawCube()
+    End Sub
+
+    Public Sub drawUpperWings() 'Still created
+        declare_all_object()
+        'ScalingUpperWings()
+        'TranslatingUpperWings()
+        Projection()
+        'getUpperWings()
+        DrawCube()
+    End Sub
+
     Public Sub DrawCube()
         Dim a, b, c, d As Single
         For i As Integer = 0 To 11
@@ -79,48 +105,91 @@
             VerticesList(i) = MultiplyMat(VerticesList(i), St)
         Next
     End Sub
+
     Public Sub ScalingNeck()
         FillRow(0, 1.5, 0, 0, 0, Scale)
         FillRow(1, 0, 0.5, 0, 0, Scale)
         FillRow(2, 0, 0, 0.5, 0, Scale)
         FillRow(3, 0, 0, 0, 1, Scale)
     End Sub
+
     Public Sub ScalingHead()
         FillRow(0, 0.5, 0, 0, 0, Scale)
         FillRow(1, 0, 0.5, 0, 0, Scale)
         FillRow(2, 0, 0, 0.5, 0, Scale)
         FillRow(3, 0, 0, 0, 1, Scale)
     End Sub
+
     Public Sub ScalingBeak()
         FillRow(0, 0.5, 0, 0, 0, Scale)
         FillRow(1, 0, 0.25, 0, 0, Scale)
         FillRow(2, 0, 0, 0.25, 0, Scale)
         FillRow(3, 0, 0, 0, 1, Scale)
     End Sub
+
+    Public Sub ScalingLowerWings()
+        FillRow(0, 0.75, 0, 0, 0, Scale)
+        FillRow(1, 0, 0.5, 0, 0, Scale)
+        FillRow(2, 0, 0, 0.5, 0, Scale)
+        FillRow(3, 0, 0, 0, 1, Scale)
+    End Sub
+
+    Public Sub ShearUpperWings()
+        FillRow(0, 1, 45, 0, 0, ShearX)
+        FillRow(1, 0, 1, 0, 0, ShearX)
+        FillRow(2, 0, 0, 1, 0, ShearX)
+        FillRow(3, 0, 0, 0, 1, ShearX)
+    End Sub
+
+    Public Sub ShearLowerWings()
+        FillRow(0, 1, -45, 0, 0, ShearX)
+        FillRow(1, 0, 1, 0, 0, ShearX)
+        FillRow(2, 0, 0, 1, 0, ShearX)
+        FillRow(3, 0, 0, 0, 1, ShearX)
+    End Sub
+
     Public Sub TranslatingNeck()
         FillRow(0, 1, 0, 0, 0, Translate)
         FillRow(1, 0, 1, 0, 0, Translate)
         FillRow(2, 0, 0, 1, 0, Translate)
         FillRow(3, 2, 2, 0, 1, Translate)
     End Sub
+
     Public Sub TranslatingHead()
         FillRow(0, 1, 0, 0, 0, Translate)
         FillRow(1, 0, 1, 0, 0, Translate)
         FillRow(2, 0, 0, 1, 0, Translate)
         FillRow(3, 3.5, 3.5, 0, 1, Translate)
     End Sub
+
     Public Sub TranslatingBeak()
         FillRow(0, 1, 0, 0, 0, Translate)
         FillRow(1, 0, 1, 0, 0, Translate)
         FillRow(2, 0, 0, 1, 0, Translate)
         FillRow(3, 4.75, 3.75, -0.5, 1, Translate)
     End Sub
+
+    Public Sub TranslatingLowerWings() ' Sayap kayanya di shear deh.
+        FillRow(0, 1, 0, 0, 0, Translate)
+        FillRow(1, 0, 1, 0, 0, Translate)
+        FillRow(2, 0, 0, 1, 0, Translate)
+        FillRow(3, -3, 1, 1.75, 1, Translate)
+    End Sub
+
     Public Sub RotateAroundZNeck()
         FillRow(0, Cos45, Sin45, 0, 0, RotateZ)
         FillRow(1, -Sin45, Cos45, 0, 0, RotateZ)
         FillRow(2, 0, 0, 1, 0, RotateZ)
         FillRow(3, 0, 0, 0, 1, RotateZ)
     End Sub
+
+    Public Sub RotateAroundZLowerWings()
+        FillRow(0, Cos45 + Cos45, Sin45 + Sin45, 0, 0, RotateZ)
+        FillRow(1, -Sin45 - Sin45, Cos45 + Cos45, 0, 0, RotateZ)
+        FillRow(2, 0, 0, 1, 0, RotateZ)
+        FillRow(3, 0, 0, 0, 1, RotateZ)
+    End Sub
+
     Public Sub getNeck()
         For i As Integer = 0 To 7
             VerticesList(i) = MultiplyMat(VerticesList(i), Scale)
@@ -131,6 +200,7 @@
             VerticesList(i) = MultiplyMat(VerticesList(i), St)
         Next
     End Sub
+
     Public Sub getHead()
         For i As Integer = 0 To 7
             VerticesList(i) = MultiplyMat(VerticesList(i), Scale)
@@ -140,6 +210,7 @@
             VerticesList(i) = MultiplyMat(VerticesList(i), St)
         Next
     End Sub
+
     Public Sub getBeak()
         For i As Integer = 0 To 7
             VerticesList(i) = MultiplyMat(VerticesList(i), Scale)
@@ -149,6 +220,18 @@
             VerticesList(i) = MultiplyMat(VerticesList(i), St)
         Next
     End Sub
+
+    Public Sub getLowerWings()
+        For i As Integer = 0 To 7
+            VerticesList(i) = MultiplyMat(VerticesList(i), Scale)
+            VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
+            VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
+            VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
+            VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
+            VerticesList(i) = MultiplyMat(VerticesList(i), St)
+        Next
+    End Sub
+
     Public Sub SetEdges(ByRef obj As TLine, a As Integer, b As Integer, c As Integer)
         obj = New TLine
         obj.PointA = a
@@ -184,115 +267,6 @@
         SetEdges(EdgeList(9), 1, 5, 9)
         SetEdges(EdgeList(10), 2, 6, 10)
         SetEdges(EdgeList(11), 3, 7, 11)
-        'Dim temp As New TPoint
-        ''Foot A
-        'temp.SetPoint(0, 0, 0, 0)
-        'temp.SetPoint(0, 0, 0, 1)
-        'temp.SetPoint(0, 0, 0, 2)
-        'temp.SetPoint(0, 0, 0, 3)
-        'temp.SetPoint(0, 0, 0, 4)
-        'temp.SetPoint(0, 0, 0, 5)
-        'temp.SetPoint(0, 0, 0, 6)
-        'temp.SetPoint(0, 0, 0, 7)
-        ''Foot B
-        'temp.SetPoint(0, 0, 0, 8)
-        'temp.SetPoint(0, 0, 0, 9)
-        'temp.SetPoint(0, 0, 0, 10)
-        'temp.SetPoint(0, 0, 0, 11)
-        'temp.SetPoint(0, 0, 0, 12)
-        'temp.SetPoint(0, 0, 0, 13)
-        'temp.SetPoint(0, 0, 0, 14)
-        'temp.SetPoint(0, 0, 0, 15)
-        ''Leg A
-        'temp.SetPoint(0, 0, 0, 16)
-        'temp.SetPoint(0, 0, 0, 17)
-        'temp.SetPoint(0, 0, 0, 18)
-        'temp.SetPoint(0, 0, 0, 19)
-        'temp.SetPoint(0, 0, 0, 20)
-        'temp.SetPoint(0, 0, 0, 21)
-        'temp.SetPoint(0, 0, 0, 22)
-        'temp.SetPoint(0, 0, 0, 23)
-        ''Leg B
-        'temp.SetPoint(0, 0, 0, 24)
-        'temp.SetPoint(0, 0, 0, 25)
-        'temp.SetPoint(0, 0, 0, 26)
-        'temp.SetPoint(0, 0, 0, 27)
-        'temp.SetPoint(0, 0, 0, 28)
-        'temp.SetPoint(0, 0, 0, 29)
-        'temp.SetPoint(0, 0, 0, 30)
-        'temp.SetPoint(0, 0, 0, 31)
-        ''Torso
-        'temp.SetPoint(0, 0, 0, 32)
-        'temp.SetPoint(0, 0, 0, 33)
-        'temp.SetPoint(0, 0, 0, 34)
-        'temp.SetPoint(0, 0, 0, 35)
-        'temp.SetPoint(0, 0, 0, 36)
-        'temp.SetPoint(0, 0, 0, 37)
-        'temp.SetPoint(0, 0, 0, 38)
-        'temp.SetPoint(0, 0, 0, 39)
-        ''Upper Wing A
-        'temp.SetPoint(0, 0, 0, 40)
-        'temp.SetPoint(0, 0, 0, 41)
-        'temp.SetPoint(0, 0, 0, 42)
-        'temp.SetPoint(0, 0, 0, 43)
-        'temp.SetPoint(0, 0, 0, 44)
-        'temp.SetPoint(0, 0, 0, 45)
-        'temp.SetPoint(0, 0, 0, 46)
-        'temp.SetPoint(0, 0, 0, 47)
-        ''Upper Wing B
-        'temp.SetPoint(0, 0, 0, 48)
-        'temp.SetPoint(0, 0, 0, 49)
-        'temp.SetPoint(0, 0, 0, 50)
-        'temp.SetPoint(0, 0, 0, 51)
-        'temp.SetPoint(0, 0, 0, 52)
-        'temp.SetPoint(0, 0, 0, 53)
-        'temp.SetPoint(0, 0, 0, 54)
-        'temp.SetPoint(0, 0, 0, 55)
-        ''Lower Wing A
-        'temp.SetPoint(0, 0, 0, 56)
-        'temp.SetPoint(0, 0, 0, 57)
-        'temp.SetPoint(0, 0, 0, 58)
-        'temp.SetPoint(0, 0, 0, 59)
-        'temp.SetPoint(0, 0, 0, 60)
-        'temp.SetPoint(0, 0, 0, 61)
-        'temp.SetPoint(0, 0, 0, 62)
-        'temp.SetPoint(0, 0, 0, 63)
-        ''Lower Wing B
-        'temp.SetPoint(0, 0, 0, 64)
-        'temp.SetPoint(0, 0, 0, 65)
-        'temp.SetPoint(0, 0, 0, 66)
-        'temp.SetPoint(0, 0, 0, 67)
-        'temp.SetPoint(0, 0, 0, 68)
-        'temp.SetPoint(0, 0, 0, 69)
-        'temp.SetPoint(0, 0, 0, 70)
-        'temp.SetPoint(0, 0, 0, 71)
-        ''Neck
-        'temp.SetPoint(0, 0, 0, 72)
-        'temp.SetPoint(0, 0, 0, 73)
-        'temp.SetPoint(0, 0, 0, 74)
-        'temp.SetPoint(0, 0, 0, 75)
-        'temp.SetPoint(0, 0, 0, 76)
-        'temp.SetPoint(0, 0, 0, 77)
-        'temp.SetPoint(0, 0, 0, 78)
-        'temp.SetPoint(0, 0, 0, 79)
-        ''Head
-        'temp.SetPoint(0, 0, 0, 80)
-        'temp.SetPoint(0, 0, 0, 81)
-        'temp.SetPoint(0, 0, 0, 82)
-        'temp.SetPoint(0, 0, 0, 83)
-        'temp.SetPoint(0, 0, 0, 84)
-        'temp.SetPoint(0, 0, 0, 85)
-        'temp.SetPoint(0, 0, 0, 86)
-        'temp.SetPoint(0, 0, 0, 87)
-        ''Beak
-        'temp.SetPoint(0, 0, 0, 88)
-        'temp.SetPoint(0, 0, 0, 89)
-        'temp.SetPoint(0, 0, 0, 90)
-        'temp.SetPoint(0, 0, 0, 91)
-        'temp.SetPoint(0, 0, 0, 92)
-        'temp.SetPoint(0, 0, 0, 93)
-        'temp.SetPoint(0, 0, 0, 94)
-        'temp.SetPoint(0, 0, 0, 95)
 
         'Declare Object
         'Object A
@@ -311,8 +285,6 @@
 
         'Object D
     End Sub
-
-
 
     Private Sub Projection()
         'P' = P Wt Vt St
@@ -333,11 +305,6 @@
         FillRow(1, 0, -20, 0, 0, St)
         FillRow(2, 0, 0, 0, 0, St)
         FillRow(3, 300, 200, 0, 1, St)
-
-    End Sub
-
-    Private Sub MainCanvas_Click(sender As Object, e As EventArgs) Handles MainCanvas.Click
-
     End Sub
 
     Private Sub FillRow(row As Integer, x As Double, y As Double, z As Double, w As Double, ByRef M(,) As Double)
@@ -348,7 +315,6 @@
     End Sub
 
     Private Sub btnChicken01_Click(sender As Object, e As EventArgs) Handles btnChicken01.Click
-        drawChicken()
-        'MsgBox(ObjectList(0).EdgesIndexList(2))
+
     End Sub
 End Class
