@@ -79,6 +79,8 @@
       <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Matrix4x4.vb" />
+    <Compile Include="Module.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -94,12 +96,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="PolygonMesh_Cuboid.vb" />
+    <Compile Include="TElement3DObject.vb" />
     <Compile Include="TLine.vb" />
+    <Compile Include="TList3DObject.vb" />
     <Compile Include="TPoint.vb" />
-    <Compile Include="TPolygon.vb" />
-    <Compile Include="TSurface.vb" />
-    <Compile Include="TVertex.vb" />
+    <Compile Include="Model3D.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
@@ -122,7 +123,9 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
