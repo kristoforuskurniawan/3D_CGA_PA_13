@@ -399,8 +399,8 @@
         'FillRow(2, 0, 0, 0, -1 / 3, Vt)
         'FillRow(3, 0, 0, 0, 1, Vt)
         ' St.T1(20, -20, 1, 300, 200, 0)
-        St.ScaleMat(10, -10, 0) ' scale
-        St.TranslateMat(10, 400, 0) 'translate
+        St.ScaleMat(20, -20, 0) ' scale
+        St.TranslateMat(200, 300, 0) 'translate
         'St => Screen
         'FillRow(0, 20, 0, 0, 0, St)
         'FillRow(1, 0, -20, 0, 0, St)
