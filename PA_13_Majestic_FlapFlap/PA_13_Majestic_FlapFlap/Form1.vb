@@ -1,15 +1,17 @@
 ﻿Public Class Form1
+    Dim FirstChicken As Boolean
     Dim bit As Bitmap
     Dim g As Graphics
     Dim blackPen As Pen
     Dim VerticesList As List(Of TPoint)
     Dim EdgeList As List(Of TLine)
-    Dim Object3D As Model3D
-    Dim PV(4, 4), Vt(4, 4), St(4, 4) As Double
+    Dim Object3D As Model3D 'boring cube
+    Dim PV As New Matrix4x4 'won't be changed
     Dim HTree As TList3DObject
     Dim Scaling(4, 4), Translate(4, 4), RotateZ(4, 4), ShearX(4, 4), ShearY(4, 4) As Double
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        FirstChicken = True
         blackPen = New Pen(Color.Black, 1)
         bit = New Bitmap(MainCanvas.Width, MainCanvas.Height)
         HTree = New TList3DObject
@@ -146,146 +148,147 @@
         Chicken.Rotation_Axis = 0
         Chicken.Child = MainTorso
         Chicken.Nxt = Nothing
+        Chicken.Transform = PV
 
         'Root of Tree
         HTree.First = Chicken
 
     End Sub
 
-    Public Sub getTorso()
-        For i As Integer = 0 To 7
-            'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
-            VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
-            VerticesList(i) = MultiplyMat(VerticesList(i), St)
-        Next
-    End Sub
+    'Public Sub getTorso()
+    '    For i As Integer = 0 To 7
+    '        'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), St)
+    '    Next
+    'End Sub
 
-    Public Sub ScalingNeck()
-        FillRow(0, 1, 0, 0, 0, Scaling)
-        FillRow(1, 0, 0.5, 0, 0, Scaling)
-        FillRow(2, 0, 0, 0.5, 0, Scaling)
-        FillRow(3, 0, 0, 0, 1, Scaling)
-    End Sub
+    'Public Sub ScalingNeck()
+    '    FillRow(0, 1, 0, 0, 0, Scaling)
+    '    FillRow(1, 0, 0.5, 0, 0, Scaling)
+    '    FillRow(2, 0, 0, 0.5, 0, Scaling)
+    '    FillRow(3, 0, 0, 0, 1, Scaling)
+    'End Sub
 
-    Public Sub ScalingHead()
-        FillRow(0, 0.5, 0, 0, 0, Scaling)
-        FillRow(1, 0, 0.5, 0, 0, Scaling)
-        FillRow(2, 0, 0, 0.5, 0, Scaling)
-        FillRow(3, 0, 0, 0, 1, Scaling)
-    End Sub
+    'Public Sub ScalingHead()
+    '    FillRow(0, 0.5, 0, 0, 0, Scaling)
+    '    FillRow(1, 0, 0.5, 0, 0, Scaling)
+    '    FillRow(2, 0, 0, 0.5, 0, Scaling)
+    '    FillRow(3, 0, 0, 0, 1, Scaling)
+    'End Sub
 
-    Public Sub ScalingBeak()
-        FillRow(0, 0.5, 0, 0, 0, Scaling)
-        FillRow(1, 0, 0.25, 0, 0, Scaling)
-        FillRow(2, 0, 0, 0.25, 0, Scaling)
-        FillRow(3, 0, 0, 0, 1, Scaling)
-    End Sub
+    'Public Sub ScalingBeak()
+    '    FillRow(0, 0.5, 0, 0, 0, Scaling)
+    '    FillRow(1, 0, 0.25, 0, 0, Scaling)
+    '    FillRow(2, 0, 0, 0.25, 0, Scaling)
+    '    FillRow(3, 0, 0, 0, 1, Scaling)
+    'End Sub
 
-    Public Sub ScalingUpperWings()
-        FillRow(0, 1, 0, 0, 0, Scaling)
-        FillRow(1, 0, 0.5, 0, 0, Scaling)
-        FillRow(2, 0, 0, 0.5, 0, Scaling)
-        FillRow(3, 0, 0, 0, 1, Scaling)
-    End Sub
+    'Public Sub ScalingUpperWings()
+    '    FillRow(0, 1, 0, 0, 0, Scaling)
+    '    FillRow(1, 0, 0.5, 0, 0, Scaling)
+    '    FillRow(2, 0, 0, 0.5, 0, Scaling)
+    '    FillRow(3, 0, 0, 0, 1, Scaling)
+    'End Sub
 
-    Public Sub ShearUpperWings()
-        FillRow(0, 1, Cos45, 0, 0, ShearX)
-        FillRow(1, 0, 1, 0, 0, ShearX)
-        FillRow(2, 0, 0, 1, 0, ShearX)
-        FillRow(3, 0, 0, 0, 1, ShearX)
-    End Sub
+    'Public Sub ShearUpperWings()
+    '    FillRow(0, 1, Cos45, 0, 0, ShearX)
+    '    FillRow(1, 0, 1, 0, 0, ShearX)
+    '    FillRow(2, 0, 0, 1, 0, ShearX)
+    '    FillRow(3, 0, 0, 0, 1, ShearX)
+    'End Sub
 
-    Public Sub ShearLowerWings()
-        FillRow(0, 1, Cos45, 0, 0, ShearX)
-        FillRow(1, 0, 1, 0, 0, ShearX)
-        FillRow(2, 0, 0, 1, 0, ShearX)
-        FillRow(3, 0, 0, 0, 1, ShearX)
-    End Sub
+    'Public Sub ShearLowerWings()
+    '    FillRow(0, 1, Cos45, 0, 0, ShearX)
+    '    FillRow(1, 0, 1, 0, 0, ShearX)
+    '    FillRow(2, 0, 0, 1, 0, ShearX)
+    '    FillRow(3, 0, 0, 0, 1, ShearX)
+    'End Sub
 
-    Public Sub TranslatingNeck()
-        FillRow(0, 1, 0, 0, 0, Translate)
-        FillRow(1, 0, 1, 0, 0, Translate)
-        FillRow(2, 0, 0, 1, 0, Translate)
-        FillRow(3, 2, 2, 0, 1, Translate)
-    End Sub
+    'Public Sub TranslatingNeck()
+    '    FillRow(0, 1, 0, 0, 0, Translate)
+    '    FillRow(1, 0, 1, 0, 0, Translate)
+    '    FillRow(2, 0, 0, 1, 0, Translate)
+    '    FillRow(3, 2, 2, 0, 1, Translate)
+    'End Sub
 
-    Public Sub TranslatingHead()
-        FillRow(0, 1, 0, 0, 0, Translate)
-        FillRow(1, 0, 1, 0, 0, Translate)
-        FillRow(2, 0, 0, 1, 0, Translate)
-        FillRow(3, 3.5, 3.5, 0, 1, Translate)
-    End Sub
+    'Public Sub TranslatingHead()
+    '    FillRow(0, 1, 0, 0, 0, Translate)
+    '    FillRow(1, 0, 1, 0, 0, Translate)
+    '    FillRow(2, 0, 0, 1, 0, Translate)
+    '    FillRow(3, 3.5, 3.5, 0, 1, Translate)
+    'End Sub
 
-    Public Sub TranslatingBeak()
-        FillRow(0, 1, 0, 0, 0, Translate)
-        FillRow(1, 0, 1, 0, 0, Translate)
-        FillRow(2, 0, 0, 1, 0, Translate)
-        FillRow(3, 4.75, 3.75, -0.5, 1, Translate)
-    End Sub
+    'Public Sub TranslatingBeak()
+    '    FillRow(0, 1, 0, 0, 0, Translate)
+    '    FillRow(1, 0, 1, 0, 0, Translate)
+    '    FillRow(2, 0, 0, 1, 0, Translate)
+    '    FillRow(3, 4.75, 3.75, -0.5, 1, Translate)
+    'End Sub
 
-    Public Sub TranslatingUpperWings() ' Sayap kayanya di shear deh.
-        FillRow(0, 1, 0, 0, 0, Translate)
-        FillRow(1, 0, 1, 0, 0, Translate)
-        FillRow(2, 0, 0, 1, 0, Translate)
-        FillRow(3, -2, 0, 1.75, 1, Translate)
-    End Sub
+    'Public Sub TranslatingUpperWings() ' Sayap kayanya di shear deh.
+    '    FillRow(0, 1, 0, 0, 0, Translate)
+    '    FillRow(1, 0, 1, 0, 0, Translate)
+    '    FillRow(2, 0, 0, 1, 0, Translate)
+    '    FillRow(3, -2, 0, 1.75, 1, Translate)
+    'End Sub
 
-    Public Sub RotateAroundZNeck()
-        FillRow(0, Cos45, Sin45, 0, 0, RotateZ)
-        FillRow(1, -Sin45, Cos45, 0, 0, RotateZ)
-        FillRow(2, 0, 0, 1, 0, RotateZ)
-        FillRow(3, 0, 0, 0, 1, RotateZ)
-    End Sub
+    'Public Sub RotateAroundZNeck()
+    '    FillRow(0, Cos45, Sin45, 0, 0, RotateZ)
+    '    FillRow(1, -Sin45, Cos45, 0, 0, RotateZ)
+    '    FillRow(2, 0, 0, 1, 0, RotateZ)
+    '    FillRow(3, 0, 0, 0, 1, RotateZ)
+    'End Sub
 
-    Public Sub RotateAroundZUpperWings()
-        FillRow(0, Cos45, Sin45, 0, 0, RotateZ)
-        FillRow(1, -Sin45, Cos45, 0, 0, RotateZ)
-        FillRow(2, 0, 0, 1, 0, RotateZ)
-        FillRow(3, 0, 0, 0, 1, RotateZ)
-    End Sub
+    'Public Sub RotateAroundZUpperWings()
+    '    FillRow(0, Cos45, Sin45, 0, 0, RotateZ)
+    '    FillRow(1, -Sin45, Cos45, 0, 0, RotateZ)
+    '    FillRow(2, 0, 0, 1, 0, RotateZ)
+    '    FillRow(3, 0, 0, 0, 1, RotateZ)
+    'End Sub
 
-    Public Sub getNeck()
-        For i As Integer = 0 To 7
-            VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
-            VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
-            VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
-            'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
-            VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
-            VerticesList(i) = MultiplyMat(VerticesList(i), St)
-        Next
-    End Sub
+    'Public Sub getNeck()
+    '    For i As Integer = 0 To 7
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
+    '        'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), St)
+    '    Next
+    'End Sub
 
-    Public Sub getHead()
-        For i As Integer = 0 To 7
-            VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
-            VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
-            'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
-            VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
-            VerticesList(i) = MultiplyMat(VerticesList(i), St)
-        Next
-    End Sub
+    'Public Sub getHead()
+    '    For i As Integer = 0 To 7
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
+    '        'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), St)
+    '    Next
+    'End Sub
 
-    Public Sub getBeak()
-        For i As Integer = 0 To 7
-            VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
-            VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
-            'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
-            VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
-            VerticesList(i) = MultiplyMat(VerticesList(i), St)
-        Next
-    End Sub
+    'Public Sub getBeak()
+    '    For i As Integer = 0 To 7
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
+    '        'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), St)
+    '    Next
+    'End Sub
 
-    Public Sub getUpperWings()
-        For i As Integer = 0 To 7
-            VerticesList(i) = MultiplyMat(VerticesList(i), ShearX) 'Ini shear udah bisa.
-            VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
-            VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
-            VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
-            'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
-            VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
-            VerticesList(i) = MultiplyMat(VerticesList(i), St)
-        Next
-    End Sub
+    'Public Sub getUpperWings()
+    '    For i As Integer = 0 To 7
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), ShearX) 'Ini shear udah bisa.
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
+    '        'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
+    '        VerticesList(i) = MultiplyMat(VerticesList(i), St)
+    '    Next
+    'End Sub
 
 
 
@@ -318,43 +321,41 @@
         SetEdges(2, 6)
         SetEdges(3, 7)
 
-        'Declare Object
-        'Object A
+        'Declare Boring Cube
         Object3D = New Model3D()
         Object3D.Copy3DObject(VerticesList, EdgeList)
-        'Object B
-
-        'Object C
-
-        'Object D
     End Sub
 
     Private Sub Projection()
-        'P' = P Wt Vt St
+        'PV = P Wt Vt St
         'P => object
-        'P'=> projection
-        'Vt
-        FillRow(0, 1, 0, 0, 0, Vt)
-        FillRow(1, 0, 1, 0, 0, Vt)
-        FillRow(2, 0, 0, 0, -1 / 3, Vt)
-        FillRow(3, 0, 0, 0, 1, Vt)
-        'St
-        FillRow(0, 20, 0, 0, 0, St)
-        FillRow(1, 0, -20, 0, 0, St)
-        FillRow(2, 0, 0, 0, 0, St)
-        FillRow(3, 300, 200, 0, 1, St)
-        'PV
-        PV = MultiplyMat(Vt, St)
+        'PV=> projection
+        Dim Vt, St As New Matrix4x4
+        PV = New Matrix4x4
+        Vt.OnePointProjection(3) ' Zc = 3
+        'Vt => View
+        'FillRow(0, 1, 0, 0, 0, Vt)
+        'FillRow(1, 0, 1, 0, 0, Vt)
+        'FillRow(2, 0, 0, 0, -1 / 3, Vt)
+        'FillRow(3, 0, 0, 0, 1, Vt)
+        St.ScaleMat(20, -20, 0) ' scale
+        St.TransMat(300, 200, 0) 'translate
+        'St => Screen
+        'FillRow(0, 20, 0, 0, 0, St)
+        'FillRow(1, 0, -20, 0, 0, St)
+        'FillRow(2, 0, 0, 0, 0, St)
+        'FillRow(3, 300, 200, 0, 1, St)
+        PV.Mat = MultiplyMat4x4(Vt, St)
     End Sub
 
-    Private Sub FillRow(row As Integer, x As Double, y As Double, z As Double, w As Double, ByRef M(,) As Double)
-        M(row, 0) = x
-        M(row, 1) = y
-        M(row, 2) = z
-        M(row, 3) = w
-    End Sub
+    'Private Sub FillRow(row As Integer, x As Double, y As Double, z As Double, w As Double, ByRef M(,) As Double)
+    '    M(row, 0) = x
+    '    M(row, 1) = y
+    '    M(row, 2) = z
+    '    M(row, 3) = w
+    'End Sub
 
-    Private Sub btnChicken01_Click(sender As Object, e As EventArgs) Handles btnChicken01.Click
-
+    Private Sub ChangeControl(sender As Object, e As EventArgs) Handles btnChicken.Click
+        FirstChicken = Not FirstChicken
     End Sub
 End Class

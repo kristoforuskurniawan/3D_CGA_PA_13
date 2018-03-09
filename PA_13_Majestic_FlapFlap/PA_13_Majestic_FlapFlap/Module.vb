@@ -40,15 +40,26 @@
         Return temp
     End Function
 
-    Function MultiplyMat(point As TPoint, M(,) As Double) As TPoint
+    Function MultiplyMat(point As TPoint, M As Matrix4x4) As TPoint 'Point . Matrix
         Dim result As New TPoint
         Dim w As Single
-        w = (point.X * M(0, 3) + point.Y * M(1, 3) + point.Z * M(2, 3) + point.w * M(3, 3))
-        result.X = (point.X * M(0, 0) + point.Y * M(1, 0) + point.Z * M(2, 0) + point.w * M(3, 0)) / w
-        result.Y = (point.X * M(0, 1) + point.Y * M(1, 1) + point.Z * M(2, 1) + point.w * M(3, 1)) / w
-        result.Z = (point.X * M(0, 2) + point.Y * M(1, 2) + point.Z * M(2, 2) + point.w * M(3, 2)) / w
+        w = (point.X * M.Mat(0, 3) + point.Y * M.Mat(1, 3) + point.Z * M.Mat(2, 3) + point.w * M.Mat(3, 3))
+        result.X = (point.X * M.Mat(0, 0) + point.Y * M.Mat(1, 0) + point.Z * M.Mat(2, 0) + point.w * M.Mat(3, 0)) / w
+        result.Y = (point.X * M.Mat(0, 1) + point.Y * M.Mat(1, 1) + point.Z * M.Mat(2, 1) + point.w * M.Mat(3, 1)) / w
+        result.Z = (point.X * M.Mat(0, 2) + point.Y * M.Mat(1, 2) + point.Z * M.Mat(2, 2) + point.w * M.Mat(3, 2)) / w
         result.w = 1
         Return result
+    End Function
+
+    Function MultiplyMat4x4(A As Matrix4x4, B As Matrix4x4)
+        Dim temp(4, 4) As Double
+
+        For j = 0 To 3
+            For i = 0 To 3
+                temp(j, i) = A.Mat(j, 0) * B.Mat(0, i) + A.Mat(j, 1) * B.Mat(1, i) + A.Mat(j, 2) * B.Mat(2, i) + A.Mat(j, 3) * B.Mat(3, i)
+            Next
+        Next
+        Return temp
     End Function
 
     Function MultiplyMat(A(,) As Double, B(,) As Double)
