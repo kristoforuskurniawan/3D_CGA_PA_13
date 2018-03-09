@@ -72,6 +72,7 @@
 
     Public Sub drawLowerWings()
         declare_all_object()
+        ShearLowerWings()
         ScalingLowerWings()
         TranslatingLowerWings()
         Projection()
@@ -137,14 +138,14 @@
     End Sub
 
     Public Sub ShearUpperWings()
-        FillRow(0, 1, 45, 0, 0, ShearX)
+        FillRow(0, 1, Cos45, 0, 0, ShearX)
         FillRow(1, 0, 1, 0, 0, ShearX)
         FillRow(2, 0, 0, 1, 0, ShearX)
         FillRow(3, 0, 0, 0, 1, ShearX)
     End Sub
 
     Public Sub ShearLowerWings()
-        FillRow(0, 1, -45, 0, 0, ShearX)
+        FillRow(0, 1, -Cos45, 0, 0, ShearX)
         FillRow(1, 0, 1, 0, 0, ShearX)
         FillRow(2, 0, 0, 1, 0, ShearX)
         FillRow(3, 0, 0, 0, 1, ShearX)
@@ -225,8 +226,9 @@
 
     Public Sub getLowerWings()
         For i As Integer = 0 To 7
+            VerticesList(i) = MultiplyMat(VerticesList(i), ShearX) 'Ini shear udah bisa. Masih ngaco tapi xD
             VerticesList(i) = MultiplyMat(VerticesList(i), Scale)
-            VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
+            'VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
             VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
             VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
             VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
