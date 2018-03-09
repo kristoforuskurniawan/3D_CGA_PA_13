@@ -187,7 +187,9 @@
     End Sub
 
     Public Sub TranverseTree(HObject As TElement3DObject)
-        'MsgBox(HObject.Transform.Mat(3, 0))
+        If HObject Is Nothing Then
+            Return
+        End If
         Dim top, temp As New Matrix4x4
         If nStack.Any Then
             top = nStack.Peek
@@ -196,22 +198,19 @@
         temp.MultiplyMatrix4x4(HObject.Transform)
         temp.MultiplyMatrix4x4(top)
         nStack.Push(temp)
-        If Not (HObject.Child Is Nil) Then
+        If Not HObject.Child Is Nothing Then
             TranverseTree(HObject.Child.First)
-        Else
-            If Not (HObject.Obj Is Nothing) Then
-                DrawFromTree(HObject.Obj)
-                'MsgBox("draw")
-            End If
         End If
-        If Not (HObject.Nxt Is Nil) Then
-            TranverseTree(HObject.Nxt)
+        top = nStack.Pop
+        If Not (HObject.Obj Is Nothing) Then
+            DrawFromTree(HObject.Obj, top)
+            'MsgBox("draw")
         End If
+        TranverseTree(HObject.Nxt)
     End Sub
 
-    Public Sub DrawFromTree(Obj As Model3D)
-        Dim topofstack As New Matrix4x4
-        topofstack = nStack.Pop
+    Public Sub DrawFromTree(Obj As Model3D, topofstack As Matrix4x4)
+
         DrawCube(Obj, topofstack)
     End Sub
     'Public Sub getTorso()
