@@ -332,6 +332,8 @@
         'PV=> projection
         Dim Vt, St As New Matrix4x4
         PV = New Matrix4x4
+        'Vt.ObliqueProjection(45, -30)
+        'Vt.RotateY(23)
         Vt.OnePointProjection(3) ' Zc = 3
         'Vt => View
         'FillRow(0, 1, 0, 0, 0, Vt)
@@ -339,7 +341,7 @@
         'FillRow(2, 0, 0, 0, -1 / 3, Vt)
         'FillRow(3, 0, 0, 0, 1, Vt)
         St.ScaleMat(20, -20, 0) ' scale
-        St.TransMat(300, 200, 0) 'translate
+        St.TranslateMat(300, 250, 0) 'translate
         'St => Screen
         'FillRow(0, 20, 0, 0, 0, St)
         'FillRow(1, 0, -20, 0, 0, St)

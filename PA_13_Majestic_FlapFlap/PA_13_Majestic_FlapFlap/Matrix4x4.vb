@@ -13,18 +13,30 @@
         MultiplyMatrix4x4(temp)
     End Sub
 
-    Public Sub OnePointProjection(c As Double)
-        Dim temp As New Matrix4x4
-        temp.Mat(2, 2) = 0
-        temp.Mat(2, 3) = (-1 / c)
-        MultiplyMatrix4x4(temp)
-    End Sub
-
-    Public Sub TransMat(x As Double, y As Double, z As Double)
+    Public Sub TranslateMat(x As Double, y As Double, z As Double)
         Dim temp As New Matrix4x4
         temp.Mat(3, 0) = x
         temp.Mat(3, 1) = y
         temp.Mat(3, 2) = z
+        MultiplyMatrix4x4(temp)
+    End Sub
+
+    Public Sub AxoProjection(omega As Double, tetha As Double)
+        Dim temp As New Matrix4x4
+        temp.Mat(0, 0) = CosTetha(omega)
+        temp.Mat(0, 1) = SinTetha(omega) * SinTetha(tetha)
+        temp.Mat(1, 1) = CosTetha(tetha)
+        temp.Mat(2, 0) = SinTetha(omega)
+        temp.Mat(2, 1) = -CosTetha(omega) * SinTetha(tetha)
+        temp.Mat(2, 2) = 0
+        MultiplyMatrix4x4(temp)
+    End Sub
+
+    Public Sub ObliqueProjection(omega As Double, alpha As Double)
+        Dim temp As New Matrix4x4
+        temp.Mat(2, 0) = CotTetha(omega) * CosTetha(alpha)
+        temp.Mat(2, 1) = CotTetha(omega) * SinTetha(alpha)
+        temp.Mat(2, 2) = 0
         MultiplyMatrix4x4(temp)
     End Sub
 
@@ -35,18 +47,37 @@
         MultiplyMatrix4x4(temp)
     End Sub
 
-    Public Sub RotateX(x As Double, y As Double)
+    Public Sub OnePointProjection(c As Double)
         Dim temp As New Matrix4x4
+        temp.Mat(2, 2) = 0
+        temp.Mat(2, 3) = (-1 / c)
         MultiplyMatrix4x4(temp)
     End Sub
 
-    Public Sub RotateY(x As Double, y As Double)
+    Public Sub RotateX(x As Double)
         Dim temp As New Matrix4x4
+        temp.Mat(1, 1) = CosTetha(x)
+        temp.Mat(1, 2) = SinTetha(x)
+        temp.Mat(2, 1) = -SinTetha(x)
+        temp.Mat(2, 2) = CosTetha(x)
         MultiplyMatrix4x4(temp)
     End Sub
 
-    Public Sub RotateZ(x As Double, y As Double)
+    Public Sub RotateY(x As Double)
         Dim temp As New Matrix4x4
+        temp.Mat(0, 0) = CosTetha(x)
+        temp.Mat(0, 2) = -SinTetha(x)
+        temp.Mat(2, 0) = SinTetha(x)
+        temp.Mat(2, 2) = CosTetha(x)
+        MultiplyMatrix4x4(temp)
+    End Sub
+
+    Public Sub RotateZ(x As Double)
+        Dim temp As New Matrix4x4
+        temp.Mat(0, 0) = CosTetha(x)
+        temp.Mat(0, 1) = SinTetha(x)
+        temp.Mat(1, 0) = -SinTetha(x)
+        temp.Mat(1, 1) = CosTetha(x)
         MultiplyMatrix4x4(temp)
     End Sub
 

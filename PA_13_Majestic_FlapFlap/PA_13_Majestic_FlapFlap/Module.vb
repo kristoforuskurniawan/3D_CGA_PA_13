@@ -12,6 +12,19 @@
         z = 3
     End Enum
 
+    Public Function CosTetha(tetha As Double) As Double
+        Return Math.Cos(tetha * DegToRad)
+    End Function
+
+    Public Function SinTetha(tetha As Double) As Double
+        Return Math.Sin(tetha * DegToRad)
+    End Function
+
+    Public Function CotTetha(tetha As Double) As Double
+        Return 1 / Math.Tan(tetha * DegToRad)
+    End Function
+
+
     Structure TVector
         Dim x, y, z As Double
     End Structure
@@ -19,8 +32,6 @@
     Structure UVN
         Dim u, v, n As TVector
     End Structure
-
-
 
     Sub SetVector(ByRef V As TVector, x As Double, y As Double, z As Double)
         V.x = x
@@ -51,7 +62,7 @@
         Return result
     End Function
 
-    Function MultiplyMat4x4(A As Matrix4x4, B As Matrix4x4)
+    Function MultiplyMat4x4(A As Matrix4x4, B As Matrix4x4) ' Matrix4x4 version
         Dim temp(4, 4) As Double
 
         For j = 0 To 3
@@ -62,7 +73,7 @@
         Return temp
     End Function
 
-    Function MultiplyMat(A(,) As Double, B(,) As Double)
+    Function MultiplyMat(A(,) As Double, B(,) As Double) ' Original version
         Dim temp(4, 4) As Double
 
         For j = 0 To 3
