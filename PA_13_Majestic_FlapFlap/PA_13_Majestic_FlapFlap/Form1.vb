@@ -5,7 +5,7 @@
     Dim VerticesList As List(Of TPoint)
     Dim EdgeList As List(Of TLine)
     Dim Object3D As Model3D
-    Dim Wt(4, 4), Vt(4, 4), St(4, 4) As Double
+    Dim PV(4, 4), Vt(4, 4), St(4, 4) As Double
     Dim Scaling(4, 4), Translate(4, 4), RotateZ(4, 4), ShearX(4, 4), ShearY(4, 4) As Double
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -13,9 +13,12 @@
         bit = New Bitmap(MainCanvas.Width, MainCanvas.Height)
         EdgeList = New List(Of TLine)
         VerticesList = New List(Of TPoint)
+        Object3D = New Model3D
         g = Graphics.FromImage(bit)
-        drawChicken()
-        'MsgBox(VerticesList(15).X)
+        declare_all_object()
+        Projection()
+        DrawCube()
+        MsgBox(Object3D.Vertices(7).X)
     End Sub
 
     Public Sub SetVertices(x As Double, y As Double, z As Double)
@@ -28,68 +31,16 @@
         EdgeList.Add(temp)
     End Sub
 
-
-    Public Sub drawChicken()
-        drawTorso()
-        drawNeck()
-        drawHead()
-        drawBeak()
-        drawUpperWings()
-    End Sub
-
-    Public Sub drawTorso()
-        declare_all_object()
-        Projection()
-        getTorso()
-        DrawCube()
-    End Sub
-
-    Public Sub drawNeck()
-        declare_all_object()
-        ScalingNeck()
-        RotateAroundZNeck()
-        TranslatingNeck()
-        Projection()
-        getNeck()
-        DrawCube()
-    End Sub
-
-    Public Sub drawHead()
-        declare_all_object()
-        ScalingHead()
-        TranslatingHead()
-        Projection()
-        getHead()
-        DrawCube()
-    End Sub
-
-    Public Sub drawBeak()
-        declare_all_object()
-        ScalingBeak()
-        TranslatingBeak()
-        Projection()
-        getBeak()
-        DrawCube()
-    End Sub
-
-    Public Sub drawUpperWings()
-        declare_all_object()
-        ShearUpperWings()
-        RotateAroundZUpperWings()
-        ScalingUpperWings()
-        TranslatingUpperWings()
-        Projection()
-        getUpperWings()
-        DrawCube()
-    End Sub
-
     Public Sub DrawCube()
+        For i As Integer = 0 To 7
+            Object3D.Vertices(i) = MultiplyMat(Object3D.Vertices(i), PV)
+        Next
         Dim a, b, c, d As Single
-        For i As Integer = 0 To 11
-            a = VerticesList(EdgeList(i).PointA).X
-            b = VerticesList(EdgeList(i).PointA).Y
-            c = VerticesList(EdgeList(i).PointB).X
-            d = VerticesList(EdgeList(i).PointB).Y
+        For i As Integer = 0 To Object3D.Edges.Count - 1
+            a = Object3D.Vertices(Object3D.Edges(i).PointA).X
+            b = Object3D.Vertices(Object3D.Edges(i).PointA).Y
+            c = Object3D.Vertices(Object3D.Edges(i).PointB).X
+            d = Object3D.Vertices(Object3D.Edges(i).PointB).Y
             g.DrawLine(blackPen, a, b, c, d)
         Next
         MainCanvas.Image = bit
@@ -97,7 +48,7 @@
 
     Public Sub getTorso()
         For i As Integer = 0 To 7
-            VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
+            'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
             VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
             VerticesList(i) = MultiplyMat(VerticesList(i), St)
         Next
@@ -192,7 +143,7 @@
             VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
             VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
             VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
-            VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
+            'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
             VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
             VerticesList(i) = MultiplyMat(VerticesList(i), St)
         Next
@@ -202,7 +153,7 @@
         For i As Integer = 0 To 7
             VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
             VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
-            VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
+            'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
             VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
             VerticesList(i) = MultiplyMat(VerticesList(i), St)
         Next
@@ -212,7 +163,7 @@
         For i As Integer = 0 To 7
             VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
             VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
-            VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
+            'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
             VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
             VerticesList(i) = MultiplyMat(VerticesList(i), St)
         Next
@@ -224,7 +175,7 @@
             VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
             VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
             VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
-            VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
+            'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
             VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
             VerticesList(i) = MultiplyMat(VerticesList(i), St)
         Next
@@ -276,11 +227,6 @@
         'P' = P Wt Vt St
         'P => object
         'P'=> projection
-        'World
-        FillRow(0, 1, 0, 0, 0, Wt)
-        FillRow(1, 0, 1, 0, 0, Wt)
-        FillRow(2, 0, 0, 1, 0, Wt)
-        FillRow(3, 0, 0, 0, 1, Wt)
         'Vt
         FillRow(0, 1, 0, 0, 0, Vt)
         FillRow(1, 0, 1, 0, 0, Vt)
@@ -291,6 +237,8 @@
         FillRow(1, 0, -20, 0, 0, St)
         FillRow(2, 0, 0, 0, 0, St)
         FillRow(3, 300, 200, 0, 1, St)
+        'PV
+        PV = MultiplyMat(Vt, St)
     End Sub
 
     Private Sub FillRow(row As Integer, x As Double, y As Double, z As Double, w As Double, ByRef M(,) As Double)

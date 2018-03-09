@@ -51,7 +51,7 @@
     End Function
 
     Function MultiplyMat(A(,) As Double, B(,) As Double)
-        Dim temp(3, 3) As Double
+        Dim temp(4, 4) As Double
 
         For j = 0 To 3
             For i = 0 To 3
