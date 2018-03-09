@@ -69,21 +69,21 @@
 
         Dim RightFoot As New TList3DObject(right_foot)
 
-        Dim left_upper_wing As New TElement3DObject
-        left_upper_wing.Rotation_Angle = RotationAxis.none
-        left_upper_wing.Rotation_Axis = 0
-        left_upper_wing.Child = Nothing
-        left_upper_wing.Nxt = Nothing
+        Dim left_lower_wing As New TElement3DObject
+        left_lower_wing.Rotation_Angle = RotationAxis.none
+        left_lower_wing.Rotation_Axis = 0
+        left_lower_wing.Child = Nothing
+        left_lower_wing.Nxt = Nothing
 
-        Dim LeftWing As New TList3DObject(left_upper_wing)
+        Dim LeftWing As New TList3DObject(left_lower_wing)
 
-        Dim right_upper_wing As New TElement3DObject
-        right_upper_wing.Rotation_Angle = RotationAxis.none
-        right_upper_wing.Rotation_Axis = 0
-        right_upper_wing.Child = Nothing
-        right_upper_wing.Nxt = Nothing
+        Dim right_lower_wing As New TElement3DObject
+        right_lower_wing.Rotation_Angle = RotationAxis.none
+        right_lower_wing.Rotation_Axis = 0
+        right_lower_wing.Child = Nothing
+        right_lower_wing.Nxt = Nothing
 
-        Dim RightWing As New TList3DObject(right_upper_wing)
+        Dim RightWing As New TList3DObject(right_lower_wing)
 
         Dim beak As New TElement3DObject
         beak.Rotation_Angle = RotationAxis.none
@@ -107,23 +107,23 @@
         neck.Child = MainHead
         neck.Nxt = Nothing
 
-        Dim right_lower_wing As New TElement3DObject
-        right_lower_wing.Rotation_Angle = RotationAxis.none
-        right_lower_wing.Rotation_Axis = 0
-        right_lower_wing.Child = RightWing
-        right_lower_wing.Nxt = neck
+        Dim right_upper_wing As New TElement3DObject
+        right_upper_wing.Rotation_Angle = RotationAxis.none
+        right_upper_wing.Rotation_Axis = 0
+        right_upper_wing.Child = RightWing
+        right_upper_wing.Nxt = neck
 
-        Dim left_lower_wing As New TElement3DObject
-        left_lower_wing.Rotation_Angle = RotationAxis.none
-        left_lower_wing.Rotation_Axis = 0
-        left_lower_wing.Child = LeftWing
-        left_lower_wing.Nxt = right_lower_wing
+        Dim left_upper_wing As New TElement3DObject
+        left_upper_wing.Rotation_Angle = RotationAxis.none
+        left_upper_wing.Rotation_Axis = 0
+        left_upper_wing.Child = LeftWing
+        left_upper_wing.Nxt = right_upper_wing
 
         Dim right_leg As New TElement3DObject
         right_leg.Rotation_Angle = RotationAxis.none
         right_leg.Rotation_Axis = 0
         right_leg.Child = RightFoot
-        right_leg.Nxt = left_lower_wing
+        right_leg.Nxt = left_upper_wing
 
         Dim left_leg As New TElement3DObject
         left_leg.Rotation_Angle = RotationAxis.none
@@ -131,19 +131,24 @@
         left_leg.Child = LeftFoot
         left_leg.Nxt = right_leg
 
-        Dim After_Torso As New TList3DObject(left_leg)
-
+        Dim AfterTorso As New TList3DObject(left_leg)
 
         Dim torso As New TElement3DObject
         torso.Rotation_Angle = RotationAxis.none
         torso.Rotation_Axis = 0
-        torso.Child = After_Torso
+        torso.Child = AfterTorso
         torso.Nxt = Nothing
 
-        Dim Chicken As New TList3DObject(torso)
+        Dim MainTorso As New TList3DObject(torso)
+
+        Dim Chicken As New TElement3DObject
+        Chicken.Rotation_Angle = RotationAxis.none
+        Chicken.Rotation_Axis = 0
+        Chicken.Child = MainTorso
+        Chicken.Nxt = Nothing
 
         'Root of Tree
-        HTree = Chicken
+        HTree.First = Chicken
 
     End Sub
 
