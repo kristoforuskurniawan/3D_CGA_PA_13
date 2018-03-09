@@ -5,6 +5,12 @@
     Public Const Cos30 As Double = 0.8660254037844386
     Public Const DegToRad As Double = PI / 180
 
+    Public Enum RotationAxis
+        x = 0
+        y = 1
+        z = 2
+    End Enum
+
     Structure TVector
         Dim x, y, z As Double
     End Structure
