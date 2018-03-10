@@ -310,13 +310,14 @@
 
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
         newTorsoPosition = New TPoint(e.X, e.Y, 0)
-        rotation = 0
+        'rotation = 0
         addition = 1
-        If TimerAnimation.Enabled Then
-            TimerAnimation.Enabled = False
-        Else
-            TimerAnimation.Enabled = True
-        End If
+        TimerAnimation.Enabled = True
+        'If TimerAnimation.Enabled Then
+        '    TimerAnimation.Enabled = False
+        'Else
+        '    TimerAnimation.Enabled = True
+        'End If
         DestPoint.Text = "Destination Point: X = " + newTorsoPosition.X.ToString() + ", Y = " + newTorsoPosition.Y.ToString()
     End Sub
 
@@ -369,9 +370,10 @@
     End Sub
 
     Private Sub ChangeControl(sender As Object, e As EventArgs) Handles btnChange.Click
-        FirstChicken = Not FirstChicken
-        '        TimerAnimation.Enabled = Not TimerAnimation.Enabled
-        TurnBodyAnimation.Enabled = True
+        'FirstChicken = Not FirstChicken
+        ''        TimerAnimation.Enabled = Not TimerAnimation.Enabled
+        'TurnBodyAnimation.Enabled = True
+        MessageBox.Show(HTree.First.Child.First.Child.First.Nxt.Nxt.Nxt.Nxt.Child.First.Child.First.Obj.Vertices(0).X)
     End Sub
 
     Dim bodyTurned As Integer = 0
@@ -383,30 +385,35 @@
     'Dim turnBotRight As Boolean = False
     'Dim turnBotLeft As Boolean = False
 
-    Private Sub TurnBodyAnimation_Tick(sender As Object, e As EventArgs) Handles TurnBodyAnimation.Tick
-        'If turnLeft Then
-        '    rotation += addition
-        'ElseIf turnRight Then
-        '    rotation -= addition
-        'End If
-        'If Math.Abs(rotation) = 180 Then
-        '    addition = 0
-        'End If
-        rotation += addition
+    Private Sub TurnBodyAnimation_Tick(sender As Object, e As EventArgs) Handles TurnBodyAnimation.Tick 'Last edited here
+        If turnLeft Then
+            rotation += addition
+        ElseIf turnRight Then
+            rotation -= addition
+        End If
+        If Math.Abs(rotation) Mod 180 = 0 Then 'Limit rotation to 180 degree
+            addition = 0
+        End If
+        'rotation += addition
         g.Clear(Color.White)
-        HTree.First.Transform.RotateY(rotation)
+        'HTree.First.Transform.RotateY(rotation)
         TranverseChange(HTree.First, "torso", rotation)
         TranverseTree(HTree.First)
     End Sub
 
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
+
         If WalkMode Then 'Not yet completed (- body turned)
             If firstTorsoPosition.X = newTorsoPosition.X And firstTorsoPosition.Y = newTorsoPosition.Y Then
                 TimerAnimation.Enabled = False
             End If
             Dim x, y As Integer
             If firstTorsoPosition.X > newTorsoPosition.X And firstTorsoPosition.Y > newTorsoPosition.Y Then
-                turnLeft = True
+                If Not turnLeft Then
+                    turnLeft = True
+                Else
+                    turnRight = True
+                End If
                 If bodyTurned = 0 And turnLeft Then
                     TurnBodyAnimation.Enabled = True
                     x = -1
