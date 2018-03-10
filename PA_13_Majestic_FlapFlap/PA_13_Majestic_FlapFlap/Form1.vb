@@ -361,7 +361,7 @@
         'St => Screen
         ' St.T1(20, -20, 1, 300, 200, 0)
         St.ScaleMat(25, -25, 1) ' scale
-        St.TranslateMat(300, 250, 0) 'translate
+        St.TranslateMat(300, 250, 0) 'translate Ini ternyata posisi awalnya ._. Kirain HTree.First.Child.First.Transformation diganti-ganti isinya sampai hasil perkaliannya = e.X & e.Y
         firstTorsoPosition = New TPoint(300, 250, 0)
         PV.Mat = MultiplyMat4x4(Vt, St)
     End Sub
