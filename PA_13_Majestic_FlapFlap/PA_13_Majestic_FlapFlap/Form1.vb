@@ -408,7 +408,7 @@
                 TimerAnimation.Enabled = False
             End If
             Dim x, y As Integer
-            If firstTorsoPosition.X > newTorsoPosition.X And firstTorsoPosition.Y > newTorsoPosition.Y Then
+            If firstTorsoPosition.X > newTorsoPosition.X And firstTorsoPosition.Y > newTorsoPosition.Y Then 'Blom bener
                 If Not turnLeft Then
                     turnLeft = True
                 Else
