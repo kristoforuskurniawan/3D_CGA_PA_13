@@ -321,7 +321,7 @@
         Else
             TimerAnimation.Enabled = True
         End If
-        DestPoint.Text = "Chicken: X = " + newTorsoPosition.X.ToString() + ", Y = " + newTorsoPosition.Y.ToString()
+        DestPoint.Text = "Destination Point: X = " + newTorsoPosition.X.ToString() + ", Y = " + newTorsoPosition.Y.ToString()
     End Sub
 
     Private Sub declare_all_object()
