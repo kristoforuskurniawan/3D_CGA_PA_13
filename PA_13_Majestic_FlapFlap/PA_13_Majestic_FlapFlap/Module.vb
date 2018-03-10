@@ -5,6 +5,7 @@
     Public Const Cos30 As Double = 0.8660254037844386
     Public Const DegToRad As Double = PI / 180
     Public Const Nil = Nothing
+    Public Const Round As Double = 360
 
     Public Enum RotationAxis
         none = 0

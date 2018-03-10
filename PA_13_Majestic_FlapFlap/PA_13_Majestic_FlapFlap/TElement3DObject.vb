@@ -1,4 +1,5 @@
 ﻿Public Class TElement3DObject
+    Public label As String
     Public Child As TList3DObject
     Public Nxt As TElement3DObject
     Public Obj As Model3D
@@ -9,6 +10,7 @@
     Public Transform As Matrix4x4
 
     Public Sub New()
+        label = "nil"
         Child = Nil
         Nxt = Nil
         Obj = Nil

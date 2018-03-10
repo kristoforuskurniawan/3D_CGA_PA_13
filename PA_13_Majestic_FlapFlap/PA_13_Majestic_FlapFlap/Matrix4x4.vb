@@ -69,17 +69,15 @@
     End Sub
 
     Public Sub Rotation(axis As Integer, angle As Double)
-        Dim temp As New Matrix4x4
         If axis = 1 Then
-            temp.RotateX(angle)
+            RotateX(angle)
         ElseIf axis = 2 Then
-            temp.RotateY(angle)
+            RotateY(angle)
         ElseIf axis = 3 Then
-            temp.RotateZ(angle)
+            RotateZ(angle)
         Else
             'identity
         End If
-        MultiplyMatrix4x4(temp)
     End Sub
 
     Public Sub RotateX(x As Double)

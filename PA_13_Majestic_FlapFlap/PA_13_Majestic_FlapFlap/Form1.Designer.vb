@@ -81,6 +81,9 @@ Partial Class Form1
         Me.btnChicken.Text = "Change Chicken"
         Me.btnChicken.UseVisualStyleBackColor = True
         '
+        'TimerAnimation
+        '
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
