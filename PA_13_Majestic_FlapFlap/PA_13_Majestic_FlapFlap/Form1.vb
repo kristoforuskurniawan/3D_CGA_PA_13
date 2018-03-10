@@ -382,10 +382,15 @@
     End Sub
 
     Dim bodyTurned As Integer = 0
-    Dim isTopLeft As Boolean = False 'Determine which position the mouse is clicked
+
+    Dim isTopLeft As Boolean = False 'Determine the first torso position
     Dim isTopRight As Boolean = False
     Dim isBotLeft As Boolean = False
     Dim isBotRight As Boolean = False
+    Dim isLeft As Boolean = False
+    Dim isRight As Boolean = False
+    Dim isTop As Boolean = False
+    Dim isBottom As Boolean = False
 
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
         If WalkMode Then 'Not yet completed
@@ -394,33 +399,41 @@
             End If
             Dim x, y As Integer
             If firstTorsoPosition.X > newTorsoPosition.X And firstTorsoPosition.Y > newTorsoPosition.Y Then
-                If bodyTurned = 0 Then
+                isBotRight = True
+                If bodyTurned = 0 And isBotRight Then
                     TurnBodyAnimation.Enabled = True
-                    'bodyTurned = 1
+                    bodyTurned = 1
+                    isBotRight = False
                 Else
                     x = -1
                     y = -1
                 End If
             ElseIf firstTorsoPosition.X > newTorsoPosition.X And firstTorsoPosition.Y < newTorsoPosition.Y Then
-                If bodyTurned = 0 Then
+                isTopLeft = True
+                If bodyTurned = 0 And isTopLeft Then
                     TurnBodyAnimation.Enabled = True
-                    'bodyTurned = 1
+                    bodyTurned = 1
+                    isTopLeft = False
                 Else
                     x = -1
                     y = 1
                 End If
             ElseIf firstTorsoPosition.X < newTorsoPosition.X And firstTorsoPosition.Y > newTorsoPosition.Y Then
-                If bodyTurned = 0 Then
+                isTopRight = True
+                If bodyTurned = 0 And isTopRight Then
                     TurnBodyAnimation.Enabled = True
-                    'bodyTurned = 1
+                    bodyTurned = 1
+                    isTopRight = False
                 Else
                     x = 1
                     y = -1
                 End If
             ElseIf firstTorsoPosition.X < newTorsoPosition.X And firstTorsoPosition.Y < newTorsoPosition.Y Then
-                If bodyTurned = 0 Then
+                isTopLeft = True
+                If bodyTurned = 0 And isTopLeft Then
                     TurnBodyAnimation.Enabled = True
-                    'bodyTurned = 1
+                    bodyTurned = 1
+                    isTopLeft = False
                 Else
                     x = 1
                     y = 1
@@ -428,7 +441,7 @@
             ElseIf firstTorsoPosition.X = newTorsoPosition.X And firstTorsoPosition.Y < newTorsoPosition.Y Then
                 If bodyTurned = 0 Then
                     TurnBodyAnimation.Enabled = True
-                    'bodyTurned = 1
+                    bodyTurned = 1
                 Else
                     x = 0
                     y = 1
@@ -436,7 +449,7 @@
             ElseIf firstTorsoPosition.X = newTorsoPosition.X And firstTorsoPosition.Y > newTorsoPosition.Y Then
                 If bodyTurned = 0 Then
                     TurnBodyAnimation.Enabled = True
-                    'bodyTurned = 1
+                    bodyTurned = 1
                 Else
                     x = 0
                     y = -1
@@ -444,7 +457,7 @@
             ElseIf firstTorsoPosition.X > newTorsoPosition.X And firstTorsoPosition.Y = newTorsoPosition.Y Then
                 If bodyTurned = 0 Then
                     TurnBodyAnimation.Enabled = True
-                    'bodyTurned = 1
+                    bodyTurned = 1
                 Else
                     x = -1
                     y = 0
@@ -452,7 +465,7 @@
             ElseIf firstTorsoPosition.X < newTorsoPosition.X And firstTorsoPosition.Y = newTorsoPosition.Y Then
                 If bodyTurned = 0 Then
                     TurnBodyAnimation.Enabled = True
-                    ' bodyTurned = 1
+                    bodyTurned = 1
                 Else
                     x = 1
                     y = 0
