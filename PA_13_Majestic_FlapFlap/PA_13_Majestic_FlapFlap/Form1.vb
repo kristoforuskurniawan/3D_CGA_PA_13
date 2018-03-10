@@ -234,144 +234,32 @@
 
         HTree.First.Transform.TranslateMat(MovementPoint.X, MovementPoint.Y, 1)
     End Sub
-    'Public Sub getTorso()
-    '    For i As Integer = 0 To 7
-    '        'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), St)
-    '    Next
-    'End Sub
 
-    'Public Sub ScalingNeck()
-    '    FillRow(0, 1, 0, 0, 0, Scaling)
-    '    FillRow(1, 0, 0.5, 0, 0, Scaling)
-    '    FillRow(2, 0, 0, 0.5, 0, Scaling)
-    '    FillRow(3, 0, 0, 0, 1, Scaling)
-    'End Sub
+    ''' <summary>
+    ''' Untuk gerakin berarti gini bukan ya?
+    ''' 1. Ambil posisi mouse masukkin ke TPoint
+    ''' 2. Traverse treenya sampai ke kaki, ambil 
+    ''' </summary>
 
-    'Public Sub ScalingHead()
-    '    FillRow(0, 0.5, 0, 0, 0, Scaling)
-    '    FillRow(1, 0, 0.5, 0, 0, Scaling)
-    '    FillRow(2, 0, 0, 0.5, 0, Scaling)
-    '    FillRow(3, 0, 0, 0, 1, Scaling)
-    'End Sub
+    Private Sub Process(E As TElement3DObject)
+        Dim M As New Matrix4x4
+        Dim T As New Matrix4x4
 
-    'Public Sub ScalingBeak()
-    '    FillRow(0, 0.5, 0, 0, 0, Scaling)
-    '    FillRow(1, 0, 0.25, 0, 0, Scaling)
-    '    FillRow(2, 0, 0, 0.25, 0, Scaling)
-    '    FillRow(3, 0, 0, 0, 1, Scaling)
-    'End Sub
-
-    'Public Sub ScalingUpperWings()
-    '    FillRow(0, 1, 0, 0, 0, Scaling)
-    '    FillRow(1, 0, 0.5, 0, 0, Scaling)
-    '    FillRow(2, 0, 0, 0.5, 0, Scaling)
-    '    FillRow(3, 0, 0, 0, 1, Scaling)
-    'End Sub
-
-    'Public Sub ShearUpperWings()
-    '    FillRow(0, 1, Cos45, 0, 0, ShearX)
-    '    FillRow(1, 0, 1, 0, 0, ShearX)
-    '    FillRow(2, 0, 0, 1, 0, ShearX)
-    '    FillRow(3, 0, 0, 0, 1, ShearX)
-    'End Sub
-
-    'Public Sub ShearLowerWings()
-    '    FillRow(0, 1, Cos45, 0, 0, ShearX)
-    '    FillRow(1, 0, 1, 0, 0, ShearX)
-    '    FillRow(2, 0, 0, 1, 0, ShearX)
-    '    FillRow(3, 0, 0, 0, 1, ShearX)
-    'End Sub
-
-    'Public Sub TranslatingNeck()
-    '    FillRow(0, 1, 0, 0, 0, Translate)
-    '    FillRow(1, 0, 1, 0, 0, Translate)
-    '    FillRow(2, 0, 0, 1, 0, Translate)
-    '    FillRow(3, 2, 2, 0, 1, Translate)
-    'End Sub
-
-    'Public Sub TranslatingHead()
-    '    FillRow(0, 1, 0, 0, 0, Translate)
-    '    FillRow(1, 0, 1, 0, 0, Translate)
-    '    FillRow(2, 0, 0, 1, 0, Translate)
-    '    FillRow(3, 3.5, 3.5, 0, 1, Translate)
-    'End Sub
-
-    'Public Sub TranslatingBeak()
-    '    FillRow(0, 1, 0, 0, 0, Translate)
-    '    FillRow(1, 0, 1, 0, 0, Translate)
-    '    FillRow(2, 0, 0, 1, 0, Translate)
-    '    FillRow(3, 4.75, 3.75, -0.5, 1, Translate)
-    'End Sub
-
-    'Public Sub TranslatingUpperWings() ' Sayap kayanya di shear deh.
-    '    FillRow(0, 1, 0, 0, 0, Translate)
-    '    FillRow(1, 0, 1, 0, 0, Translate)
-    '    FillRow(2, 0, 0, 1, 0, Translate)
-    '    FillRow(3, -2, 0, 1.75, 1, Translate)
-    'End Sub
-
-    'Public Sub RotateAroundZNeck()
-    '    FillRow(0, Cos45, Sin45, 0, 0, RotateZ)
-    '    FillRow(1, -Sin45, Cos45, 0, 0, RotateZ)
-    '    FillRow(2, 0, 0, 1, 0, RotateZ)
-    '    FillRow(3, 0, 0, 0, 1, RotateZ)
-    'End Sub
-
-    'Public Sub RotateAroundZUpperWings()
-    '    FillRow(0, Cos45, Sin45, 0, 0, RotateZ)
-    '    FillRow(1, -Sin45, Cos45, 0, 0, RotateZ)
-    '    FillRow(2, 0, 0, 1, 0, RotateZ)
-    '    FillRow(3, 0, 0, 0, 1, RotateZ)
-    'End Sub
-
-    'Public Sub getNeck()
-    '    For i As Integer = 0 To 7
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
-    '        'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), St)
-    '    Next
-    'End Sub
-
-    'Public Sub getHead()
-    '    For i As Integer = 0 To 7
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
-    '        'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), St)
-    '    Next
-    'End Sub
-
-    'Public Sub getBeak()
-    '    For i As Integer = 0 To 7
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
-    '        'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), St)
-    '    Next
-    'End Sub
-
-    'Public Sub getUpperWings()
-    '    For i As Integer = 0 To 7
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), ShearX) 'Ini shear udah bisa.
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
-    '        'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), St)
-    '    Next
-    'End Sub
-
-
+        While E IsNot Nil
+            T = MultiplyMat4x4(E.Transform, nStack.Peek)
+            nStack.Push(T)
+            Process(E.Child.First)
+            nStack.Pop()
+            If E.Obj IsNot Nil Then
+                DrawCube(E.Obj, M)
+            End If
+            E = E.Nxt
+        End While
+    End Sub
 
     Private Sub MainCanvas_MouseOver(sender As Object, e As MouseEventArgs) Handles MainCanvas.MouseMove
+
+
         CoordinatesLabel.Text = "Coordinates: X = " + e.X.ToString() + ", Y = " + e.Y.ToString()
     End Sub
 
