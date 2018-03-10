@@ -30,6 +30,8 @@ Partial Class Form1
         Me.btnChicken = New System.Windows.Forms.Button()
         Me.TimerAnimation = New System.Windows.Forms.Timer(Me.components)
         Me.RotateRadioButton = New System.Windows.Forms.RadioButton()
+        Me.ChickPos = New System.Windows.Forms.Label()
+        Me.DestPoint = New System.Windows.Forms.Label()
         CType(Me.MainCanvas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -97,11 +99,31 @@ Partial Class Form1
         Me.RotateRadioButton.Text = "Rotate Chicken"
         Me.RotateRadioButton.UseVisualStyleBackColor = True
         '
+        'ChickPos
+        '
+        Me.ChickPos.AutoSize = True
+        Me.ChickPos.Location = New System.Drawing.Point(636, 447)
+        Me.ChickPos.Name = "ChickPos"
+        Me.ChickPos.Size = New System.Drawing.Size(108, 13)
+        Me.ChickPos.TabIndex = 6
+        Me.ChickPos.Text = "Chicken: X = 0, Y = 0"
+        '
+        'DestPoint
+        '
+        Me.DestPoint.AutoSize = True
+        Me.DestPoint.Location = New System.Drawing.Point(635, 413)
+        Me.DestPoint.Name = "DestPoint"
+        Me.DestPoint.Size = New System.Drawing.Size(149, 13)
+        Me.DestPoint.TabIndex = 7
+        Me.DestPoint.Text = "Destination Point: X = 0, Y = 0"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(806, 508)
+        Me.Controls.Add(Me.DestPoint)
+        Me.Controls.Add(Me.ChickPos)
         Me.Controls.Add(Me.RotateRadioButton)
         Me.Controls.Add(Me.btnChicken)
         Me.Controls.Add(Me.CoordinatesLabel)
@@ -123,4 +145,6 @@ Partial Class Form1
     Friend WithEvents btnChicken As Button
     Friend WithEvents TimerAnimation As Timer
     Friend WithEvents RotateRadioButton As RadioButton
+    Friend WithEvents ChickPos As Label
+    Friend WithEvents DestPoint As Label
 End Class
