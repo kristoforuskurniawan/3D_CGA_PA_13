@@ -374,34 +374,34 @@
 
             End If
             HTree.First.Transform.TranslateMat(1, 1, 0)
-                'For i = 0 To 7
-                '    If HTree.First.Child.First.Obj.Vertices(i).X > newTorsoPosition.X Then
-                '        If HTree.First.Child.First.Obj.Vertices(i).Y > newTorsoPosition.Y Then
-                '            HTree.First.Transform.TranslateMat(-1, -1, 1)
-                '        Else
-                '            HTree.First.Transform.TranslateMat(-1, 1, 1)
-                '        End If
-                '    ElseIf HTree.First.Child.First.Obj.Vertices(i).X < newTorsoPosition.X Then
-                '        If newTorsoPosition.Y > HTree.First.Child.First.Obj.Vertices(i).Y Then
-                '            HTree.First.Transform.TranslateMat(1, 1, 1)
-                '        Else
-                '            HTree.First.Transform.TranslateMat(1, -1, 1)
-                '        End If
-                '    Else
-                '        If HTree.First.Child.First.Obj.Vertices(i).X = newTorsoPosition.X Then
-                '            HTree.First.Transform.TranslateMat(0, 1, 1)
-                '        Else
-                '            HTree.First.Transform.TranslateMat(1, 0, 1)
-                '        End If
-                '    End If
-                'Next
-                g.Clear(Color.White)
-                TranverseChange(HTree.First, "torso", rotation)
-                TranverseTree(HTree.First)
-            ElseIf FlyMode Then
+            'For i = 0 To 7
+            '    If HTree.First.Child.First.Obj.Vertices(i).X > newTorsoPosition.X Then
+            '        If HTree.First.Child.First.Obj.Vertices(i).Y > newTorsoPosition.Y Then
+            '            HTree.First.Transform.TranslateMat(-1, -1, 1)
+            '        Else
+            '            HTree.First.Transform.TranslateMat(-1, 1, 1)
+            '        End If
+            '    ElseIf HTree.First.Child.First.Obj.Vertices(i).X < newTorsoPosition.X Then
+            '        If newTorsoPosition.Y > HTree.First.Child.First.Obj.Vertices(i).Y Then
+            '            HTree.First.Transform.TranslateMat(1, 1, 1)
+            '        Else
+            '            HTree.First.Transform.TranslateMat(1, -1, 1)
+            '        End If
+            '    Else
+            '        If HTree.First.Child.First.Obj.Vertices(i).X = newTorsoPosition.X Then
+            '            HTree.First.Transform.TranslateMat(0, 1, 1)
+            '        Else
+            '            HTree.First.Transform.TranslateMat(1, 0, 1)
+            '        End If
+            '    End If
+            'Next
+            g.Clear(Color.White)
+            TranverseChange(HTree.First, "torso", rotation)
+            TranverseTree(HTree.First)
+        ElseIf FlyMode Then
 
-            ElseIf RotateMode Then 'Only to test
-                rotation += addition
+        ElseIf RotateMode Then 'Only to test
+            rotation += addition
             If rotation >= Round Or rotation <= -Round Then
                 addition = -addition
             End If
