@@ -27,7 +27,7 @@ Partial Class Form1
         Me.FlyRadioButton = New System.Windows.Forms.RadioButton()
         Me.WalkRadioButton = New System.Windows.Forms.RadioButton()
         Me.CoordinatesLabel = New System.Windows.Forms.Label()
-        Me.btnChicken = New System.Windows.Forms.Button()
+        Me.btnChange = New System.Windows.Forms.Button()
         Me.TimerAnimation = New System.Windows.Forms.Timer(Me.components)
         Me.RotateRadioButton = New System.Windows.Forms.RadioButton()
         Me.ChickPos = New System.Windows.Forms.Label()
@@ -76,14 +76,14 @@ Partial Class Form1
         Me.CoordinatesLabel.TabIndex = 3
         Me.CoordinatesLabel.Text = "Coordinates: X = 0, Y = 0"
         '
-        'btnChicken
+        'btnChange
         '
-        Me.btnChicken.Location = New System.Drawing.Point(639, 99)
-        Me.btnChicken.Name = "btnChicken"
-        Me.btnChicken.Size = New System.Drawing.Size(75, 23)
-        Me.btnChicken.TabIndex = 4
-        Me.btnChicken.Text = "Change Chicken"
-        Me.btnChicken.UseVisualStyleBackColor = True
+        Me.btnChange.Location = New System.Drawing.Point(639, 99)
+        Me.btnChange.Name = "btnChange"
+        Me.btnChange.Size = New System.Drawing.Size(75, 23)
+        Me.btnChange.TabIndex = 4
+        Me.btnChange.Text = "Change Chicken"
+        Me.btnChange.UseVisualStyleBackColor = True
         '
         'TimerAnimation
         '
@@ -120,7 +120,7 @@ Partial Class Form1
         '
         'TurnBodyAnimation
         '
-        Me.TurnBodyAnimation.Interval = 20
+        Me.TurnBodyAnimation.Interval = 10
         '
         'Form1
         '
@@ -130,7 +130,7 @@ Partial Class Form1
         Me.Controls.Add(Me.DestPoint)
         Me.Controls.Add(Me.ChickPos)
         Me.Controls.Add(Me.RotateRadioButton)
-        Me.Controls.Add(Me.btnChicken)
+        Me.Controls.Add(Me.btnChange)
         Me.Controls.Add(Me.CoordinatesLabel)
         Me.Controls.Add(Me.WalkRadioButton)
         Me.Controls.Add(Me.FlyRadioButton)
@@ -147,7 +147,7 @@ Partial Class Form1
     Friend WithEvents FlyRadioButton As RadioButton
     Friend WithEvents WalkRadioButton As RadioButton
     Friend WithEvents CoordinatesLabel As Label
-    Friend WithEvents btnChicken As Button
+    Friend WithEvents btnChange As Button
     Friend WithEvents TimerAnimation As Timer
     Friend WithEvents RotateRadioButton As RadioButton
     Friend WithEvents ChickPos As Label
