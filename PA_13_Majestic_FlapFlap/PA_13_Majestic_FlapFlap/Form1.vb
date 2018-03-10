@@ -1,5 +1,5 @@
 ﻿Public Class Form1
-    Dim FirstChicken As Boolean
+    Dim FirstChicken, WalkMode, FlyMode, RotateMode As Boolean
     Dim bit As Bitmap
     Dim g As Graphics
     Dim blackPen As Pen
@@ -10,11 +10,16 @@
     Dim HTree As TList3DObject
     Dim nStack As Stack(Of Matrix4x4)
     Dim rotation, addition As Double
+    Dim newTorsoPosition As TPoint
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         rotation = 0
         addition = 5
+        WalkMode = False
+        FlyMode = True
+        RotateMode = False
         FirstChicken = True
+        newTorsoPosition = New TPoint()
         nStack = New Stack(Of Matrix4x4)
         blackPen = New Pen(Color.Black, 1)
         bit = New Bitmap(MainCanvas.Width, MainCanvas.Height)
@@ -26,23 +31,40 @@
         declare_all_object()
         Projection()
         'DrawCube(Object3D, PV)
-        'MsgBox(Object3D.Vertices(7).X)
         CreationOfChicken()
         TranverseTree(HTree.First)
 
     End Sub
 
-    Public Sub SetVertices(x As Double, y As Double, z As Double)
+    Private Sub WalkRadioButton_Click(sender As Object, e As EventArgs) Handles WalkRadioButton.CheckedChanged
+        WalkMode = True
+        FlyMode = False
+        RotateMode = False
+    End Sub
+
+    Private Sub FlyRadioButton_Click(sender As Object, e As EventArgs) Handles FlyRadioButton.CheckedChanged
+        WalkMode = False
+        FlyMode = True
+        RotateMode = False
+    End Sub
+
+    Private Sub RotateRadioButton_Click(sender As Object, e As EventArgs) Handles RotateRadioButton.CheckedChanged
+        WalkMode = False
+        FlyMode = False
+        RotateMode = True
+    End Sub
+
+    Private Sub SetVertices(x As Double, y As Double, z As Double)
         Dim temp As New TPoint(x, y, z)
         VerticesList.Add(temp)
     End Sub
 
-    Public Sub SetEdges(x As Integer, y As Integer)
+    Private Sub SetEdges(x As Integer, y As Integer)
         Dim temp As New TLine(x, y)
         EdgeList.Add(temp)
     End Sub
 
-    Public Sub DrawCube(obj As Model3D, M As Matrix4x4)
+    Private Sub DrawCube(obj As Model3D, M As Matrix4x4)
         Dim temp As New List(Of TPoint)
         temp.AddRange(obj.Vertices)
         For i As Integer = 0 To 7
@@ -61,7 +83,7 @@
         MainCanvas.Image = bit
     End Sub
 
-    Public Sub CreationOfChicken()
+    Private Sub CreationOfChicken()
         'Declaration of Chicken in Hierarchical Model
         'Must start from the child
 
@@ -214,11 +236,11 @@
         Chicken.Transform.MultiplyMatrix4x4(PV)
 
         'Root of Tree
-        HTree.First = Chicken
+        HTree.First = New TElement3DObject(Chicken)
 
     End Sub
 
-    Public Sub TranverseTree(HObject As TElement3DObject)
+    Private Sub TranverseTree(HObject As TElement3DObject)
         If HObject Is Nothing Then
             Return
         End If
@@ -240,15 +262,15 @@
         TranverseTree(HObject.Nxt)
     End Sub
 
-    Public Sub TranverseChange(HObject As TElement3DObject, target As String, value As Double)
+    Private Sub TranverseChange(HObject As TElement3DObject, target As String, value As Double)
         If HObject Is Nothing Then
             Return
         End If
-        'MsgBox(HObject.label)
+
         If String.Equals(target, HObject.label) Then
             ChangeRotation(HObject, value)
-            'MsgBox(HObject.Rotation_Angle)
         End If
+
         If Not HObject.Child Is Nothing Then
             TranverseChange(HObject.Child.First, target, value)
         End If
@@ -256,28 +278,13 @@
 
     End Sub
 
-    Public Sub ChangeRotation(ByRef target As TElement3DObject, value As Double)
+    Private Sub ChangeRotation(ByRef target As TElement3DObject, value As Double)
         target.Rotation_Angle = value
 
     End Sub
 
-    Public Sub DrawFromTree(Obj As Model3D, topofstack As Matrix4x4)
+    Private Sub DrawFromTree(Obj As Model3D, topofstack As Matrix4x4)
         DrawCube(Obj, topofstack)
-    End Sub
-
-    Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
-        Dim newTorsoPosition As TPoint
-        newTorsoPosition = New TPoint(e.X, e.Y, 0)
-
-        If HTree.First IsNot Nil Then
-            MessageBox.Show("Not Null")
-        Else
-            MessageBox.Show("Null")
-        End If
-
-        'HTree.First.Transform.TranslateMat(newTorsoPosition.X, newTorsoPosition.Y, 1)
-        'g.Clear(Color.White)
-        'DrawCube(HTree.First.Obj, HTree.First.Transform)
     End Sub
 
     Private Sub Process(E As TElement3DObject) 'From Mr. Edo
@@ -298,6 +305,15 @@
 
     Private Sub MainCanvas_MouseOver(sender As Object, e As MouseEventArgs) Handles MainCanvas.MouseMove
         CoordinatesLabel.Text = "Coordinates: X = " + e.X.ToString() + ", Y = " + e.Y.ToString()
+    End Sub
+
+    Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
+        newTorsoPosition = New TPoint(e.X, e.Y, 0)
+        If TimerAnimation.Enabled Then
+            TimerAnimation.Enabled = False
+        Else
+            TimerAnimation.Enabled = True
+        End If
     End Sub
 
     Private Sub declare_all_object()
@@ -336,12 +352,10 @@
         'PV=> projection
         Dim Vt, St As New Matrix4x4
         PV = New Matrix4x4
-        'Vt.ObliqueProjection(45, -30)
         'Vt => View
         Vt.RotateY(45)
         Vt.RotateZ(45)
         Vt.OnePointProjection(4) ' Zc = 3
-        'Vt.ScaleMat(1, 1, 0)
         'St => Screen
         ' St.T1(20, -20, 1, 300, 200, 0)
         St.ScaleMat(25, -25, 1) ' scale
@@ -351,19 +365,50 @@
 
     Private Sub ChangeControl(sender As Object, e As EventArgs) Handles btnChicken.Click
         FirstChicken = Not FirstChicken
-        MoveTimer.Enabled = Not MoveTimer.Enabled
+        TimerAnimation.Enabled = Not TimerAnimation.Enabled
     End Sub
 
-    Private Sub MoveTimer_Tick(sender As Object, e As EventArgs) Handles MoveTimer.Tick
-        rotation += addition
-        If rotation = 20 Then
-            MoveTimer.Enabled = False
+    Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
+        If WalkMode Then 'Not yet completed
+            If Math.Abs(newTorsoPosition.X) = Math.Abs(HTree.First.Child.First.Obj.Vertices(0).X) Then
+
+            End If
+            HTree.First.Transform.TranslateMat(1, 1, 0)
+                'For i = 0 To 7
+                '    If HTree.First.Child.First.Obj.Vertices(i).X > newTorsoPosition.X Then
+                '        If HTree.First.Child.First.Obj.Vertices(i).Y > newTorsoPosition.Y Then
+                '            HTree.First.Transform.TranslateMat(-1, -1, 1)
+                '        Else
+                '            HTree.First.Transform.TranslateMat(-1, 1, 1)
+                '        End If
+                '    ElseIf HTree.First.Child.First.Obj.Vertices(i).X < newTorsoPosition.X Then
+                '        If newTorsoPosition.Y > HTree.First.Child.First.Obj.Vertices(i).Y Then
+                '            HTree.First.Transform.TranslateMat(1, 1, 1)
+                '        Else
+                '            HTree.First.Transform.TranslateMat(1, -1, 1)
+                '        End If
+                '    Else
+                '        If HTree.First.Child.First.Obj.Vertices(i).X = newTorsoPosition.X Then
+                '            HTree.First.Transform.TranslateMat(0, 1, 1)
+                '        Else
+                '            HTree.First.Transform.TranslateMat(1, 0, 1)
+                '        End If
+                '    End If
+                'Next
+                g.Clear(Color.White)
+                TranverseChange(HTree.First, "torso", rotation)
+                TranverseTree(HTree.First)
+            ElseIf FlyMode Then
+
+            ElseIf RotateMode Then 'Only to test
+                rotation += addition
+            If rotation >= Round Or rotation <= -Round Then
+                addition = -addition
+            End If
+            g.Clear(Color.White)
+            TranverseChange(HTree.First, "torso", rotation)
+            TranverseTree(HTree.First)
         End If
-        If rotation >= Round Or rotation <= -Round Then
-            addition = -addition
-        End If
-        g.Clear(Color.White)
-        TranverseChange(HTree.First, "torso", rotation)
-        TranverseTree(HTree.First)
+
     End Sub
 End Class
