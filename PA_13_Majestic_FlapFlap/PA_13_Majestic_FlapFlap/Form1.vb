@@ -10,16 +10,17 @@
     Dim HTree As TList3DObject
     Dim nStack As Stack(Of Matrix4x4)
     Dim rotation, addition As Double
-    Dim newTorsoPosition As TPoint
+    Dim newTorsoPosition, firstTorsoPosition As TPoint
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         rotation = 0
-        addition = 5
+        addition = 1
         WalkMode = False
         FlyMode = True
         RotateMode = False
         FirstChicken = True
         newTorsoPosition = New TPoint()
+        firstTorsoPosition = New TPoint()
         nStack = New Stack(Of Matrix4x4)
         blackPen = New Pen(Color.Black, 1)
         bit = New Bitmap(MainCanvas.Width, MainCanvas.Height)
@@ -309,11 +310,14 @@
 
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
         newTorsoPosition = New TPoint(e.X, e.Y, 0)
+        rotation = 0
+        addition = 1
         If TimerAnimation.Enabled Then
             TimerAnimation.Enabled = False
         Else
             TimerAnimation.Enabled = True
         End If
+        DestPoint.Text = "Destination Point: X = " + newTorsoPosition.X.ToString() + ", Y = " + newTorsoPosition.Y.ToString()
     End Sub
 
     Private Sub declare_all_object()
@@ -359,42 +363,101 @@
         'St => Screen
         ' St.T1(20, -20, 1, 300, 200, 0)
         St.ScaleMat(25, -25, 1) ' scale
-        St.TranslateMat(300, 250, 0) 'translate
+        St.TranslateMat(300, 250, 0) 'translate Ini ternyata posisi awalnya ._. Kirain HTree.First.Child.First.Transformation diganti-ganti isinya sampai hasil perkaliannya = e.X & e.Y
+        firstTorsoPosition = New TPoint(300, 250, 0)
         PV.Mat = MultiplyMat4x4(Vt, St)
     End Sub
 
-    Private Sub ChangeControl(sender As Object, e As EventArgs) Handles btnChicken.Click
+    Private Sub ChangeControl(sender As Object, e As EventArgs) Handles btnChange.Click
         FirstChicken = Not FirstChicken
-        TimerAnimation.Enabled = Not TimerAnimation.Enabled
+        '        TimerAnimation.Enabled = Not TimerAnimation.Enabled
+        TurnBodyAnimation.Enabled = True
+    End Sub
+
+    Dim bodyTurned As Integer = 0
+
+    Dim turnLeft As Boolean = False 'Determine the first torso position
+    Dim turnRight As Boolean = False
+    'Dim turnTopRight As Boolean = False
+    'Dim turnTopLeft As Boolean = False
+    'Dim turnBotRight As Boolean = False
+    'Dim turnBotLeft As Boolean = False
+
+    Private Sub TurnBodyAnimation_Tick(sender As Object, e As EventArgs) Handles TurnBodyAnimation.Tick
+        'If turnLeft Then
+        '    rotation += addition
+        'ElseIf turnRight Then
+        '    rotation -= addition
+        'End If
+        'If Math.Abs(rotation) = 180 Then
+        '    addition = 0
+        'End If
+        rotation += addition
+        g.Clear(Color.White)
+        HTree.First.Transform.RotateY(rotation)
+        TranverseChange(HTree.First, "torso", rotation)
+        TranverseTree(HTree.First)
     End Sub
 
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
-        If WalkMode Then 'Not yet completed
-            If Math.Abs(newTorsoPosition.X) = Math.Abs(HTree.First.Child.First.Obj.Vertices(0).X) Then
-
+        If WalkMode Then 'Not yet completed (- body turned)
+            If firstTorsoPosition.X = newTorsoPosition.X And firstTorsoPosition.Y = newTorsoPosition.Y Then
+                TimerAnimation.Enabled = False
             End If
-            HTree.First.Transform.TranslateMat(1, 1, 0)
-            'For i = 0 To 7
-            '    If HTree.First.Child.First.Obj.Vertices(i).X > newTorsoPosition.X Then
-            '        If HTree.First.Child.First.Obj.Vertices(i).Y > newTorsoPosition.Y Then
-            '            HTree.First.Transform.TranslateMat(-1, -1, 1)
-            '        Else
-            '            HTree.First.Transform.TranslateMat(-1, 1, 1)
-            '        End If
-            '    ElseIf HTree.First.Child.First.Obj.Vertices(i).X < newTorsoPosition.X Then
-            '        If newTorsoPosition.Y > HTree.First.Child.First.Obj.Vertices(i).Y Then
-            '            HTree.First.Transform.TranslateMat(1, 1, 1)
-            '        Else
-            '            HTree.First.Transform.TranslateMat(1, -1, 1)
-            '        End If
-            '    Else
-            '        If HTree.First.Child.First.Obj.Vertices(i).X = newTorsoPosition.X Then
-            '            HTree.First.Transform.TranslateMat(0, 1, 1)
-            '        Else
-            '            HTree.First.Transform.TranslateMat(1, 0, 1)
-            '        End If
-            '    End If
-            'Next
+            Dim x, y As Integer
+            If firstTorsoPosition.X > newTorsoPosition.X And firstTorsoPosition.Y > newTorsoPosition.Y Then
+                turnLeft = True
+                If bodyTurned = 0 And turnLeft Then
+                    TurnBodyAnimation.Enabled = True
+                    x = -1
+                    y = -1
+                End If
+            ElseIf firstTorsoPosition.X > newTorsoPosition.X And firstTorsoPosition.Y < newTorsoPosition.Y Then
+                turnLeft = True
+                If bodyTurned = 0 And turnLeft Then
+                    TurnBodyAnimation.Enabled = True
+                    x = -1
+                    y = 1
+                End If
+            ElseIf firstTorsoPosition.X < newTorsoPosition.X And firstTorsoPosition.Y > newTorsoPosition.Y Then
+                turnRight = True
+                If bodyTurned = 0 And turnRight Then
+                    TurnBodyAnimation.Enabled = True
+                    x = 1
+                    y = -1
+                End If
+            ElseIf firstTorsoPosition.X < newTorsoPosition.X And firstTorsoPosition.Y < newTorsoPosition.Y Then
+                turnRight = True
+                If bodyTurned = 0 And turnRight Then
+                    TurnBodyAnimation.Enabled = True
+                    x = 1
+                    y = 1
+                End If
+            ElseIf firstTorsoPosition.X = newTorsoPosition.X And firstTorsoPosition.Y < newTorsoPosition.Y Then
+                x = 0
+                y = 1
+            ElseIf firstTorsoPosition.X = newTorsoPosition.X And firstTorsoPosition.Y > newTorsoPosition.Y Then
+                x = 0
+                y = -1
+            ElseIf firstTorsoPosition.X > newTorsoPosition.X And firstTorsoPosition.Y = newTorsoPosition.Y Then
+                turnLeft = True
+                If bodyTurned = 0 And turnLeft Then
+                    TurnBodyAnimation.Enabled = True
+                    x = -1
+                    y = 0
+                End If
+            ElseIf firstTorsoPosition.X < newTorsoPosition.X And firstTorsoPosition.Y = newTorsoPosition.Y Then
+                turnRight = True
+                If bodyTurned = 0 And turnRight Then
+                    TurnBodyAnimation.Enabled = True
+                    x = 1
+                    y = 0
+                End If
+            End If
+            firstTorsoPosition.X += x
+            firstTorsoPosition.Y += y
+            ChickPos.Text = "Chicken: X = " + firstTorsoPosition.X.ToString() + ", Y = " + firstTorsoPosition.Y.ToString()
+            HTree.First.Transform.TranslateMat(x, y, 0)
             g.Clear(Color.White)
             TranverseChange(HTree.First, "torso", rotation)
             TranverseTree(HTree.First)
@@ -409,6 +472,5 @@
             TranverseChange(HTree.First, "torso", rotation)
             TranverseTree(HTree.First)
         End If
-
     End Sub
 End Class
