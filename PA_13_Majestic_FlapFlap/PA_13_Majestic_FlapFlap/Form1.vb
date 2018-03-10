@@ -14,7 +14,7 @@
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         rotation = 0
-        addition = 1
+        addition = 5
         WalkMode = False
         FlyMode = True
         RotateMode = False
@@ -310,8 +310,6 @@
 
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
         newTorsoPosition = New TPoint(e.X, e.Y, 0)
-        rotation = 0
-        addition = 1
         If TimerAnimation.Enabled Then
             TimerAnimation.Enabled = False
         Else
