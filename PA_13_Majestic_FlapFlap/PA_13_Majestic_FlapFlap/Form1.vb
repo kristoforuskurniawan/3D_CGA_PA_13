@@ -45,7 +45,9 @@
         For i As Integer = 0 To 7
             obj.Vertices(i) = MultiplyMat(obj.Vertices(i), M)
         Next
+
         Dim a, b, c, d As Single
+
         For i As Integer = 0 To obj.Edges.Count - 1
             a = obj.Vertices(obj.Edges(i).PointA).X
             b = obj.Vertices(obj.Edges(i).PointA).Y
@@ -300,33 +302,18 @@
         Dim Vt, St As New Matrix4x4
         PV = New Matrix4x4
         'Vt.ObliqueProjection(45, -30)
+        'Vt => View
         Vt.RotateY(45)
         Vt.RotateZ(45)
         Vt.OnePointProjection(4) ' Zc = 3
         'Vt.ScaleMat(1, 1, 0)
-        'Vt => View
-        'FillRow(0, 1, 0, 0, 0, Vt)
-        'FillRow(1, 0, 1, 0, 0, Vt)
-        'FillRow(2, 0, 0, 0, -1 / 3, Vt)
-        'FillRow(3, 0, 0, 0, 1, Vt)
+        'St => Screen
         ' St.T1(20, -20, 1, 300, 200, 0)
         St.ScaleMat(25, -25, 1) ' scale
         St.TranslateMat(300, 250, 0) 'translate
-        'St => Screen
-        'FillRow(0, 20, 0, 0, 0, St)
-        'FillRow(1, 0, -20, 0, 0, St)
-        'FillRow(2, 0, 0, 0, 0, St)
-        'FillRow(3, 300, 200, 0, 1, St)
         PV.Mat = MultiplyMat4x4(Vt, St)
 
     End Sub
-
-    'Private Sub FillRow(row As Integer, x As Double, y As Double, z As Double, w As Double, ByRef M(,) As Double)
-    '    M(row, 0) = x
-    '    M(row, 1) = y
-    '    M(row, 2) = z
-    '    M(row, 3) = w
-    'End Sub
 
     Private Sub ChangeControl(sender As Object, e As EventArgs) Handles btnChicken.Click
         FirstChicken = Not FirstChicken
