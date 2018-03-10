@@ -371,10 +371,14 @@
         TimerAnimation.Enabled = Not TimerAnimation.Enabled
     End Sub
 
-    Dim walkingTranslateMatrix As Matrix4x4
+    '    Dim walkingTranslateMatrix As Matrix4x4
+    Dim moveXAxis As Integer = 0
+    Dim moveYAxis As Integer = 0
 
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
         If WalkMode Then 'Not yet completed
+            moveXAxis += 1
+            moveYAxis += 1
             'If Math.Abs(newTorsoPosition.X) = Math.Abs(HTree.First.Child.First.Obj.Vertices(0).X) Then
             'MessageBox.Show(HTree.First.Child.First.Obj.Vertices(0).X.ToString())
             'End If
@@ -398,7 +402,7 @@
         ElseIf FlyMode Then
 
         ElseIf RotateMode Then 'Only to test
-                rotation += addition
+            rotation += addition
             If rotation >= Round Or rotation <= -Round Then
                 addition = -addition
             End If
