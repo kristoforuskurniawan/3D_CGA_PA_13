@@ -197,7 +197,7 @@
         Chicken.Transform.MultiplyMatrix4x4(PV)
 
         'Root of Tree
-        HTree.First = Chicken
+        HTree.First = New TElement3DObject(Chicken)
 
     End Sub
 
@@ -228,21 +228,6 @@
         DrawCube(Obj, topofstack)
     End Sub
 
-    Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
-        Dim newTorsoPosition As TPoint
-        newTorsoPosition = New TPoint(e.X, e.Y, 0)
-
-        If HTree.First IsNot Nil Then
-            MessageBox.Show("Not Null")
-        Else
-            MessageBox.Show("Null")
-        End If
-
-        'HTree.First.Transform.TranslateMat(newTorsoPosition.X, newTorsoPosition.Y, 1)
-        'g.Clear(Color.White)
-        'DrawCube(HTree.First.Obj, HTree.First.Transform)
-    End Sub
-
     Private Sub Process(E As TElement3DObject) 'From Mr. Edo
         Dim M As New Matrix4x4
         Dim T As New Matrix4x4
@@ -259,8 +244,31 @@
         End While
     End Sub
 
+    Private Sub MoveTimer_Tick(sender As Object, e As EventArgs) Handles MoveTimer.Tick
+        HTree.First.Rotation_Angle = 45
+        HTree.First.Transform.RotateX(HTree.First.Rotation_Angle)
+        Process(HTree.First)
+    End Sub
+
     Private Sub MainCanvas_MouseOver(sender As Object, e As MouseEventArgs) Handles MainCanvas.MouseMove
         CoordinatesLabel.Text = "Coordinates: X = " + e.X.ToString() + ", Y = " + e.Y.ToString()
+    End Sub
+
+    Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
+        'Dim newTorsoPosition As TPoint
+        'newTorsoPosition = New TPoint(e.X, e.Y, 0)
+
+        'MoveTimer.Enabled = True
+
+        If (HTree.First.Child.First.Obj IsNot Nil) Then
+            MessageBox.Show("HTree.First.Child.First.Obj is Not Null")
+        Else
+            MessageBox.Show("HTree.First.Child.First.Obj is Null")
+        End If
+
+        'HTree.First.Transform.TranslateMat(newTorsoPosition.X, newTorsoPosition.Y, 1)
+        'g.Clear(Color.White)
+        'DrawCube(HTree.First.Obj, HTree.First.Transform)
     End Sub
 
     Private Sub declare_all_object()
