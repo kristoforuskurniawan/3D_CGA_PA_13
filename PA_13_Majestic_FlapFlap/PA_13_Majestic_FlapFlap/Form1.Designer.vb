@@ -28,7 +28,7 @@ Partial Class Form1
         Me.WalkRadioButton = New System.Windows.Forms.RadioButton()
         Me.CoordinatesLabel = New System.Windows.Forms.Label()
         Me.btnChicken = New System.Windows.Forms.Button()
-        Me.TimerAnimation = New System.Windows.Forms.Timer(Me.components)
+        Me.MoveTimer = New System.Windows.Forms.Timer(Me.components)
         CType(Me.MainCanvas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -81,7 +81,7 @@ Partial Class Form1
         Me.btnChicken.Text = "Change Chicken"
         Me.btnChicken.UseVisualStyleBackColor = True
         '
-        'TimerAnimation
+        'MoveTimer
         '
         '
         'Form1
@@ -107,5 +107,5 @@ Partial Class Form1
     Friend WithEvents WalkRadioButton As RadioButton
     Friend WithEvents CoordinatesLabel As Label
     Friend WithEvents btnChicken As Button
-    Friend WithEvents TimerAnimation As Timer
+    Friend WithEvents MoveTimer As Timer
 End Class
