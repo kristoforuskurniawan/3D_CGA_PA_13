@@ -32,6 +32,7 @@ Partial Class Form1
         Me.RotateRadioButton = New System.Windows.Forms.RadioButton()
         Me.ChickPos = New System.Windows.Forms.Label()
         Me.DestPoint = New System.Windows.Forms.Label()
+        Me.TurnBodyAnimation = New System.Windows.Forms.Timer(Me.components)
         CType(Me.MainCanvas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -117,6 +118,10 @@ Partial Class Form1
         Me.DestPoint.TabIndex = 7
         Me.DestPoint.Text = "Destination Point: X = 0, Y = 0"
         '
+        'TurnBodyAnimation
+        '
+        Me.TurnBodyAnimation.Interval = 20
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -147,4 +152,5 @@ Partial Class Form1
     Friend WithEvents RotateRadioButton As RadioButton
     Friend WithEvents ChickPos As Label
     Friend WithEvents DestPoint As Label
+    Friend WithEvents TurnBodyAnimation As Timer
 End Class

@@ -308,12 +308,6 @@
         CoordinatesLabel.Text = "Coordinates: X = " + e.X.ToString() + ", Y = " + e.Y.ToString()
     End Sub
 
-    Private Sub MainCanvas_Click(sender As Object, e As EventArgs) Handles MainCanvas.Click
-
-    End Sub
-
-
-
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
         newTorsoPosition = New TPoint(e.X, e.Y, 0)
         If TimerAnimation.Enabled Then
@@ -377,6 +371,22 @@
         TimerAnimation.Enabled = Not TimerAnimation.Enabled
     End Sub
 
+    Private Sub TurnBodyAnimation_Tick(sender As Object, e As EventArgs) Handles TurnBodyAnimation.Tick
+        rotation += addition
+        If rotation = 180 Then
+            addition = 0
+        End If
+        g.Clear(Color.White)
+        TranverseChange(HTree.First, "torso", rotation)
+        TranverseTree(HTree.First)
+    End Sub
+
+    Dim bodyTurned As Integer = 0
+    Dim isTopLeft As Boolean = False 'Determine which position the mouse is clicked
+    Dim isTopRight As Boolean = False
+    Dim isBotLeft As Boolean = False
+    Dim isBotRight As Boolean = False
+
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
         If WalkMode Then 'Not yet completed
             If firstTorsoPosition.X = newTorsoPosition.X And firstTorsoPosition.Y = newTorsoPosition.Y Then
@@ -384,55 +394,74 @@
             End If
             Dim x, y As Integer
             If firstTorsoPosition.X > newTorsoPosition.X And firstTorsoPosition.Y > newTorsoPosition.Y Then
-                x = -1
-                y = -1
+                If bodyTurned = 0 Then
+                    TurnBodyAnimation.Enabled = True
+                    'bodyTurned = 1
+                Else
+                    x = -1
+                    y = -1
+                End If
             ElseIf firstTorsoPosition.X > newTorsoPosition.X And firstTorsoPosition.Y < newTorsoPosition.Y Then
-                x = -1
-                y = 1
+                If bodyTurned = 0 Then
+                    TurnBodyAnimation.Enabled = True
+                    'bodyTurned = 1
+                Else
+                    x = -1
+                    y = 1
+                End If
             ElseIf firstTorsoPosition.X < newTorsoPosition.X And firstTorsoPosition.Y > newTorsoPosition.Y Then
-                x = 1
-                y = -1
+                If bodyTurned = 0 Then
+                    TurnBodyAnimation.Enabled = True
+                    'bodyTurned = 1
+                Else
+                    x = 1
+                    y = -1
+                End If
             ElseIf firstTorsoPosition.X < newTorsoPosition.X And firstTorsoPosition.Y < newTorsoPosition.Y Then
-                x = 1
-                y = 1
+                If bodyTurned = 0 Then
+                    TurnBodyAnimation.Enabled = True
+                    'bodyTurned = 1
+                Else
+                    x = 1
+                    y = 1
+                End If
             ElseIf firstTorsoPosition.X = newTorsoPosition.X And firstTorsoPosition.Y < newTorsoPosition.Y Then
-                x = 0
-                y = 1
+                If bodyTurned = 0 Then
+                    TurnBodyAnimation.Enabled = True
+                    'bodyTurned = 1
+                Else
+                    x = 0
+                    y = 1
+                End If
             ElseIf firstTorsoPosition.X = newTorsoPosition.X And firstTorsoPosition.Y > newTorsoPosition.Y Then
-                x = 0
-                y = -1
+                If bodyTurned = 0 Then
+                    TurnBodyAnimation.Enabled = True
+                    'bodyTurned = 1
+                Else
+                    x = 0
+                    y = -1
+                End If
             ElseIf firstTorsoPosition.X > newTorsoPosition.X And firstTorsoPosition.Y = newTorsoPosition.Y Then
-                x = -1
-                y = 0
+                If bodyTurned = 0 Then
+                    TurnBodyAnimation.Enabled = True
+                    'bodyTurned = 1
+                Else
+                    x = -1
+                    y = 0
+                End If
             ElseIf firstTorsoPosition.X < newTorsoPosition.X And firstTorsoPosition.Y = newTorsoPosition.Y Then
-                x = 1
-                y = 0
+                If bodyTurned = 0 Then
+                    TurnBodyAnimation.Enabled = True
+                    ' bodyTurned = 1
+                Else
+                    x = 1
+                    y = 0
+                End If
             End If
             firstTorsoPosition.X += x
             firstTorsoPosition.Y += y
             ChickPos.Text = "Chicken: X = " + firstTorsoPosition.X.ToString() + ", Y = " + firstTorsoPosition.Y.ToString()
             HTree.First.Transform.TranslateMat(x, y, 0)
-            'For i = 0 To 7
-            '    If HTree.First.Child.First.Obj.Vertices(i).X > newTorsoPosition.X Then
-            '        If HTree.First.Child.First.Obj.Vertices(i).Y > newTorsoPosition.Y Then
-            '            HTree.First.Transform.TranslateMat(-1, -1, 1)
-            '        Else
-            '            HTree.First.Transform.TranslateMat(-1, 1, 1)
-            '        End If
-            '    ElseIf HTree.First.Child.First.Obj.Vertices(i).X < newTorsoPosition.X Then
-            '        If newTorsoPosition.Y > HTree.First.Child.First.Obj.Vertices(i).Y Then
-            '            HTree.First.Transform.TranslateMat(1, 1, 1)
-            '        Else
-            '            HTree.First.Transform.TranslateMat(1, -1, 1)
-            '        End If
-            '    Else
-            '        If HTree.First.Child.First.Obj.Vertices(i).X = newTorsoPosition.X Then
-            '            HTree.First.Transform.TranslateMat(0, 1, 1)
-            '        Else
-            '            HTree.First.Transform.TranslateMat(1, 0, 1)
-            '        End If
-            '    End If
-            'Next
             g.Clear(Color.White)
             TranverseChange(HTree.First, "torso", rotation)
             TranverseTree(HTree.First)
