@@ -10,7 +10,6 @@
     Dim HTree As TList3DObject
     Dim nStack As Stack(Of Matrix4x4)
     Dim Scaling(4, 4), Translate(4, 4), RotateZ(4, 4), ShearX(4, 4), ShearY(4, 4) As Double
-    Dim MovementPoint As TPoint
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         FirstChicken = True
@@ -18,7 +17,6 @@
         blackPen = New Pen(Color.Black, 1)
         bit = New Bitmap(MainCanvas.Width, MainCanvas.Height)
         HTree = New TList3DObject
-        MovementPoint = New TPoint()
         EdgeList = New List(Of TLine)
         VerticesList = New List(Of TPoint)
         Object3D = New Model3D
@@ -231,19 +229,21 @@
     End Sub
 
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
-        MovementPoint.X = e.X
-        MovementPoint.Y = e.Y
+        Dim newTorsoPosition As TPoint
+        newTorsoPosition = New TPoint(e.X, e.Y, 0)
 
-        HTree.First.Transform.TranslateMat(MovementPoint.X, MovementPoint.Y, 1)
+        If HTree.First IsNot Nil Then
+            MessageBox.Show("Not Null")
+        Else
+            MessageBox.Show("Null")
+        End If
+
+        'HTree.First.Transform.TranslateMat(newTorsoPosition.X, newTorsoPosition.Y, 1)
+        'g.Clear(Color.White)
+        'DrawCube(HTree.First.Obj, HTree.First.Transform)
     End Sub
 
-    ''' <summary>
-    ''' Untuk gerakin berarti gini bukan ya?
-    ''' 1. Ambil posisi mouse masukkin ke TPoint
-    ''' 2. Traverse treenya sampai ke kaki, ambil 
-    ''' </summary>
-
-    Private Sub Process(E As TElement3DObject)
+    Private Sub Process(E As TElement3DObject) 'From Mr. Edo
         Dim M As New Matrix4x4
         Dim T As New Matrix4x4
 
@@ -260,8 +260,6 @@
     End Sub
 
     Private Sub MainCanvas_MouseOver(sender As Object, e As MouseEventArgs) Handles MainCanvas.MouseMove
-
-
         CoordinatesLabel.Text = "Coordinates: X = " + e.X.ToString() + ", Y = " + e.Y.ToString()
     End Sub
 
@@ -312,7 +310,6 @@
         St.ScaleMat(25, -25, 1) ' scale
         St.TranslateMat(300, 250, 0) 'translate
         PV.Mat = MultiplyMat4x4(Vt, St)
-
     End Sub
 
     Private Sub ChangeControl(sender As Object, e As EventArgs) Handles btnChicken.Click
