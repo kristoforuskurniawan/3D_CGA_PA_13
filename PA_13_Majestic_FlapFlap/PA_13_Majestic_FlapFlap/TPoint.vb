@@ -1,12 +1,12 @@
 ﻿Public Class TPoint
-    Public X, Y, Z As Double   'Store the x,y and z coord of this vertex as well as its index number
-    Public w As Integer
+    Public X, Y, Z As Double   'Store the x,y and z coord of this vertex
+    Public W As Integer
 
     Public Sub New()
         X = 0
         Y = 0
         Z = 0
-        w = 0
+        W = 1
     End Sub
 
     Public Sub New(x As Double, y As Double, z As Double)
@@ -17,7 +17,7 @@
         X = a
         Y = b
         Z = c
-        w = 1
+        W = 1
     End Sub
 End Class
 
