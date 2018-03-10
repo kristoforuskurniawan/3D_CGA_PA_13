@@ -45,7 +45,7 @@ Partial Class Form1
         'FlyRadioButton
         '
         Me.FlyRadioButton.AutoSize = True
-        Me.FlyRadioButton.Location = New System.Drawing.Point(636, 13)
+        Me.FlyRadioButton.Location = New System.Drawing.Point(639, 13)
         Me.FlyRadioButton.Name = "FlyRadioButton"
         Me.FlyRadioButton.Size = New System.Drawing.Size(68, 17)
         Me.FlyRadioButton.TabIndex = 1
@@ -56,7 +56,7 @@ Partial Class Form1
         'WalkRadioButton
         '
         Me.WalkRadioButton.AutoSize = True
-        Me.WalkRadioButton.Location = New System.Drawing.Point(636, 37)
+        Me.WalkRadioButton.Location = New System.Drawing.Point(639, 37)
         Me.WalkRadioButton.Name = "WalkRadioButton"
         Me.WalkRadioButton.Size = New System.Drawing.Size(80, 17)
         Me.WalkRadioButton.TabIndex = 2
@@ -89,7 +89,7 @@ Partial Class Form1
         'RotateRadioButton
         '
         Me.RotateRadioButton.AutoSize = True
-        Me.RotateRadioButton.Location = New System.Drawing.Point(639, 61)
+        Me.RotateRadioButton.Location = New System.Drawing.Point(639, 60)
         Me.RotateRadioButton.Name = "RotateRadioButton"
         Me.RotateRadioButton.Size = New System.Drawing.Size(99, 17)
         Me.RotateRadioButton.TabIndex = 5

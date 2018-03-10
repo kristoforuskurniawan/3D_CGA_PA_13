@@ -285,21 +285,21 @@
         DrawCube(Obj, topofstack)
     End Sub
 
-    Private Sub Process(E As TElement3DObject) 'From Mr. Edo
-        Dim M As New Matrix4x4
-        Dim T As New Matrix4x4
+    'Private Sub Process(E As TElement3DObject) 'From Mr. Edo
+    '    Dim M As New Matrix4x4
+    '    Dim T As New Matrix4x4
 
-        While E IsNot Nil
-            T = MultiplyMat4x4(E.Transform, nStack.Peek)
-            nStack.Push(T)
-            Process(E.Child.First)
-            nStack.Pop()
-            If E.Obj IsNot Nil Then
-                DrawCube(E.Obj, M)
-            End If
-            E = E.Nxt
-        End While
-    End Sub
+    '    While E IsNot Nil
+    '        T = MultiplyMat4x4(E.Transform, nStack.Peek)
+    '        nStack.Push(T)
+    '        Process(E.Child.First)
+    '        nStack.Pop()
+    '        If E.Obj IsNot Nil Then
+    '            DrawCube(E.Obj, M)
+    '        End If
+    '        E = E.Nxt
+    '    End While
+    'End Sub
 
     Private Sub MainCanvas_MouseOver(sender As Object, e As MouseEventArgs) Handles MainCanvas.MouseMove
         CoordinatesLabel.Text = "Coordinates: X = " + e.X.ToString() + ", Y = " + e.Y.ToString()
@@ -307,11 +307,16 @@
 
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
         newTorsoPosition = New TPoint(e.X, e.Y, 0)
-        If TimerAnimation.Enabled Then
-            TimerAnimation.Enabled = False
+        If nStack.Count <> 0 Or nStack IsNot Nothing Then
+            MessageBox.Show("Stack is not empty, number of element is " & nStack.Count().ToString())
         Else
-            TimerAnimation.Enabled = True
+            MessageBox.Show("Stack is empty!")
         End If
+        'If TimerAnimation.Enabled Then
+        '    TimerAnimation.Enabled = False
+        'Else
+        '    TimerAnimation.Enabled = True
+        'End If
     End Sub
 
     Private Sub declare_all_object()
@@ -353,7 +358,7 @@
         'Vt => View
         Vt.RotateY(45)
         Vt.RotateZ(45)
-        Vt.OnePointProjection(4) ' Zc = 3
+        Vt.OnePointProjection(4)
         'St => Screen
         ' St.T1(20, -20, 1, 300, 200, 0)
         St.ScaleMat(25, -25, 1) ' scale
@@ -366,31 +371,33 @@
         TimerAnimation.Enabled = Not TimerAnimation.Enabled
     End Sub
 
+    Dim walkingTranslateMatrix As Matrix4x4
+
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
         If WalkMode Then 'Not yet completed
             'If Math.Abs(newTorsoPosition.X) = Math.Abs(HTree.First.Child.First.Obj.Vertices(0).X) Then
+            'MessageBox.Show(HTree.First.Child.First.Obj.Vertices(0).X.ToString())
+            'End If
+            'MessageBox.Show(newTorsoPosition.X.ToString())
+            ' MessageBox.Show(Object3D.Vertices(2).X.ToString())
+            'If HTree.First.Child.First.Obj.Vertices(0).X > newTorsoPosition.X And HTree.First.Child.First.Obj.Vertices(0).Y > newTorsoPosition.Y Then
+
+            '    'HTree.First.Transform.TranslateMat(-1, -1, 1)
+            'ElseIf HTree.First.Child.First.Obj.Vertices(0).X < newTorsoPosition.X And HTree.First.Child.First.Obj.Vertices(0).Y < newTorsoPosition.Y Then
+            '    'HTree.First.Transform.TranslateMat(1, 1, 1)
+            'ElseIf Math.Round(HTree.First.Child.First.Obj.Vertices(0).X) = Math.Round(newTorsoPosition.X) And HTree.First.Child.First.Obj.Vertices(0).Y < newTorsoPosition.Y Then
+            '    'HTree.First.Transform.TranslateMat(0, 1, 1)
+            'ElseIf HTree.First.Child.First.Obj.Vertices(0).X < newTorsoPosition.X And Math.Round(HTree.First.Child.First.Obj.Vertices(0).Y) = Math.Round(newTorsoPosition.Y) Then
+            '    'HTree.First.Transform.TranslateMat(1, 0, 1)
+            'Else
 
             'End If
-            MessageBox.Show(newTorsoPosition.X.ToString())
-            ' MessageBox.Show(Object3D.Vertices(2).X.ToString())
-            If HTree.First.Child.First.Obj.Vertices(0).X > newTorsoPosition.X And HTree.First.Child.First.Obj.Vertices(0).Y > newTorsoPosition.Y Then
-
-                'HTree.First.Transform.TranslateMat(-1, -1, 1)
-            ElseIf HTree.First.Child.First.Obj.Vertices(0).X < newTorsoPosition.X And HTree.First.Child.First.Obj.Vertices(0).Y < newTorsoPosition.Y Then
-                'HTree.First.Transform.TranslateMat(1, 1, 1)
-            ElseIf Math.Round(HTree.First.Child.First.Obj.Vertices(0).X) = Math.Round(newTorsoPosition.X) And HTree.First.Child.First.Obj.Vertices(0).Y < newTorsoPosition.Y Then
-                'HTree.First.Transform.TranslateMat(0, 1, 1)
-            ElseIf HTree.First.Child.First.Obj.Vertices(0).X < newTorsoPosition.X And Math.Round(HTree.First.Child.First.Obj.Vertices(0).Y) = Math.Round(newTorsoPosition.Y) Then
-                'HTree.First.Transform.TranslateMat(1, 0, 1)
-            Else
-
-            End If
 
             g.Clear(Color.White)
             TranverseTree(HTree.First)
         ElseIf FlyMode Then
 
-            ElseIf RotateMode Then 'Only to test
+        ElseIf RotateMode Then 'Only to test
                 rotation += addition
             If rotation >= Round Or rotation <= -Round Then
                 addition = -addition
