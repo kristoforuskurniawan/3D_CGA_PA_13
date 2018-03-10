@@ -84,6 +84,7 @@ Partial Class Form1
         '
         'TimerAnimation
         '
+        Me.TimerAnimation.Interval = 20
         '
         'RotateRadioButton
         '
