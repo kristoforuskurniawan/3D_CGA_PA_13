@@ -22,11 +22,13 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.MainCanvas = New System.Windows.Forms.PictureBox()
         Me.FlyRadioButton = New System.Windows.Forms.RadioButton()
         Me.WalkRadioButton = New System.Windows.Forms.RadioButton()
         Me.CoordinatesLabel = New System.Windows.Forms.Label()
         Me.btnChicken = New System.Windows.Forms.Button()
+        Me.TimerAnimation = New System.Windows.Forms.Timer(Me.components)
         CType(Me.MainCanvas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -102,4 +104,5 @@ Partial Class Form1
     Friend WithEvents WalkRadioButton As RadioButton
     Friend WithEvents CoordinatesLabel As Label
     Friend WithEvents btnChicken As Button
+    Friend WithEvents TimerAnimation As Timer
 End Class

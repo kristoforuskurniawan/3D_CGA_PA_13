@@ -13,6 +13,10 @@
         z = 3
     End Enum
 
+    Public Function Limiter(x As Double) As Int64
+        Return Math.Round(x, 2)
+    End Function
+
     Public Function CosTetha(tetha As Double) As Double
         Return Math.Cos(tetha * DegToRad)
     End Function
@@ -22,7 +26,7 @@
     End Function
 
     Public Function CotTetha(tetha As Double) As Double
-        Return 1 / Math.Tan(tetha * DegToRad)
+        Return (1 / Math.Tan(tetha * DegToRad))
     End Function
 
 

@@ -9,9 +9,15 @@
     Dim PV As New Matrix4x4 'won't be changed
     Dim HTree As TList3DObject
     Dim nStack As Stack(Of Matrix4x4)
-    Dim Scaling(4, 4), Translate(4, 4), RotateZ(4, 4), ShearX(4, 4), ShearY(4, 4) As Double
+    Dim ChickenRotate, ChickenMove, ChickenArmRotate, ChickenLegRotate As Double
+    Dim addition As Double
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ChickenArmRotate = 0
+        ChickenMove = 0
+        ChickenArmRotate = 0
+        ChickenLegRotate = 0
+        addition = 20
         FirstChicken = True
         nStack = New Stack(Of Matrix4x4)
         blackPen = New Pen(Color.Black, 1)
@@ -27,6 +33,7 @@
         'MsgBox(Object3D.Vertices(7).X)
         CreationOfChicken()
         TranverseTree(HTree.First)
+        nStack.Clear()
     End Sub
 
     Public Sub SetVertices(x As Double, y As Double, z As Double)
@@ -40,15 +47,17 @@
     End Sub
 
     Public Sub DrawCube(obj As Model3D, M As Matrix4x4)
+        Dim temp As New List(Of TPoint)
+        temp.AddRange(obj.Vertices)
         For i As Integer = 0 To 7
-            obj.Vertices(i) = MultiplyMat(obj.Vertices(i), M)
+            temp(i) = MultiplyMat(temp(i), M)
         Next
         Dim a, b, c, d As Single
         For i As Integer = 0 To obj.Edges.Count - 1
-            a = obj.Vertices(obj.Edges(i).PointA).X
-            b = obj.Vertices(obj.Edges(i).PointA).Y
-            c = obj.Vertices(obj.Edges(i).PointB).X
-            d = obj.Vertices(obj.Edges(i).PointB).Y
+            a = temp(obj.Edges(i).PointA).X
+            b = temp(obj.Edges(i).PointA).Y
+            c = temp(obj.Edges(i).PointB).X
+            d = temp(obj.Edges(i).PointB).Y
             g.DrawLine(blackPen, a, b, c, d)
         Next
         MainCanvas.Image = bit
@@ -65,7 +74,7 @@
         left_foot.Child = Nothing
         left_foot.Nxt = Nothing
         left_foot.Obj = New Model3D(Object3D)
-        left_foot.Transform.TranslateMat(0.2, -2.6, 0)
+        left_foot.Transform.TranslateMat(0.3, -2.6, 0)
         left_foot.Transform.ScaleMat(1.2, 0.6, 1)
 
         Dim LeftFoot As New TList3DObject(left_foot)
@@ -76,7 +85,7 @@
         right_foot.Child = Nothing
         right_foot.Nxt = Nothing
         right_foot.Obj = New Model3D(Object3D)
-        right_foot.Transform.TranslateMat(-0.2, -2.6, 0)
+        right_foot.Transform.TranslateMat(-0.3, -2.6, 0)
         right_foot.Transform.ScaleMat(1.2, 0.6, 1)
 
         Dim RightFoot As New TList3DObject(right_foot)
@@ -120,7 +129,7 @@
         head.Nxt = Nothing
         head.Obj = New Model3D(Object3D)
         head.Transform.TranslateMat(0, 2.45, 0)
-        head.Transform.ScaleMat(2, 0.7, 1)
+        head.Transform.ScaleMat(2, 1, 1)
 
         Dim MainHead As New TList3DObject(head)
 
@@ -141,7 +150,7 @@
         right_upper_wing.Nxt = neck
         right_upper_wing.Obj = New Model3D(Object3D)
         right_upper_wing.Transform.TranslateMat(-3, 3.5, 0)
-        right_upper_wing.Transform.ScaleMat(0.35, 0.2, 0.5)
+        right_upper_wing.Transform.ScaleMat(0.6, 0.2, 0.5)
 
 
         Dim left_upper_wing As New TElement3DObject
@@ -151,7 +160,7 @@
         left_upper_wing.Nxt = right_upper_wing
         left_upper_wing.Obj = New Model3D(Object3D)
         left_upper_wing.Transform.TranslateMat(3, 3.5, 0)
-        left_upper_wing.Transform.ScaleMat(0.35, 0.2, 0.5)
+        left_upper_wing.Transform.ScaleMat(0.6, 0.2, 0.5)
         'left_upper_wing.Transform.ShearMat(0, 2) w bingung yg shear
 
         Dim right_leg As New TElement3DObject
@@ -160,8 +169,8 @@
         right_leg.Child = RightFoot
         right_leg.Nxt = left_upper_wing
         right_leg.Obj = New Model3D(Object3D)
-        right_leg.Transform.TranslateMat(-1.25, -3.05, 0)
-        right_leg.Transform.ScaleMat(0.3, 0.5, 0.3)
+        right_leg.Transform.TranslateMat(-1.75, -3, 0)
+        right_leg.Transform.ScaleMat(0.3, 0.6, 0.3)
 
         Dim left_leg As New TElement3DObject
         left_leg.Rotation_Angle = RotationAxis.none
@@ -169,14 +178,14 @@
         left_leg.Child = LeftFoot
         left_leg.Nxt = right_leg
         left_leg.Obj = New Model3D(Object3D)
-        left_leg.Transform.TranslateMat(1.25, -3.05, 0)
-        left_leg.Transform.ScaleMat(0.3, 0.5, 0.3)
+        left_leg.Transform.TranslateMat(1.75, -3, 0)
+        left_leg.Transform.ScaleMat(0.3, 0.6, 0.3)
 
         Dim AfterTorso As New TList3DObject(left_leg)
 
         Dim torso As New TElement3DObject
-        torso.Rotation_Angle = RotationAxis.none
-        torso.Rotation_Axis = 0
+        torso.Rotation_Angle = RotationAxis.y
+        torso.Rotation_Axis = ChickenRotate
         torso.Child = AfterTorso
         torso.Nxt = Nothing
         torso.Obj = New Model3D(Object3D)
@@ -397,15 +406,14 @@
         Object3D.Copy3DObject(VerticesList, EdgeList)
     End Sub
 
+
     Private Sub Projection()
         'PV = P Wt Vt St
         'P => object
         'PV=> projection
         Dim Vt, St As New Matrix4x4
         PV = New Matrix4x4
-        'Vt.ObliqueProjection(45, -30)
-        Vt.RotateY(45)
-        Vt.RotateZ(45)
+        Vt.ObliqueProjection(45, -30)
         Vt.OnePointProjection(4) ' Zc = 3
         'Vt.ScaleMat(1, 1, 0)
         'Vt => View
@@ -414,7 +422,7 @@
         'FillRow(2, 0, 0, 0, -1 / 3, Vt)
         'FillRow(3, 0, 0, 0, 1, Vt)
         ' St.T1(20, -20, 1, 300, 200, 0)
-        St.ScaleMat(20, -20, 1) ' scale
+        St.ScaleMat(20, -20, 10) ' scale
         St.TranslateMat(300, 250, 0) 'translate
         'St => Screen
         'FillRow(0, 20, 0, 0, 0, St)
@@ -432,7 +440,27 @@
     '    M(row, 3) = w
     'End Sub
 
-    Private Sub ChangeControl(sender As Object, e As EventArgs) Handles btnChicken.Click
-        FirstChicken = Not FirstChicken
+    Private Sub Timer00_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
+        ' g.Clear(Color.White)
+        ChickenRotate += addition
+        If ChickenRotate >= 180 Then
+            addition = -addition
+        ElseIf ChickenRotate < 0 Then
+            addition = -addition
+        End If
+        Dim tem_chick As TElement3DObject
+        tem_chick = HTree.First.Child.First
+        tem_chick.Rotation_Angle = ChickenRotate
+        TranverseTree(HTree.First)
+        nStack.Clear()
+
     End Sub
+
+    Private Sub ChangeControl(sender As Object, e As EventArgs) Handles btnChicken.Click
+        'FirstChicken = Not FirstChicken
+        TimerAnimation.Enabled = True
+    End Sub
+
+
+
 End Class
