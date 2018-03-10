@@ -28,7 +28,8 @@ Partial Class Form1
         Me.WalkRadioButton = New System.Windows.Forms.RadioButton()
         Me.CoordinatesLabel = New System.Windows.Forms.Label()
         Me.btnChicken = New System.Windows.Forms.Button()
-        Me.MoveTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.TimerAnimation = New System.Windows.Forms.Timer(Me.components)
+        Me.RotateRadioButton = New System.Windows.Forms.RadioButton()
         CType(Me.MainCanvas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -81,14 +82,26 @@ Partial Class Form1
         Me.btnChicken.Text = "Change Chicken"
         Me.btnChicken.UseVisualStyleBackColor = True
         '
-        'MoveTimer
+        'TimerAnimation
         '
+        '
+        'RotateRadioButton
+        '
+        Me.RotateRadioButton.AutoSize = True
+        Me.RotateRadioButton.Location = New System.Drawing.Point(639, 61)
+        Me.RotateRadioButton.Name = "RotateRadioButton"
+        Me.RotateRadioButton.Size = New System.Drawing.Size(99, 17)
+        Me.RotateRadioButton.TabIndex = 5
+        Me.RotateRadioButton.TabStop = True
+        Me.RotateRadioButton.Text = "Rotate Chicken"
+        Me.RotateRadioButton.UseVisualStyleBackColor = True
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(806, 508)
+        Me.Controls.Add(Me.RotateRadioButton)
         Me.Controls.Add(Me.btnChicken)
         Me.Controls.Add(Me.CoordinatesLabel)
         Me.Controls.Add(Me.WalkRadioButton)
@@ -107,5 +120,6 @@ Partial Class Form1
     Friend WithEvents WalkRadioButton As RadioButton
     Friend WithEvents CoordinatesLabel As Label
     Friend WithEvents btnChicken As Button
-    Friend WithEvents MoveTimer As Timer
+    Friend WithEvents TimerAnimation As Timer
+    Friend WithEvents RotateRadioButton As RadioButton
 End Class

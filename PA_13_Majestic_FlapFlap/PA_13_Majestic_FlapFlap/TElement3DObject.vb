@@ -43,11 +43,11 @@
         Transform = New Matrix4x4
     End Sub
 
-    Public Function Insertion(Elmt As TElement3DObject, Rotation_Axis As Integer, Rotation_Angle As Double, ScaleX As Integer, ScaleY As Integer, Transform As Matrix4x4) As TElement3DObject
-        If Elmt Is Nil Then
-            Elmt = New TElement3DObject(Rotation_Axis, Rotation_Angle, ScaleX, ScaleY, Transform) 'Ini buat insertion object di linked listnya
-        End If
-        Return Elmt
-    End Function
+    'Public Function Insertion(Elmt As TElement3DObject, Rotation_Axis As Integer, Rotation_Angle As Double, ScaleX As Integer, ScaleY As Integer, Transform As Matrix4x4) As TElement3DObject
+    '    If Elmt Is Nil Then
+    '        Elmt = New TElement3DObject(Rotation_Axis, Rotation_Angle, ScaleX, ScaleY, Transform) 'Ini buat insertion object di linked listnya
+    '    End If
+    '    Return Elmt
+    'End Function
 
 End Class
