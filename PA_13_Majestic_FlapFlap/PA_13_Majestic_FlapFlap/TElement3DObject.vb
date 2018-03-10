@@ -4,6 +4,8 @@
     Public Obj As Model3D
     Public Rotation_Axis As Integer
     Public Rotation_Angle As Double
+    Public ScaleX As Integer
+    Public ScaleY As Integer
     Public Transform As Matrix4x4
 
     Public Sub New()
@@ -12,8 +14,8 @@
         Obj = Nil
         Rotation_Axis = 0
         Rotation_Angle = 0
+        ScaleX = 1
+        ScaleY = 1
         Transform = New Matrix4x4
     End Sub
-
-
 End Class

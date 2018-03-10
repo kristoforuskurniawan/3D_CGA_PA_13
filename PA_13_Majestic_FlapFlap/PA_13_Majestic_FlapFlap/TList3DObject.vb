@@ -8,4 +8,5 @@
     Public Sub New(Target As TElement3DObject)
         First = Target
     End Sub
+
 End Class

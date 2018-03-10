@@ -10,6 +10,7 @@
     Dim HTree As TList3DObject
     Dim nStack As Stack(Of Matrix4x4)
     Dim Scaling(4, 4), Translate(4, 4), RotateZ(4, 4), ShearX(4, 4), ShearY(4, 4) As Double
+    Dim MovementPoint As TPoint
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         FirstChicken = True
@@ -17,6 +18,7 @@
         blackPen = New Pen(Color.Black, 1)
         bit = New Bitmap(MainCanvas.Width, MainCanvas.Height)
         HTree = New TList3DObject
+        MovementPoint = New TPoint()
         EdgeList = New List(Of TLine)
         VerticesList = New List(Of TPoint)
         Object3D = New Model3D
@@ -223,8 +225,14 @@
     End Sub
 
     Public Sub DrawFromTree(Obj As Model3D, topofstack As Matrix4x4)
-
         DrawCube(Obj, topofstack)
+    End Sub
+
+    Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
+        MovementPoint.X = e.X
+        MovementPoint.Y = e.Y
+
+        HTree.First.Transform.TranslateMat(MovementPoint.X, MovementPoint.Y, 1)
     End Sub
     'Public Sub getTorso()
     '    For i As Integer = 0 To 7
