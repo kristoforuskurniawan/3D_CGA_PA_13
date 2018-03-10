@@ -9,15 +9,9 @@
     Dim PV As New Matrix4x4 'won't be changed
     Dim HTree As TList3DObject
     Dim nStack As Stack(Of Matrix4x4)
-    Dim ChickenRotate, ChickenMove, ChickenArmRotate, ChickenLegRotate As Double
-    Dim addition As Double
+    Dim Scaling(4, 4), Translate(4, 4), RotateZ(4, 4), ShearX(4, 4), ShearY(4, 4) As Double
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ChickenArmRotate = 0
-        ChickenMove = 0
-        ChickenArmRotate = 0
-        ChickenLegRotate = 0
-        addition = 20
         FirstChicken = True
         nStack = New Stack(Of Matrix4x4)
         blackPen = New Pen(Color.Black, 1)
@@ -33,7 +27,6 @@
         'MsgBox(Object3D.Vertices(7).X)
         CreationOfChicken()
         TranverseTree(HTree.First)
-        nStack.Clear()
     End Sub
 
     Public Sub SetVertices(x As Double, y As Double, z As Double)
@@ -47,17 +40,17 @@
     End Sub
 
     Public Sub DrawCube(obj As Model3D, M As Matrix4x4)
-        Dim temp As New List(Of TPoint)
-        temp.AddRange(obj.Vertices)
         For i As Integer = 0 To 7
-            temp(i) = MultiplyMat(temp(i), M)
+            obj.Vertices(i) = MultiplyMat(obj.Vertices(i), M)
         Next
+
         Dim a, b, c, d As Single
+
         For i As Integer = 0 To obj.Edges.Count - 1
-            a = temp(obj.Edges(i).PointA).X
-            b = temp(obj.Edges(i).PointA).Y
-            c = temp(obj.Edges(i).PointB).X
-            d = temp(obj.Edges(i).PointB).Y
+            a = obj.Vertices(obj.Edges(i).PointA).X
+            b = obj.Vertices(obj.Edges(i).PointA).Y
+            c = obj.Vertices(obj.Edges(i).PointB).X
+            d = obj.Vertices(obj.Edges(i).PointB).Y
             g.DrawLine(blackPen, a, b, c, d)
         Next
         MainCanvas.Image = bit
@@ -74,7 +67,7 @@
         left_foot.Child = Nothing
         left_foot.Nxt = Nothing
         left_foot.Obj = New Model3D(Object3D)
-        left_foot.Transform.TranslateMat(0.3, -2.6, 0)
+        left_foot.Transform.TranslateMat(0.2, -2.6, 0)
         left_foot.Transform.ScaleMat(1.2, 0.6, 1)
 
         Dim LeftFoot As New TList3DObject(left_foot)
@@ -85,7 +78,7 @@
         right_foot.Child = Nothing
         right_foot.Nxt = Nothing
         right_foot.Obj = New Model3D(Object3D)
-        right_foot.Transform.TranslateMat(-0.3, -2.6, 0)
+        right_foot.Transform.TranslateMat(-0.2, -2.6, 0)
         right_foot.Transform.ScaleMat(1.2, 0.6, 1)
 
         Dim RightFoot As New TList3DObject(right_foot)
@@ -96,8 +89,8 @@
         left_lower_wing.Child = Nothing
         left_lower_wing.Nxt = Nothing
         left_lower_wing.Obj = New Model3D(Object3D)
-        left_lower_wing.Transform.TranslateMat(2, 0, 0)
-        left_lower_wing.Transform.ScaleMat(1, 1, 1)
+        left_lower_wing.Transform.TranslateMat(0, 2, -2)
+        left_lower_wing.Transform.ShearMat(0, 2)
         Dim LeftWing As New TList3DObject(left_lower_wing)
 
         Dim right_lower_wing As New TElement3DObject
@@ -106,8 +99,8 @@
         right_lower_wing.Child = Nothing
         right_lower_wing.Nxt = Nothing
         right_lower_wing.Obj = New Model3D(Object3D)
-        right_lower_wing.Transform.TranslateMat(-2, 0, 0)
-        right_lower_wing.Transform.ScaleMat(1, 1, 1)
+        right_lower_wing.Transform.TranslateMat(0, 2, -2)
+        right_lower_wing.Transform.ShearMat(0, 2)
 
         Dim RightWing As New TList3DObject(right_lower_wing)
 
@@ -129,7 +122,7 @@
         head.Nxt = Nothing
         head.Obj = New Model3D(Object3D)
         head.Transform.TranslateMat(0, 2.45, 0)
-        head.Transform.ScaleMat(2, 1, 1)
+        head.Transform.ScaleMat(2, 0.7, 1)
 
         Dim MainHead As New TList3DObject(head)
 
@@ -150,8 +143,8 @@
         right_upper_wing.Nxt = neck
         right_upper_wing.Obj = New Model3D(Object3D)
         right_upper_wing.Transform.TranslateMat(-3, 3.5, 0)
-        right_upper_wing.Transform.ScaleMat(0.6, 0.2, 0.5)
-
+        right_upper_wing.Transform.ScaleMat(0.35, 0.2, 0.5)
+        right_upper_wing.Transform.ShearMat(0.75, 0)
 
         Dim left_upper_wing As New TElement3DObject
         left_upper_wing.Rotation_Angle = RotationAxis.none
@@ -160,8 +153,8 @@
         left_upper_wing.Nxt = right_upper_wing
         left_upper_wing.Obj = New Model3D(Object3D)
         left_upper_wing.Transform.TranslateMat(3, 3.5, 0)
-        left_upper_wing.Transform.ScaleMat(0.6, 0.2, 0.5)
-        'left_upper_wing.Transform.ShearMat(0, 2) w bingung yg shear
+        left_upper_wing.Transform.ScaleMat(0.35, 0.2, 0.5)
+        left_upper_wing.Transform.ShearMat(0.75, 0) 'w bingung yg shear
 
         Dim right_leg As New TElement3DObject
         right_leg.Rotation_Angle = RotationAxis.none
@@ -169,8 +162,8 @@
         right_leg.Child = RightFoot
         right_leg.Nxt = left_upper_wing
         right_leg.Obj = New Model3D(Object3D)
-        right_leg.Transform.TranslateMat(-1.75, -3, 0)
-        right_leg.Transform.ScaleMat(0.3, 0.6, 0.3)
+        right_leg.Transform.TranslateMat(-1.25, -3.05, 0)
+        right_leg.Transform.ScaleMat(0.3, 0.5, 0.3)
 
         Dim left_leg As New TElement3DObject
         left_leg.Rotation_Angle = RotationAxis.none
@@ -178,20 +171,20 @@
         left_leg.Child = LeftFoot
         left_leg.Nxt = right_leg
         left_leg.Obj = New Model3D(Object3D)
-        left_leg.Transform.TranslateMat(1.75, -3, 0)
-        left_leg.Transform.ScaleMat(0.3, 0.6, 0.3)
+        left_leg.Transform.TranslateMat(1.25, -3.05, 0)
+        left_leg.Transform.ScaleMat(0.3, 0.5, 0.3)
 
         Dim AfterTorso As New TList3DObject(left_leg)
 
         Dim torso As New TElement3DObject
-        torso.Rotation_Angle = RotationAxis.y
-        torso.Rotation_Axis = ChickenRotate
+        torso.Rotation_Angle = RotationAxis.none
+        torso.Rotation_Axis = 0
         torso.Child = AfterTorso
         torso.Nxt = Nothing
         torso.Obj = New Model3D(Object3D)
         torso.Transform.TranslateMat(0, 0, 0)
-
-
+        torso.Transform.RotateX(45)
+        torso.Transform.RotateY(45)
 
         Dim MainTorso As New TList3DObject(torso)
 
@@ -232,145 +225,39 @@
     End Sub
 
     Public Sub DrawFromTree(Obj As Model3D, topofstack As Matrix4x4)
-
         DrawCube(Obj, topofstack)
     End Sub
-    'Public Sub getTorso()
-    '    For i As Integer = 0 To 7
-    '        'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), St)
-    '    Next
-    'End Sub
 
-    'Public Sub ScalingNeck()
-    '    FillRow(0, 1, 0, 0, 0, Scaling)
-    '    FillRow(1, 0, 0.5, 0, 0, Scaling)
-    '    FillRow(2, 0, 0, 0.5, 0, Scaling)
-    '    FillRow(3, 0, 0, 0, 1, Scaling)
-    'End Sub
+    Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
+        Dim newTorsoPosition As TPoint
+        newTorsoPosition = New TPoint(e.X, e.Y, 0)
 
-    'Public Sub ScalingHead()
-    '    FillRow(0, 0.5, 0, 0, 0, Scaling)
-    '    FillRow(1, 0, 0.5, 0, 0, Scaling)
-    '    FillRow(2, 0, 0, 0.5, 0, Scaling)
-    '    FillRow(3, 0, 0, 0, 1, Scaling)
-    'End Sub
+        If HTree.First IsNot Nil Then
+            MessageBox.Show("Not Null")
+        Else
+            MessageBox.Show("Null")
+        End If
 
-    'Public Sub ScalingBeak()
-    '    FillRow(0, 0.5, 0, 0, 0, Scaling)
-    '    FillRow(1, 0, 0.25, 0, 0, Scaling)
-    '    FillRow(2, 0, 0, 0.25, 0, Scaling)
-    '    FillRow(3, 0, 0, 0, 1, Scaling)
-    'End Sub
+        'HTree.First.Transform.TranslateMat(newTorsoPosition.X, newTorsoPosition.Y, 1)
+        'g.Clear(Color.White)
+        'DrawCube(HTree.First.Obj, HTree.First.Transform)
+    End Sub
 
-    'Public Sub ScalingUpperWings()
-    '    FillRow(0, 1, 0, 0, 0, Scaling)
-    '    FillRow(1, 0, 0.5, 0, 0, Scaling)
-    '    FillRow(2, 0, 0, 0.5, 0, Scaling)
-    '    FillRow(3, 0, 0, 0, 1, Scaling)
-    'End Sub
+    Private Sub Process(E As TElement3DObject) 'From Mr. Edo
+        Dim M As New Matrix4x4
+        Dim T As New Matrix4x4
 
-    'Public Sub ShearUpperWings()
-    '    FillRow(0, 1, Cos45, 0, 0, ShearX)
-    '    FillRow(1, 0, 1, 0, 0, ShearX)
-    '    FillRow(2, 0, 0, 1, 0, ShearX)
-    '    FillRow(3, 0, 0, 0, 1, ShearX)
-    'End Sub
-
-    'Public Sub ShearLowerWings()
-    '    FillRow(0, 1, Cos45, 0, 0, ShearX)
-    '    FillRow(1, 0, 1, 0, 0, ShearX)
-    '    FillRow(2, 0, 0, 1, 0, ShearX)
-    '    FillRow(3, 0, 0, 0, 1, ShearX)
-    'End Sub
-
-    'Public Sub TranslatingNeck()
-    '    FillRow(0, 1, 0, 0, 0, Translate)
-    '    FillRow(1, 0, 1, 0, 0, Translate)
-    '    FillRow(2, 0, 0, 1, 0, Translate)
-    '    FillRow(3, 2, 2, 0, 1, Translate)
-    'End Sub
-
-    'Public Sub TranslatingHead()
-    '    FillRow(0, 1, 0, 0, 0, Translate)
-    '    FillRow(1, 0, 1, 0, 0, Translate)
-    '    FillRow(2, 0, 0, 1, 0, Translate)
-    '    FillRow(3, 3.5, 3.5, 0, 1, Translate)
-    'End Sub
-
-    'Public Sub TranslatingBeak()
-    '    FillRow(0, 1, 0, 0, 0, Translate)
-    '    FillRow(1, 0, 1, 0, 0, Translate)
-    '    FillRow(2, 0, 0, 1, 0, Translate)
-    '    FillRow(3, 4.75, 3.75, -0.5, 1, Translate)
-    'End Sub
-
-    'Public Sub TranslatingUpperWings() ' Sayap kayanya di shear deh.
-    '    FillRow(0, 1, 0, 0, 0, Translate)
-    '    FillRow(1, 0, 1, 0, 0, Translate)
-    '    FillRow(2, 0, 0, 1, 0, Translate)
-    '    FillRow(3, -2, 0, 1.75, 1, Translate)
-    'End Sub
-
-    'Public Sub RotateAroundZNeck()
-    '    FillRow(0, Cos45, Sin45, 0, 0, RotateZ)
-    '    FillRow(1, -Sin45, Cos45, 0, 0, RotateZ)
-    '    FillRow(2, 0, 0, 1, 0, RotateZ)
-    '    FillRow(3, 0, 0, 0, 1, RotateZ)
-    'End Sub
-
-    'Public Sub RotateAroundZUpperWings()
-    '    FillRow(0, Cos45, Sin45, 0, 0, RotateZ)
-    '    FillRow(1, -Sin45, Cos45, 0, 0, RotateZ)
-    '    FillRow(2, 0, 0, 1, 0, RotateZ)
-    '    FillRow(3, 0, 0, 0, 1, RotateZ)
-    'End Sub
-
-    'Public Sub getNeck()
-    '    For i As Integer = 0 To 7
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
-    '        'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), St)
-    '    Next
-    'End Sub
-
-    'Public Sub getHead()
-    '    For i As Integer = 0 To 7
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
-    '        'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), St)
-    '    Next
-    'End Sub
-
-    'Public Sub getBeak()
-    '    For i As Integer = 0 To 7
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
-    '        'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), St)
-    '    Next
-    'End Sub
-
-    'Public Sub getUpperWings()
-    '    For i As Integer = 0 To 7
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), ShearX) 'Ini shear udah bisa.
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), RotateZ)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Scaling)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Translate)
-    '        'VerticesList(i) = MultiplyMat(VerticesList(i), Wt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), Vt)
-    '        VerticesList(i) = MultiplyMat(VerticesList(i), St)
-    '    Next
-    'End Sub
-
-
+        While E IsNot Nil
+            T = MultiplyMat4x4(E.Transform, nStack.Peek)
+            nStack.Push(T)
+            Process(E.Child.First)
+            nStack.Pop()
+            If E.Obj IsNot Nil Then
+                DrawCube(E.Obj, M)
+            End If
+            E = E.Nxt
+        End While
+    End Sub
 
     Private Sub MainCanvas_MouseOver(sender As Object, e As MouseEventArgs) Handles MainCanvas.MouseMove
         CoordinatesLabel.Text = "Coordinates: X = " + e.X.ToString() + ", Y = " + e.Y.ToString()
@@ -406,61 +293,26 @@
         Object3D.Copy3DObject(VerticesList, EdgeList)
     End Sub
 
-
     Private Sub Projection()
         'PV = P Wt Vt St
         'P => object
         'PV=> projection
         Dim Vt, St As New Matrix4x4
         PV = New Matrix4x4
-        Vt.ObliqueProjection(45, -30)
+        'Vt.ObliqueProjection(45, -30)
+        'Vt => View
+        Vt.RotateY(45)
+        Vt.RotateZ(45)
         Vt.OnePointProjection(4) ' Zc = 3
         'Vt.ScaleMat(1, 1, 0)
-        'Vt => View
-        'FillRow(0, 1, 0, 0, 0, Vt)
-        'FillRow(1, 0, 1, 0, 0, Vt)
-        'FillRow(2, 0, 0, 0, -1 / 3, Vt)
-        'FillRow(3, 0, 0, 0, 1, Vt)
-        ' St.T1(20, -20, 1, 300, 200, 0)
-        St.ScaleMat(20, -20, 10) ' scale
-        St.TranslateMat(300, 250, 0) 'translate
         'St => Screen
-        'FillRow(0, 20, 0, 0, 0, St)
-        'FillRow(1, 0, -20, 0, 0, St)
-        'FillRow(2, 0, 0, 0, 0, St)
-        'FillRow(3, 300, 200, 0, 1, St)
+        ' St.T1(20, -20, 1, 300, 200, 0)
+        St.ScaleMat(25, -25, 1) ' scale
+        St.TranslateMat(300, 250, 0) 'translate
         PV.Mat = MultiplyMat4x4(Vt, St)
-
-    End Sub
-
-    'Private Sub FillRow(row As Integer, x As Double, y As Double, z As Double, w As Double, ByRef M(,) As Double)
-    '    M(row, 0) = x
-    '    M(row, 1) = y
-    '    M(row, 2) = z
-    '    M(row, 3) = w
-    'End Sub
-
-    Private Sub Timer00_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
-        ' g.Clear(Color.White)
-        ChickenRotate += addition
-        If ChickenRotate >= 180 Then
-            addition = -addition
-        ElseIf ChickenRotate < 0 Then
-            addition = -addition
-        End If
-        Dim tem_chick As TElement3DObject
-        tem_chick = HTree.First.Child.First
-        tem_chick.Rotation_Angle = ChickenRotate
-        TranverseTree(HTree.First)
-        nStack.Clear()
-
     End Sub
 
     Private Sub ChangeControl(sender As Object, e As EventArgs) Handles btnChicken.Click
-        'FirstChicken = Not FirstChicken
-        TimerAnimation.Enabled = True
+        FirstChicken = Not FirstChicken
     End Sub
-
-
-
 End Class
