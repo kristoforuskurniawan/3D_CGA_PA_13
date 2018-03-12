@@ -119,8 +119,11 @@
         left_lower_wing.Child = Nothing
         left_lower_wing.Nxt = Nothing
         left_lower_wing.Obj = New Model3D(Object3D)
-        left_lower_wing.Transform.TranslateMat(0, 2, -2)
-        left_lower_wing.Transform.ShearMat(0, 2)
+        left_lower_wing.Transform.TranslateMat(1, 0, 0)
+        left_lower_wing.Transform.RotateZ(-30)
+        'left_lower_wing.Transform.ShearMat(0, 2)
+        left_lower_wing.Transform.ScaleMat(2.5, 1, 1)
+
         Dim LeftWing As New TList3DObject(left_lower_wing)
 
         Dim right_lower_wing As New TElement3DObject
@@ -130,8 +133,10 @@
         right_lower_wing.Child = Nothing
         right_lower_wing.Nxt = Nothing
         right_lower_wing.Obj = New Model3D(Object3D)
-        right_lower_wing.Transform.TranslateMat(0, 2, -2)
-        right_lower_wing.Transform.ShearMat(0, 2)
+        right_lower_wing.Transform.TranslateMat(-1, 0, 0)
+        right_lower_wing.Transform.RotateZ(30)
+        'right_lower_wing.Transform.ShearMat(0, 2)
+        right_lower_wing.Transform.ScaleMat(2.5, 1, 1)
 
         Dim RightWing As New TList3DObject(right_lower_wing)
 
@@ -178,8 +183,8 @@
         right_upper_wing.Nxt = neck
         right_upper_wing.Obj = New Model3D(Object3D)
         right_upper_wing.Transform.TranslateMat(-3, 3.5, 0)
-        right_upper_wing.Transform.ScaleMat(0.35, 0.2, 0.5)
-        right_upper_wing.Transform.ShearMat(0.75, 0)
+        right_upper_wing.Transform.ScaleMat(0.4, 0.2, 0.5)
+        'right_upper_wing.Transform.ShearMat(0.25, 0)
 
         Dim left_upper_wing As New TElement3DObject
         left_upper_wing.label = "leftupperwing"
@@ -189,8 +194,8 @@
         left_upper_wing.Nxt = right_upper_wing
         left_upper_wing.Obj = New Model3D(Object3D)
         left_upper_wing.Transform.TranslateMat(3, 3.5, 0)
-        left_upper_wing.Transform.ScaleMat(0.35, 0.2, 0.5)
-        left_upper_wing.Transform.ShearMat(-0.75, 0) 'w bingung yg shear
+        left_upper_wing.Transform.ScaleMat(0.4, 0.2, 0.5)
+        'left_upper_wing.Transform.ShearMat(-0.25, 0) 'w bingung yg shear
 
         Dim right_leg As New TElement3DObject
         right_leg.label = "rightleg"
@@ -222,8 +227,6 @@
         torso.Nxt = Nothing
         torso.Obj = New Model3D(Object3D)
         torso.Transform.TranslateMat(0, 0, 0)
-        torso.Transform.RotateX(45)
-        torso.Transform.RotateY(45)
 
         Dim MainTorso As New TList3DObject(torso)
 
@@ -358,9 +361,9 @@
         Dim Vt, St As New Matrix4x4
         PV = New Matrix4x4
         'Vt => View
-        Vt.RotateY(45)
-        Vt.RotateZ(45)
-        Vt.OnePointProjection(4) ' Zc = 3
+        'Vt.RotateY(45)
+        'Vt.RotateZ(45)
+        Vt.OnePointProjection(10) ' Zc = 3
         'St => Screen
         ' St.T1(20, -20, 1, 300, 200, 0)
         St.ScaleMat(25, -25, 1) ' scale
