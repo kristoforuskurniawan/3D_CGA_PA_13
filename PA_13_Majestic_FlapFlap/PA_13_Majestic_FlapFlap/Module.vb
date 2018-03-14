@@ -69,6 +69,7 @@
     End Function
 
     Function MultiplyMat4x4(A As Matrix4x4, B As Matrix4x4) ' Matrix4x4 version
+        'Multiplication of 2 Matrix and return as Matrix4x4
         Dim temp(4, 4) As Double
 
         For j = 0 To 3
@@ -76,10 +77,12 @@
                 temp(j, i) = A.Mat(j, 0) * B.Mat(0, i) + A.Mat(j, 1) * B.Mat(1, i) + A.Mat(j, 2) * B.Mat(2, i) + A.Mat(j, 3) * B.Mat(3, i)
             Next
         Next
+
         Return temp
     End Function
 
     Function MultiplyMat(A(,) As Double, B(,) As Double) ' Original version
+        'Multiplication of 2 Matrix and return as Double(4,4)
         Dim temp(4, 4) As Double
 
         For j = 0 To 3
@@ -89,4 +92,6 @@
         Next
         Return temp
     End Function
+
+
 End Module
