@@ -1,16 +1,18 @@
 ﻿Public Class Form1
-    Dim FirstChicken, WalkMode, FlyMode, RotateMode As Boolean
-    Dim bit As Bitmap
-    Dim g As Graphics
-    Dim blackPen As Pen
+    Dim FirstChicken, WalkMode, FlyMode, RotateMode As Boolean 'movement type
+    Dim bit As Bitmap 'manipulate the screen
+    Dim g As Graphics ' to draw
+    Dim blackPen As Pen ' for chicken's color
     Dim VerticesList As List(Of TPoint)
     Dim EdgeList As List(Of TLine)
     Dim Object3D As Model3D 'boring cube
-    Dim PV As New Matrix4x4 'won't be changed
+    Dim PV, InversePV As New Matrix4x4 'won't be changed
     Dim HTree As TList3DObject
     Dim nStack As Stack(Of Matrix4x4)
     Dim rotation, addition As Double
     Dim newTorsoPosition, firstTorsoPosition As TPoint
+    Dim targetpos As TPoint
+    Dim headposition, beakposition As New Matrix4x4 'to get the degree of rotation between the chicken's front and destination 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         rotation = 0
@@ -226,7 +228,7 @@
         torso.Child = AfterTorso
         torso.Nxt = Nothing
         torso.Obj = New Model3D(Object3D)
-        torso.Transform.TranslateMat(0, 0, 0)
+        torso.Transform.TranslateMat(10, 5, 5)
 
         Dim MainTorso As New TList3DObject(torso)
 
@@ -269,6 +271,13 @@
     Private Sub TranverseChange(HObject As TElement3DObject, target As String, value As Double)
         If HObject Is Nothing Then
             Return
+        End If
+
+        If String.Equals("head", HObject.label) Then
+            headposition.CopyMatrix(HObject.Transform)
+            'MsgBox(headposition.Mat(0, 0))
+        ElseIf String.Equals("beak", HObject) Then
+            beakposition.CopyMatrix(HObject.Transform)
         End If
 
         If String.Equals(target, HObject.label) Then
@@ -315,6 +324,8 @@
         newTorsoPosition = New TPoint(e.X, e.Y, 0)
         'rotation = 0
         addition = 1
+        newTorsoPosition = GetWCSPosition()
+        MsgBox(newTorsoPosition.X.ToString() + " " + newTorsoPosition.Y.ToString() + " " + newTorsoPosition.Z.ToString())
         TimerAnimation.Enabled = True
         'if timeranimation.enabled then
         '    timeranimation.enabled = false
@@ -370,7 +381,16 @@
         St.TranslateMat(300, 250, 0) 'translate Ini ternyata posisi awalnya ._. Kirain HTree.First.Child.First.Transformation diganti-ganti isinya sampai hasil perkaliannya = e.X & e.Y
         firstTorsoPosition = New TPoint(300, 250, 0)
         PV.Mat = MultiplyMat4x4(Vt, St)
+        InversePV.Mat = MultiplyMat4x4(St.Transform, Vt.Transform)
+
     End Sub
+
+    Private Function GetWCSPosition() As TPoint
+        'Get the WCS of the selected destination point
+        Dim WCS As New TPoint
+        WCS = MultiplyMat(newTorsoPosition, InversePV)
+        Return WCS
+    End Function
 
     Private Sub ChangeControl(sender As Object, e As EventArgs) Handles btnChange.Click
         'FirstChicken = Not FirstChicken
