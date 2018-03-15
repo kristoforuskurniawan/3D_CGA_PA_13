@@ -327,11 +327,11 @@
         'newTorsoPosition = GetWCSPosition()
         'MsgBox(newTorsoPosition.X.ToString() + " " + newTorsoPosition.Y.ToString() + " " + newTorsoPosition.Z.ToString())
         TimerAnimation.Enabled = True
-        'If TimerAnimation.Enabled Then
-        '    TimerAnimation.Enabled = False
-        'Else
-        '    TimerAnimation.Enabled = True
-        'End If
+        'if timeranimation.enabled then
+        '    timeranimation.enabled = false
+        'else
+        '    timeranimation.enabled = true
+        'end if
         DestPoint.Text = "Destination Point: X = " + newTorsoPosition.X.ToString() + ", Y = " + newTorsoPosition.Y.ToString()
     End Sub
 
@@ -432,11 +432,7 @@
             End If
             Dim x, y As Integer
             If firstTorsoPosition.X > newTorsoPosition.X And firstTorsoPosition.Y > newTorsoPosition.Y Then 'Blom bener
-                If Not turnLeft Then
-                    turnLeft = True
-                Else
-                    turnRight = True
-                End If
+                turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     TurnBodyAnimation.Enabled = True
                     x = -1
