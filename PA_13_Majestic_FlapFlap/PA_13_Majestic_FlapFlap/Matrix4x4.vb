@@ -79,82 +79,82 @@
         MultiplyMatrix4x4(temp)
     End Sub
 
-    'Public Function getDet_2x2(ByRef Two_Dim(,) As Double) As Double
-    '    Return Two_Dim(0, 0) * Two_Dim(1, 1) - Two_Dim(0, 1) * Two_Dim(1, 0)
-    'End Function
+    Public Function getDet_2x2(ByRef Two_Dim(,) As Double) As Double
+        Return Two_Dim(0, 0) * Two_Dim(1, 1) - Two_Dim(0, 1) * Two_Dim(1, 0)
+    End Function
 
-    'Public Function getDet_3x3(ByRef Three_Dim(,) As Double) As Double
-    '    'For i = 0 To 1
-    '    '    For j = 0 To 1
-    '    '        forTwo_Dim1(i, j) = Three_Dim(i + 1, j + 1)
+    Public Function getDet_3x3(ByRef Three_Dim(,) As Double) As Double
+        'For i = 0 To 1
+        '    For j = 0 To 1
+        '        forTwo_Dim1(i, j) = Three_Dim(i + 1, j + 1)
 
-    '    '    Next
-    '    'Next
-    '    Dim forTwo_Dim1(2, 2), forTwo_Dim2(2, 2), forTwo_Dim3(2, 2) As Double
+        '    Next
+        'Next
+        Dim forTwo_Dim1(2, 2), forTwo_Dim2(2, 2), forTwo_Dim3(2, 2) As Double
 
-    '    forTwo_Dim1(0, 0) = Three_Dim(1, 1)
-    '    forTwo_Dim1(0, 1) = Three_Dim(1, 2)
-    '    forTwo_Dim1(1, 0) = Three_Dim(2, 1)
-    '    forTwo_Dim1(1, 1) = Three_Dim(2, 2)
+        forTwo_Dim1(0, 0) = Three_Dim(1, 1)
+        forTwo_Dim1(0, 1) = Three_Dim(1, 2)
+        forTwo_Dim1(1, 0) = Three_Dim(2, 1)
+        forTwo_Dim1(1, 1) = Three_Dim(2, 2)
 
-    '    forTwo_Dim2(0, 0) = Three_Dim(0, 1)
-    '    forTwo_Dim2(0, 1) = Three_Dim(1, 2)
-    '    forTwo_Dim2(1, 0) = Three_Dim(0, 2)
-    '    forTwo_Dim2(1, 1) = Three_Dim(2, 2)
+        forTwo_Dim2(0, 0) = Three_Dim(0, 1)
+        forTwo_Dim2(0, 1) = Three_Dim(1, 2)
+        forTwo_Dim2(1, 0) = Three_Dim(0, 2)
+        forTwo_Dim2(1, 1) = Three_Dim(2, 2)
 
-    '    forTwo_Dim3(0, 0) = Three_Dim(0, 1)
-    '    forTwo_Dim3(0, 1) = Three_Dim(1, 1)
-    '    forTwo_Dim3(1, 0) = Three_Dim(0, 2)
-    '    forTwo_Dim3(1, 1) = Three_Dim(2, 1)
+        forTwo_Dim3(0, 0) = Three_Dim(0, 1)
+        forTwo_Dim3(0, 1) = Three_Dim(1, 1)
+        forTwo_Dim3(1, 0) = Three_Dim(0, 2)
+        forTwo_Dim3(1, 1) = Three_Dim(2, 1)
 
-    '    Return Three_Dim(0, 0) * getDet_2x2(forTwo_Dim1) - Three_Dim(0, 1) * getDet_2x2(forTwo_Dim2) + Three_Dim(0, 2) * getDet_2x2(forTwo_Dim3)
-    'End Function
+        Return Three_Dim(0, 0) * getDet_2x2(forTwo_Dim1) - Three_Dim(0, 1) * getDet_2x2(forTwo_Dim2) + Three_Dim(0, 2) * getDet_2x2(forTwo_Dim3)
+    End Function
 
-    'Public Function getDet_4x4(ByRef Four_Dim(,) As Double)
-    '    Dim forThree_Dim1(3, 3), forThree_Dim2(3, 3), forThree_Dim3(3, 3), forThree_Dim4(3, 3) As Double
+    Public Function getDet_4x4(ByRef Four_Dim(,) As Double)
+        Dim forThree_Dim1(3, 3), forThree_Dim2(3, 3), forThree_Dim3(3, 3), forThree_Dim4(3, 3) As Double
 
-    '    forThree_Dim1(0, 0) = Four_Dim(1, 1) 'Bisa pake loop tapi yah sudahlah
-    '    forThree_Dim1(0, 1) = Four_Dim(1, 2)
-    '    forThree_Dim1(0, 2) = Four_Dim(1, 3)
-    '    forThree_Dim1(1, 0) = Four_Dim(2, 1)
-    '    forThree_Dim1(1, 1) = Four_Dim(2, 2)
-    '    forThree_Dim1(1, 2) = Four_Dim(2, 3)
-    '    forThree_Dim1(2, 0) = Four_Dim(3, 1)
-    '    forThree_Dim1(2, 1) = Four_Dim(3, 2)
-    '    forThree_Dim1(2, 2) = Four_Dim(3, 3)
+        forThree_Dim1(0, 0) = Four_Dim(1, 1) 'Bisa pake loop tapi yah sudahlah
+        forThree_Dim1(0, 1) = Four_Dim(1, 2)
+        forThree_Dim1(0, 2) = Four_Dim(1, 3)
+        forThree_Dim1(1, 0) = Four_Dim(2, 1)
+        forThree_Dim1(1, 1) = Four_Dim(2, 2)
+        forThree_Dim1(1, 2) = Four_Dim(2, 3)
+        forThree_Dim1(2, 0) = Four_Dim(3, 1)
+        forThree_Dim1(2, 1) = Four_Dim(3, 2)
+        forThree_Dim1(2, 2) = Four_Dim(3, 3)
 
-    '    forThree_Dim2(0, 0) = Four_Dim(1, 0) 'Bisa pake loop tapi yah sudahlah
-    '    forThree_Dim2(0, 1) = Four_Dim(1, 2)
-    '    forThree_Dim2(0, 2) = Four_Dim(1, 3)
-    '    forThree_Dim2(1, 0) = Four_Dim(2, 0)
-    '    forThree_Dim2(1, 1) = Four_Dim(2, 2)
-    '    forThree_Dim2(1, 2) = Four_Dim(2, 3)
-    '    forThree_Dim2(2, 0) = Four_Dim(3, 0)
-    '    forThree_Dim2(2, 1) = Four_Dim(3, 2)
-    '    forThree_Dim2(2, 2) = Four_Dim(3, 3)
+        forThree_Dim2(0, 0) = Four_Dim(1, 0) 'Bisa pake loop tapi yah sudahlah
+        forThree_Dim2(0, 1) = Four_Dim(1, 2)
+        forThree_Dim2(0, 2) = Four_Dim(1, 3)
+        forThree_Dim2(1, 0) = Four_Dim(2, 0)
+        forThree_Dim2(1, 1) = Four_Dim(2, 2)
+        forThree_Dim2(1, 2) = Four_Dim(2, 3)
+        forThree_Dim2(2, 0) = Four_Dim(3, 0)
+        forThree_Dim2(2, 1) = Four_Dim(3, 2)
+        forThree_Dim2(2, 2) = Four_Dim(3, 3)
 
-    '    forThree_Dim3(0, 0) = Four_Dim(1, 0) 'Bisa pake loop tapi yah sudahlah
-    '    forThree_Dim3(0, 1) = Four_Dim(1, 1)
-    '    forThree_Dim3(0, 2) = Four_Dim(1, 3)
-    '    forThree_Dim3(1, 0) = Four_Dim(2, 0)
-    '    forThree_Dim3(1, 1) = Four_Dim(2, 1)
-    '    forThree_Dim3(1, 2) = Four_Dim(2, 3)
-    '    forThree_Dim3(2, 0) = Four_Dim(3, 0)
-    '    forThree_Dim3(2, 1) = Four_Dim(3, 1)
-    '    forThree_Dim3(2, 2) = Four_Dim(3, 3)
+        forThree_Dim3(0, 0) = Four_Dim(1, 0) 'Bisa pake loop tapi yah sudahlah
+        forThree_Dim3(0, 1) = Four_Dim(1, 1)
+        forThree_Dim3(0, 2) = Four_Dim(1, 3)
+        forThree_Dim3(1, 0) = Four_Dim(2, 0)
+        forThree_Dim3(1, 1) = Four_Dim(2, 1)
+        forThree_Dim3(1, 2) = Four_Dim(2, 3)
+        forThree_Dim3(2, 0) = Four_Dim(3, 0)
+        forThree_Dim3(2, 1) = Four_Dim(3, 1)
+        forThree_Dim3(2, 2) = Four_Dim(3, 3)
 
-    '    forThree_Dim4(0, 0) = Four_Dim(1, 0) 'Bisa pake loop tapi yah sudahlah
-    '    forThree_Dim4(0, 1) = Four_Dim(1, 1)
-    '    forThree_Dim4(0, 2) = Four_Dim(1, 2)
-    '    forThree_Dim4(1, 0) = Four_Dim(2, 0)
-    '    forThree_Dim4(1, 1) = Four_Dim(2, 1)
-    '    forThree_Dim4(1, 2) = Four_Dim(2, 2)
-    '    forThree_Dim4(2, 0) = Four_Dim(3, 0)
-    '    forThree_Dim4(2, 1) = Four_Dim(3, 1)
-    '    forThree_Dim4(2, 2) = Four_Dim(3, 2)
+        forThree_Dim4(0, 0) = Four_Dim(1, 0) 'Bisa pake loop tapi yah sudahlah
+        forThree_Dim4(0, 1) = Four_Dim(1, 1)
+        forThree_Dim4(0, 2) = Four_Dim(1, 2)
+        forThree_Dim4(1, 0) = Four_Dim(2, 0)
+        forThree_Dim4(1, 1) = Four_Dim(2, 1)
+        forThree_Dim4(1, 2) = Four_Dim(2, 2)
+        forThree_Dim4(2, 0) = Four_Dim(3, 0)
+        forThree_Dim4(2, 1) = Four_Dim(3, 1)
+        forThree_Dim4(2, 2) = Four_Dim(3, 2)
 
-    '    Return Four_Dim(0, 0) * getDet_3x3(forThree_Dim1) - Four_Dim(0, 1) * getDet_3x3(forThree_Dim2) + Four_Dim(0, 2) * getDet_3x3(forThree_Dim3) - Four_Dim(0, 3) * getDet_3x3(forThree_Dim4)
-    'End Function
+        Return Four_Dim(0, 0) * getDet_3x3(forThree_Dim1) - Four_Dim(0, 1) * getDet_3x3(forThree_Dim2) + Four_Dim(0, 2) * getDet_3x3(forThree_Dim3) - Four_Dim(0, 3) * getDet_3x3(forThree_Dim4)
+    End Function
 
     'Public Function getCofactorMatrix_4x4(ByRef Four_Dim(,) As Double) As Double 'This is crazy. I can't find the loop pattern...
     '    Dim CofactorMatrix_4x4(4, 4) As Double
@@ -176,23 +176,15 @@
     '    'Three_Dim(0, 2, 1) = Four_Dim(3, 2)
     '    'Three_Dim(0, 2, 2) = Four_Dim(3, 3)
 
-    '    For i = 0 To 2
-    '        For j = 0 To 2
-    '            If j + 1 <> 1 Then
-    '                Three_Dim(1, i, j) = Four_Dim(i + 1, j + 1) 'Top Left part of cofactor matrix
-    '            End If
-    '        Next
-    '    Next
-
-    '    'Three_Dim(1, 0, 0) = Four_Dim(1, 0)
-    '    'Three_Dim(1, 0, 1) = Four_Dim(1, 2)
-    '    'Three_Dim(1, 0, 2) = Four_Dim(1, 3)
-    '    'Three_Dim(1, 1, 0) = Four_Dim(2, 0)
-    '    'Three_Dim(1, 1, 1) = Four_Dim(2, 2)
-    '    'Three_Dim(1, 1, 2) = Four_Dim(2, 3)
-    '    'Three_Dim(1, 2, 0) = Four_Dim(3, 0)
-    '    'Three_Dim(1, 2, 1) = Four_Dim(3, 2)
-    '    'Three_Dim(1, 2, 2) = Four_Dim(3, 3)
+    '    Three_Dim(1, 0, 0) = Four_Dim(1, 0)
+    '    Three_Dim(1, 0, 1) = Four_Dim(1, 2)
+    '    Three_Dim(1, 0, 2) = Four_Dim(1, 3)
+    '    Three_Dim(1, 1, 0) = Four_Dim(2, 0)
+    '    Three_Dim(1, 1, 1) = Four_Dim(2, 2)
+    '    Three_Dim(1, 1, 2) = Four_Dim(2, 3)
+    '    Three_Dim(1, 2, 0) = Four_Dim(3, 0)
+    '    Three_Dim(1, 2, 1) = Four_Dim(3, 2)
+    '    Three_Dim(1, 2, 2) = Four_Dim(3, 3)
 
     '    Three_Dim(2, 0, 0) = Four_Dim(1, 0)
     '    Three_Dim(2, 0, 1) = Four_Dim(1, 1)
@@ -358,6 +350,7 @@
     '    'Dim Three_Dim15(3, 3) As Double
     '    'Dim Three_Dim16(3, 3) As Double
     '    '        CofactorMatrix_4x4(0, 0)(16) = getDet_3x3()
+    '    Return CofactorMatrix_4x4(0, 0) 'Masih salah.
     'End Function
 
     'Public Function getMinorMatrix_4x4(ByRef Three_Dim(,) As Double) As Double
