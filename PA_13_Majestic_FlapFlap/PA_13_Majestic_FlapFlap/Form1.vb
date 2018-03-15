@@ -324,8 +324,8 @@
         newTorsoPosition = New TPoint(e.X, e.Y, 0)
         'rotation = 0
         addition = 1
-        newTorsoPosition = GetWCSPosition()
-        MsgBox(newTorsoPosition.X.ToString() + " " + newTorsoPosition.Y.ToString() + " " + newTorsoPosition.Z.ToString())
+        'newTorsoPosition = GetWCSPosition()
+        'MsgBox(newTorsoPosition.X.ToString() + " " + newTorsoPosition.Y.ToString() + " " + newTorsoPosition.Z.ToString())
         TimerAnimation.Enabled = True
         'If TimerAnimation.Enabled Then
         '    TimerAnimation.Enabled = False
