@@ -155,7 +155,7 @@
         Return Four_Dim(0, 0) * getDet_3x3(forThree_Dim1) - Four_Dim(0, 1) * getDet_3x3(forThree_Dim2) + Four_Dim(0, 2) * getDet_3x3(forThree_Dim3) - Four_Dim(0, 3) * getDet_3x3(forThree_Dim4)
     End Function
 
-    Public Function getAdjointMatrix_4x4() As Matrix4x4
+    Public Function getAdjointMatrix_4x4() As Matrix4x4 'Belum
 
     End Function
 
