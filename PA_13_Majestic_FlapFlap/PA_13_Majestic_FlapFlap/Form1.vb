@@ -10,19 +10,24 @@
     Dim HTree As TList3DObject
     Dim nStack As Stack(Of Matrix4x4)
     Dim rotation, addition As Double
-    Dim newTorsoPosition, firstTorsoPosition As TPoint
+    Dim DestinationTarget, OriginPosition As TPoint
     Dim targetpos As TPoint
     Dim headposition, beakposition As New Matrix4x4 'to get the degree of rotation between the chicken's front and destination 
+    Dim WingRotation, LegRotation, wingaddition, legaddition As Integer
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        WingRotation = 0
+        LegRotation = 0
         rotation = 0
-        addition = 1
+        addition = 5
+        wingaddition = 5
+        legaddition = 5
         WalkMode = False
         FlyMode = True
         RotateMode = False
         FirstChicken = True
-        newTorsoPosition = New TPoint()
-        firstTorsoPosition = New TPoint()
+        DestinationTarget = New TPoint()
+        OriginPosition = New TPoint()
         nStack = New Stack(Of Matrix4x4)
         blackPen = New Pen(Color.Black, 1)
         bit = New Bitmap(MainCanvas.Width, MainCanvas.Height)
@@ -92,7 +97,7 @@
 
         Dim left_foot As New TElement3DObject
         left_foot.label = "leftfoot"
-        left_foot.Rotation_Axis = RotationAxis.none
+        left_foot.Rotation_Axis = RotationAxis.x
         left_foot.Rotation_Angle = 0
         left_foot.Child = Nothing
         left_foot.Nxt = Nothing
@@ -104,7 +109,7 @@
 
         Dim right_foot As New TElement3DObject
         right_foot.label = "rightfoot"
-        right_foot.Rotation_Axis = RotationAxis.none
+        right_foot.Rotation_Axis = RotationAxis.x
         right_foot.Rotation_Angle = 0
         right_foot.Child = Nothing
         right_foot.Nxt = Nothing
@@ -116,7 +121,7 @@
 
         Dim left_lower_wing As New TElement3DObject
         left_lower_wing.label = "leftlowerwing"
-        left_lower_wing.Rotation_Axis = RotationAxis.none
+        left_lower_wing.Rotation_Axis = RotationAxis.z
         left_lower_wing.Rotation_Angle = 0
         left_lower_wing.Child = Nothing
         left_lower_wing.Nxt = Nothing
@@ -130,7 +135,7 @@
 
         Dim right_lower_wing As New TElement3DObject
         right_lower_wing.label = "rightlowerwing"
-        right_lower_wing.Rotation_Axis = RotationAxis.none
+        right_lower_wing.Rotation_Axis = RotationAxis.z
         right_lower_wing.Rotation_Angle = 0
         right_lower_wing.Child = Nothing
         right_lower_wing.Nxt = Nothing
@@ -156,7 +161,7 @@
 
         Dim head As New TElement3DObject
         head.label = "head"
-        head.Rotation_Axis = RotationAxis.none
+        head.Rotation_Axis = RotationAxis.y
         head.Rotation_Angle = 0
         head.Child = MainBeak
         head.Nxt = Nothing
@@ -168,7 +173,7 @@
 
         Dim neck As New TElement3DObject
         neck.label = "neck"
-        neck.Rotation_Axis = RotationAxis.none
+        neck.Rotation_Axis = RotationAxis.y
         neck.Rotation_Angle = 0
         neck.Child = MainHead
         neck.Nxt = Nothing
@@ -178,8 +183,8 @@
 
 
         Dim right_upper_wing As New TElement3DObject
-        right_upper_wing.label = "rightuppperwing"
-        right_upper_wing.Rotation_Axis = RotationAxis.none
+        right_upper_wing.label = "rightupperwing"
+        right_upper_wing.Rotation_Axis = RotationAxis.z
         right_upper_wing.Rotation_Angle = 0
         right_upper_wing.Child = RightWing
         right_upper_wing.Nxt = neck
@@ -190,7 +195,7 @@
 
         Dim left_upper_wing As New TElement3DObject
         left_upper_wing.label = "leftupperwing"
-        left_upper_wing.Rotation_Axis = RotationAxis.none
+        left_upper_wing.Rotation_Axis = RotationAxis.z
         left_upper_wing.Rotation_Angle = 0
         left_upper_wing.Child = LeftWing
         left_upper_wing.Nxt = right_upper_wing
@@ -201,7 +206,7 @@
 
         Dim right_leg As New TElement3DObject
         right_leg.label = "rightleg"
-        right_leg.Rotation_Axis = RotationAxis.none
+        right_leg.Rotation_Axis = RotationAxis.x
         right_leg.Rotation_Angle = 0
         right_leg.Child = RightFoot
         right_leg.Nxt = left_upper_wing
@@ -211,7 +216,7 @@
 
         Dim left_leg As New TElement3DObject
         left_leg.label = "leftleg"
-        left_leg.Rotation_Axis = RotationAxis.none
+        left_leg.Rotation_Axis = RotationAxis.x
         left_leg.Rotation_Angle = 0
         left_leg.Child = LeftFoot
         left_leg.Nxt = right_leg
@@ -282,6 +287,7 @@
 
         If String.Equals(target, HObject.label) Then
             ChangeRotation(HObject, value)
+            Return
         End If
 
         If Not HObject.Child Is Nothing Then
@@ -289,6 +295,30 @@
         End If
         TranverseChange(HObject.Nxt, target, value)
 
+    End Sub
+
+    Private Sub FlapFlap() 'Animation of wing
+        WingRotation += wingaddition
+        If WingRotation >= 45 Then
+            wingaddition = -wingaddition
+        ElseIf WingRotation <= -45 Then
+            wingaddition = -wingaddition
+        End If
+
+        TranverseChange(HTree.First, "leftupperwing", WingRotation)
+        TranverseChange(HTree.First, "rightupperwing", -WingRotation)
+    End Sub
+
+    Private Sub WalkingChicken() ' Animation of chicken's leg
+        LegRotation += legaddition
+        If LegRotation >= 45 Then
+            legaddition = -legaddition
+        ElseIf legRotation <= -45 Then
+            legaddition = -legaddition
+        End If
+
+        TranverseChange(HTree.First, "leftleg", LegRotation)
+        TranverseChange(HTree.First, "rightleg", -LegRotation)
     End Sub
 
     Private Sub ChangeRotation(ByRef target As TElement3DObject, value As Double)
@@ -321,18 +351,18 @@
     End Sub
 
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
-        newTorsoPosition = New TPoint(e.X, e.Y, 0)
+        DestinationTarget = New TPoint(e.X, e.Y, 0)
         'rotation = 0
         addition = 1
-        newTorsoPosition = GetWCSPosition()
-        MsgBox(newTorsoPosition.X.ToString() + " " + newTorsoPosition.Y.ToString() + " " + newTorsoPosition.Z.ToString())
+        'DestinationTarget = GetWCSPosition()
+        'MsgBox(DestinationTarget.X.ToString() + " " + DestinationTarget.Y.ToString() + " " + DestinationTarget.Z.ToString())
         TimerAnimation.Enabled = True
         'if timeranimation.enabled then
         '    timeranimation.enabled = false
         'else
         '    timeranimation.enabled = true
         'end if
-        DestPoint.Text = "Destination Point: X = " + newTorsoPosition.X.ToString() + ", Y = " + newTorsoPosition.Y.ToString()
+        DestPoint.Text = "Destination Point: X = " + DestinationTarget.X.ToString() + ", Y = " + DestinationTarget.Y.ToString()
     End Sub
 
     Private Sub declare_all_object()
@@ -369,7 +399,7 @@
         'PV = P Wt Vt St
         'P => object
         'PV=> projection
-        Dim Vt, St As New Matrix4x4
+        Dim Vt, St, InVt, InSt As New Matrix4x4
         PV = New Matrix4x4
         'Vt => View
         'Vt.RotateY(45)
@@ -379,16 +409,19 @@
         ' St.T1(20, -20, 1, 300, 200, 0)
         St.ScaleMat(25, -25, 1) ' scale
         St.TranslateMat(300, 250, 0) 'translate Ini ternyata posisi awalnya ._. Kirain HTree.First.Child.First.Transformation diganti-ganti isinya sampai hasil perkaliannya = e.X & e.Y
-        firstTorsoPosition = New TPoint(300, 250, 0)
+        InSt.OnePointProjection(-10)
+        InVt.ScaleMat(0.04, -0.04, 1)
+        InVt.TranslateMat(-12, 10, 0)
+
         PV.Mat = MultiplyMat4x4(Vt, St)
-        InversePV.Mat = MultiplyMat4x4(St.Transform, Vt.Transform)
+        InversePV.Mat = MultiplyMat4x4(InSt, InVt)
 
     End Sub
 
     Private Function GetWCSPosition() As TPoint
         'Get the WCS of the selected destination point
         Dim WCS As New TPoint
-        WCS = MultiplyMat(newTorsoPosition, InversePV)
+        WCS = MultiplyMat(DestinationTarget, InversePV)
         Return WCS
     End Function
 
@@ -419,6 +452,8 @@
         End If
         'rotation += addition
         g.Clear(Color.White)
+        FlapFlap()
+        WalkingChicken()
         'HTree.First.Transform.RotateY(rotation)
         TranverseChange(HTree.First, "torso", rotation)
         TranverseTree(HTree.First)
@@ -427,52 +462,52 @@
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
 
         If WalkMode Then 'Not yet completed (- body turned)
-            If firstTorsoPosition.X = newTorsoPosition.X And firstTorsoPosition.Y = newTorsoPosition.Y Then
+            If OriginPosition.X = DestinationTarget.X And OriginPosition.Y = DestinationTarget.Y Then
                 TimerAnimation.Enabled = False
             End If
             Dim x, y As Integer
-            If firstTorsoPosition.X > newTorsoPosition.X And firstTorsoPosition.Y > newTorsoPosition.Y Then 'Blom bener
+            If OriginPosition.X > DestinationTarget.X And OriginPosition.Y > DestinationTarget.Y Then 'Blom bener
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     TurnBodyAnimation.Enabled = True
                     x = -1
                     y = -1
                 End If
-            ElseIf firstTorsoPosition.X > newTorsoPosition.X And firstTorsoPosition.Y < newTorsoPosition.Y Then
+            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y < DestinationTarget.Y Then
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     TurnBodyAnimation.Enabled = True
                     x = -1
                     y = 1
                 End If
-            ElseIf firstTorsoPosition.X < newTorsoPosition.X And firstTorsoPosition.Y > newTorsoPosition.Y Then
+            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y > DestinationTarget.Y Then
                 turnRight = True
                 If bodyTurned = 0 And turnRight Then
                     TurnBodyAnimation.Enabled = True
                     x = 1
                     y = -1
                 End If
-            ElseIf firstTorsoPosition.X < newTorsoPosition.X And firstTorsoPosition.Y < newTorsoPosition.Y Then
+            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y < DestinationTarget.Y Then
                 turnRight = True
                 If bodyTurned = 0 And turnRight Then
                     TurnBodyAnimation.Enabled = True
                     x = 1
                     y = 1
                 End If
-            ElseIf firstTorsoPosition.X = newTorsoPosition.X And firstTorsoPosition.Y < newTorsoPosition.Y Then
+            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y < DestinationTarget.Y Then
                 x = 0
                 y = 1
-            ElseIf firstTorsoPosition.X = newTorsoPosition.X And firstTorsoPosition.Y > newTorsoPosition.Y Then
+            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y > DestinationTarget.Y Then
                 x = 0
                 y = -1
-            ElseIf firstTorsoPosition.X > newTorsoPosition.X And firstTorsoPosition.Y = newTorsoPosition.Y Then
+            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y = DestinationTarget.Y Then
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     TurnBodyAnimation.Enabled = True
                     x = -1
                     y = 0
                 End If
-            ElseIf firstTorsoPosition.X < newTorsoPosition.X And firstTorsoPosition.Y = newTorsoPosition.Y Then
+            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y = DestinationTarget.Y Then
                 turnRight = True
                 If bodyTurned = 0 And turnRight Then
                     TurnBodyAnimation.Enabled = True
@@ -480,9 +515,9 @@
                     y = 0
                 End If
             End If
-            firstTorsoPosition.X += x
-            firstTorsoPosition.Y += y
-            ChickPos.Text = "Chicken: X = " + firstTorsoPosition.X.ToString() + ", Y = " + firstTorsoPosition.Y.ToString()
+            OriginPosition.X += x
+            OriginPosition.Y += y
+            ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Y = " + OriginPosition.Y.ToString()
             HTree.First.Transform.TranslateMat(x, y, 0)
             g.Clear(Color.White)
             TranverseChange(HTree.First, "torso", rotation)
