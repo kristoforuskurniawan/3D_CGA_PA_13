@@ -354,7 +354,7 @@
     End Sub
 
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
-        DestinationTarget = New TPoint(e.X, 0, e.Y)
+        DestinationTarget = New TPoint(e.X, e.Y, e.Y)
         'rotation = 0
         addition = 1
         'DestinationTarget = GetWCSPosition()
@@ -480,52 +480,52 @@
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
 
         If WalkMode Then 'Not yet completed (- body turned)
-            If OriginPosition.X = DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
+            If OriginPosition.X = DestinationTarget.X And OriginPosition.Y / 100 = DestinationTarget.Z / 100 Then
                 TimerAnimation.Enabled = False
             End If
             Dim x, z As Integer
-            If OriginPosition.X > DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then 'Blom bener
+            If OriginPosition.X > DestinationTarget.X And OriginPosition.Y / 100 > DestinationTarget.Z / 100 Then 'Blom bener
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     TurnBodyAnimation.Enabled = True
                     x = -1
                     z = -1
                 End If
-            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
+            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y / 100 < DestinationTarget.Z / 100 Then
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     TurnBodyAnimation.Enabled = True
                     x = -1
                     z = 1
                 End If
-            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then
+            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y / 100 > DestinationTarget.Z / 100 Then
                 turnRight = True
                 If bodyTurned = 0 And turnRight Then
                     TurnBodyAnimation.Enabled = True
                     x = 1
                     z = -1
                 End If
-            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
+            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y / 100 < DestinationTarget.Z / 100 Then
                 turnRight = True
                 If bodyTurned = 0 And turnRight Then
                     TurnBodyAnimation.Enabled = True
                     x = 1
                     z = 1
                 End If
-            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
+            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y / 100 < DestinationTarget.Z / 100 Then
                 x = 0
                 z = 1
-            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then
+            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y / 100 > DestinationTarget.Z / 100 Then
                 x = 0
                 z = -1
-            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
+            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y / 100 = DestinationTarget.Z / 100 Then
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     TurnBodyAnimation.Enabled = True
                     x = -1
                     z = 0
                 End If
-            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
+            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y / 100 = DestinationTarget.Z / 100 Then
                 turnRight = True
                 If bodyTurned = 0 And turnRight Then
                     TurnBodyAnimation.Enabled = True
