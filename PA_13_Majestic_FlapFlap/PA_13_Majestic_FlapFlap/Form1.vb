@@ -313,7 +313,7 @@
         LegRotation += legaddition
         If LegRotation >= 45 Then
             legaddition = -legaddition
-        ElseIf legRotation <= -45 Then
+        ElseIf LegRotation <= -45 Then
             legaddition = -legaddition
         End If
 
