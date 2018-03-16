@@ -11,6 +11,7 @@
     Dim nStack As Stack(Of Matrix4x4)
     Dim rotation, addition As Double
     Dim DestinationTarget, OriginPosition As TPoint
+    Dim z As Integer = -1
     Dim targetpos As TPoint
     Dim headposition, beakposition As New Matrix4x4 'to get the degree of rotation between the chicken's front and destination 
     Dim WingRotation, LegRotation, wingaddition, legaddition As Integer
@@ -466,7 +467,7 @@
                 TimerAnimation.Enabled = False
             End If
             Dim x, y As Integer
-            If OriginPosition.X > DestinationTarget.X And OriginPosition.Y > DestinationTarget.Y Then 'Blom bener
+            If OriginPosition.X > DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then 'Blom bener
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     TurnBodyAnimation.Enabled = True
@@ -496,11 +497,11 @@
                 End If
             ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
                 x = 0
-                y = 1
-            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y > DestinationTarget.Y Then
+                z = 1
+            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then
                 x = 0
-                y = -1
-            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y = DestinationTarget.Y Then
+                z = -1
+            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     TurnBodyAnimation.Enabled = True
@@ -516,9 +517,9 @@
                 End If
             End If
             OriginPosition.X += x
-            OriginPosition.Y += y
+            OriginPosition.Y += z
             ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Y = " + OriginPosition.Y.ToString()
-            HTree.First.Transform.TranslateMat(x, y, 0)
+            HTree.First.Transform.TranslateMat(x, 0, z)
             g.Clear(Color.White)
             TranverseChange(HTree.First, "torso", rotation)
             TranverseTree(HTree.First)
