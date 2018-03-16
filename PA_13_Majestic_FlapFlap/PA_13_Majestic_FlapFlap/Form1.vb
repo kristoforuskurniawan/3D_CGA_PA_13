@@ -354,18 +354,18 @@
     End Sub
 
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
-        DestinationTarget = New TPoint(e.X, e.Y, 0)
+        DestinationTarget = New TPoint(e.X, 0, e.Y)
         'rotation = 0
         addition = 1
         'DestinationTarget = GetWCSPosition()
-        'MsgBox(DestinationTarget.X.ToString() + " " + DestinationTarget.Y.ToString() + " " + DestinationTarget.Z.ToString())
+        'MsgBox(DestinationTarget.X.ToString() + " " + DestinationTarget.Z.ToString() + " " + DestinationTarget.Z.ToString())
         TimerAnimation.Enabled = True
         'if timeranimation.enabled then
         '    timeranimation.enabled = false
         'else
         '    timeranimation.enabled = true
         'end if
-        DestPoint.Text = "Destination Point: X = " + DestinationTarget.X.ToString() + ", Y = " + DestinationTarget.Y.ToString()
+        DestPoint.Text = "Destination Point: X = " + DestinationTarget.X.ToString() + ", Z = " + DestinationTarget.Z.ToString()
     End Sub
 
     Private Sub declare_all_object()
@@ -480,63 +480,63 @@
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
 
         If WalkMode Then 'Not yet completed (- body turned)
-            If OriginPosition.X = DestinationTarget.X And OriginPosition.Y = DestinationTarget.Y Then
+            If OriginPosition.X = DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
                 TimerAnimation.Enabled = False
             End If
-            Dim x, y As Integer
-            If OriginPosition.X > DestinationTarget.X And OriginPosition.Y > DestinationTarget.Y Then 'Blom bener
+            Dim x, z As Integer
+            If OriginPosition.X > DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then 'Blom bener
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     TurnBodyAnimation.Enabled = True
                     x = -1
-                    y = -1
+                    z = -1
                 End If
-            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y < DestinationTarget.Y Then
+            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     TurnBodyAnimation.Enabled = True
                     x = -1
-                    y = 1
+                    z = 1
                 End If
-            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y > DestinationTarget.Y Then
+            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then
                 turnRight = True
                 If bodyTurned = 0 And turnRight Then
                     TurnBodyAnimation.Enabled = True
                     x = 1
-                    y = -1
+                    z = -1
                 End If
-            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y < DestinationTarget.Y Then
+            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
                 turnRight = True
                 If bodyTurned = 0 And turnRight Then
                     TurnBodyAnimation.Enabled = True
                     x = 1
-                    y = 1
+                    z = 1
                 End If
-            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y < DestinationTarget.Y Then
+            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
                 x = 0
-                y = 1
-            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y > DestinationTarget.Y Then
+                z = 1
+            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then
                 x = 0
-                y = -1
-            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y = DestinationTarget.Y Then
+                z = -1
+            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     TurnBodyAnimation.Enabled = True
                     x = -1
-                    y = 0
+                    z = 0
                 End If
-            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y = DestinationTarget.Y Then
+            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
                 turnRight = True
                 If bodyTurned = 0 And turnRight Then
                     TurnBodyAnimation.Enabled = True
                     x = 1
-                    y = 0
+                    z = 0
                 End If
             End If
             OriginPosition.X += x
-            OriginPosition.Y += y
-            ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Y = " + OriginPosition.Y.ToString()
-            HTree.First.Transform.TranslateMat(x, y, 0)
+            OriginPosition.Z += z
+            ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Z = " + OriginPosition.Z.ToString()
+            HTree.First.Child.First.Transform.TranslateMat(x, 0, z)
             g.Clear(Color.White)
             TranverseChange(HTree.First, "torso", rotation)
             TranverseTree(HTree.First)
