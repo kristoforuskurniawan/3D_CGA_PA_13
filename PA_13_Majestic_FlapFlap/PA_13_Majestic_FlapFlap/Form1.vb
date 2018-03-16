@@ -13,15 +13,17 @@
     Dim DestinationTarget, OriginPosition As TPoint
     Dim targetpos As TPoint
     Dim headposition, beakposition As New Matrix4x4 'to get the degree of rotation between the chicken's front and destination 
-    Dim WingRotation, LegRotation, wingaddition, legaddition As Integer
+    Dim WingRotation, LegRotation, FlyPosition, wingaddition, legaddition, flyaddition As Double
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         WingRotation = 0
         LegRotation = 0
+        FlyPosition = 0
         rotation = 0
         addition = 5
         wingaddition = 5
         legaddition = 5
+        flyaddition = 0.2
         WalkMode = False
         FlyMode = True
         RotateMode = False
@@ -233,7 +235,8 @@
         torso.Child = AfterTorso
         torso.Nxt = Nothing
         torso.Obj = New Model3D(Object3D)
-        torso.Transform.TranslateMat(10, 5, 5)
+        torso.Transform.TranslateMat(0, 0, 0)
+        torso.Transform.ScaleMat(0.5, 0.5, 0.5)
 
         Dim MainTorso As New TList3DObject(torso)
 
@@ -459,6 +462,21 @@
         TranverseTree(HTree.First)
     End Sub
 
+    Private Sub MovingChicken()
+
+    End Sub
+
+    Private Sub FlyingChicken()
+        FlyPosition += flyaddition
+        If FlyPosition >= 10 Then
+            flyaddition = -flyaddition
+        ElseIf FlyPosition <= 0 Then
+            flyaddition = -flyaddition
+        End If
+        HTree.First.Child.First.Transform.TranslateMat(0, flyaddition, 0)
+
+    End Sub
+
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
 
         If WalkMode Then 'Not yet completed (- body turned)
@@ -523,7 +541,8 @@
             TranverseChange(HTree.First, "torso", rotation)
             TranverseTree(HTree.First)
         ElseIf FlyMode Then
-
+            TurnBodyAnimation.Enabled = True
+            FlyingChicken()
         ElseIf RotateMode Then 'Only to test
             rotation += addition
             If rotation >= Round Or rotation <= -Round Then
