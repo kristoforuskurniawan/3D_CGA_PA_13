@@ -358,14 +358,14 @@
 
     Private Sub MainCanvas_MouseOver(sender As Object, e As MouseEventArgs) Handles MainCanvas.MouseMove
         CoordinatesLabel.Text = "Coordinates: X = " + e.X.ToString() + ", Y = " + e.Y.ToString()
-        dx = Math.Abs(OriginPosition.X - e.X)
-        dy = Math.Abs(OriginPosition.Y - e.Y)
     End Sub
 
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
         DestinationTarget = New TPoint(e.X, e.Y, e.Y)
         'rotation = 0
         addition = 1
+        dx = Math.Abs(OriginPosition.X - DestinationTarget.X)
+        dy = Math.Abs(OriginPosition.Y - DestinationTarget.Y)
         'DestinationTarget = GetWCSPosition()
         'MsgBox(DestinationTarget.X.ToString() + " " + DestinationTarget.Z.ToString() + " " + DestinationTarget.Z.ToString())
         TimerAnimation.Enabled = True
