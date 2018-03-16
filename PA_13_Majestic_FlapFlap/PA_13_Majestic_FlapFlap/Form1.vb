@@ -15,6 +15,9 @@
     Dim headposition, beakposition As New Matrix4x4 'to get the degree of rotation between the chicken's front and destination 
     Dim WingRotation, LegRotation, FlyPosition, wingaddition, legaddition, flyaddition As Double
     Dim dy, dx, vx, vy, theta, cotTheta As Double
+    Dim bodyTurned As Integer = 0
+    Dim turnLeft As Boolean = False 'Determine the first torso position
+    Dim turnRight As Boolean = False
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         WingRotation = 0
@@ -437,10 +440,7 @@
         Return WCS
     End Function
 
-    Dim bodyTurned As Integer = 0
 
-    Dim turnLeft As Boolean = False 'Determine the first torso position
-    Dim turnRight As Boolean = False
 
     Private Sub TurnBodyAnimation_Tick(sender As Object, e As EventArgs) Handles TurnBodyAnimation.Tick 'Last edited here
         If turnLeft Then
@@ -476,6 +476,10 @@
     End Sub
 
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
+
+        If (OriginPosition.X = DestinationTarget.X And (OriginPosition.Y = DestinationTarget.Y Or OriginPosition.Z = DestinationTarget.Z)) Then 'Biar berhenti
+            TimerAnimation.Enabled = False
+        End If
 
         If WalkMode Then 'Not yet completed (- body turned)
             If OriginPosition.X = DestinationTarget.X And OriginPosition.Y / 100 = DestinationTarget.Z / 100 Then
