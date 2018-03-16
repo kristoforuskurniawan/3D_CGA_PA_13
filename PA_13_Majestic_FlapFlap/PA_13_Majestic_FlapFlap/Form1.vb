@@ -14,7 +14,7 @@
     Dim targetpos As TPoint
     Dim headposition, beakposition As New Matrix4x4 'to get the degree of rotation between the chicken's front and destination 
     Dim WingRotation, LegRotation, FlyPosition, wingaddition, legaddition, flyaddition As Double
-    Dim dy, dx, vx, vy As Double
+    Dim dy, dx, vx, vy, theta, cotTheta As Double
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         WingRotation = 0
@@ -24,6 +24,8 @@
         dx = 0
         vx = 0
         vy = 0
+        theta = 0
+        cotTheta = Math.Atan(theta) * 180 / Math.PI
         rotation = 0
         addition = 5
         wingaddition = 5
