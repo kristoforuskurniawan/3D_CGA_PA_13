@@ -413,9 +413,9 @@
         ' St.T1(20, -20, 1, 300, 200, 0)
         St.ScaleMat(25, -25, 1) ' scale
         St.TranslateMat(300, 250, 0) 'translate Ini ternyata posisi awalnya ._. Kirain HTree.First.Child.First.Transformation diganti-ganti isinya sampai hasil perkaliannya = e.X & e.Y
-        InSt.OnePointProjection(-10)
-        InVt.ScaleMat(0.04, -0.04, 1)
-        InVt.TranslateMat(-12, 10, 0)
+        InVt.OnePointProjection(-10)
+        InSt.ScaleMat(0.04, -0.04, 1)
+        InSt.TranslateMat(-12, 10, 0)
 
         PV.Mat = MultiplyMat4x4(Vt, St)
         InversePV.Mat = MultiplyMat4x4(InSt, InVt)
@@ -453,11 +453,12 @@
         End If
         If Math.Abs(rotation) Mod 180 = 0 Then 'Limit rotation to 180 degree
             addition = 0
+            '    FlapFlap()
+
         End If
         'rotation += addition
         g.Clear(Color.White)
-        FlapFlap()
-        WalkingChicken()
+
         'HTree.First.Transform.RotateY(rotation)
         TranverseChange(HTree.First, "torso", rotation)
         TranverseTree(HTree.First)
@@ -534,13 +535,19 @@
                     z = 0
                 End If
             End If
-            OriginPosition.X += x
-            OriginPosition.Z += z
-            ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Z = " + OriginPosition.Z.ToString()
-            HTree.First.Child.First.Transform.TranslateMat(x, 0, z)
-            g.Clear(Color.White)
-            TranverseChange(HTree.First, "torso", rotation)
-            TranverseTree(HTree.First)
+            If addition = 0 Then
+                WalkingChicken()
+                OriginPosition.X += x
+                OriginPosition.Z += z
+                ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Z = " + OriginPosition.Z.ToString()
+                HTree.First.Child.First.Transform.TranslateMat(x, 0, z)
+                g.Clear(Color.White)
+                TranverseChange(HTree.First, "torso", rotation)
+                TranverseTree(HTree.First)
+
+            End If
+
+
         ElseIf FlyMode Then
             TurnBodyAnimation.Enabled = True
             FlyingChicken()
