@@ -14,15 +14,17 @@
     Dim z As Integer = -1
     Dim targetpos As TPoint
     Dim headposition, beakposition As New Matrix4x4 'to get the degree of rotation between the chicken's front and destination 
-    Dim WingRotation, LegRotation, wingaddition, legaddition As Integer
+    Dim WingRotation, LegRotation, FlyPosition, wingaddition, legaddition, flyaddition As Double
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         WingRotation = 0
         LegRotation = 0
+        FlyPosition = 0
         rotation = 0
         addition = 5
         wingaddition = 5
         legaddition = 5
+        flyaddition = 0.2
         WalkMode = False
         FlyMode = True
         RotateMode = False
@@ -234,7 +236,8 @@
         torso.Child = AfterTorso
         torso.Nxt = Nothing
         torso.Obj = New Model3D(Object3D)
-        torso.Transform.TranslateMat(10, 5, 5)
+        torso.Transform.TranslateMat(0, 0, 0)
+        torso.Transform.ScaleMat(0.5, 0.5, 0.5)
 
         Dim MainTorso As New TList3DObject(torso)
 
@@ -352,7 +355,7 @@
     End Sub
 
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
-        DestinationTarget = New TPoint(e.X, 0, e.Y)
+        DestinationTarget = New TPoint(e.X, e.Y, e.Y)
         'rotation = 0
         addition = 1
         'DestinationTarget = GetWCSPosition()
@@ -460,55 +463,70 @@
         TranverseTree(HTree.First)
     End Sub
 
+    Private Sub MovingChicken()
+
+    End Sub
+
+    Private Sub FlyingChicken()
+        FlyPosition += flyaddition
+        If FlyPosition >= 10 Then
+            flyaddition = -flyaddition
+        ElseIf FlyPosition <= 0 Then
+            flyaddition = -flyaddition
+        End If
+        HTree.First.Child.First.Transform.TranslateMat(0, flyaddition, 0)
+
+    End Sub
+
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
 
         If WalkMode Then 'Not yet completed (- body turned)
-            If OriginPosition.X = DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
+            If OriginPosition.X = DestinationTarget.X And OriginPosition.Y / 100 = DestinationTarget.Z / 100 Then
                 TimerAnimation.Enabled = False
             End If
-            Dim x, y As Integer
-            If OriginPosition.X > DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then 'Blom bener
+            Dim x, z As Integer
+            If OriginPosition.X > DestinationTarget.X And OriginPosition.Y / 100 > DestinationTarget.Z / 100 Then 'Blom bener
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     TurnBodyAnimation.Enabled = True
                     x = -1
                     z = -1
                 End If
-            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
+            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y / 100 < DestinationTarget.Z / 100 Then
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     TurnBodyAnimation.Enabled = True
                     x = -1
                     z = 1
                 End If
-            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then
+            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y / 100 > DestinationTarget.Z / 100 Then
                 turnRight = True
                 If bodyTurned = 0 And turnRight Then
                     TurnBodyAnimation.Enabled = True
                     x = 1
                     z = -1
                 End If
-            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
+            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y / 100 < DestinationTarget.Z / 100 Then
                 turnRight = True
                 If bodyTurned = 0 And turnRight Then
                     TurnBodyAnimation.Enabled = True
                     x = 1
                     z = 1
                 End If
-            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
+            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y / 100 < DestinationTarget.Z / 100 Then
                 x = 0
                 z = 1
-            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then
+            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y / 100 > DestinationTarget.Z / 100 Then
                 x = 0
                 z = -1
-            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
+            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y / 100 = DestinationTarget.Z / 100 Then
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     TurnBodyAnimation.Enabled = True
                     x = -1
                     z = 0
                 End If
-            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
+            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y / 100 = DestinationTarget.Z / 100 Then
                 turnRight = True
                 If bodyTurned = 0 And turnRight Then
                     TurnBodyAnimation.Enabled = True
@@ -517,14 +535,15 @@
                 End If
             End If
             OriginPosition.X += x
-            OriginPosition.Y += z
-            ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Y = " + OriginPosition.Y.ToString()
-            HTree.First.Transform.TranslateMat(x, 0, z)
+            OriginPosition.Z += z
+            ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Z = " + OriginPosition.Z.ToString()
+            HTree.First.Child.First.Transform.TranslateMat(x, 0, z)
             g.Clear(Color.White)
             TranverseChange(HTree.First, "torso", rotation)
             TranverseTree(HTree.First)
         ElseIf FlyMode Then
-
+            TurnBodyAnimation.Enabled = True
+            FlyingChicken()
         ElseIf RotateMode Then 'Only to test
             rotation += addition
             If rotation >= Round Or rotation <= -Round Then
