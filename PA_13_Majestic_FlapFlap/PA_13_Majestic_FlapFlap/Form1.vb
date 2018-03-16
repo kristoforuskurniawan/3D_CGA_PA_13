@@ -14,11 +14,16 @@
     Dim targetpos As TPoint
     Dim headposition, beakposition As New Matrix4x4 'to get the degree of rotation between the chicken's front and destination 
     Dim WingRotation, LegRotation, FlyPosition, wingaddition, legaddition, flyaddition As Double
+    Dim dy, dx, vx, vy As Double
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         WingRotation = 0
         LegRotation = 0
         FlyPosition = 0
+        dy = 0
+        dx = 0
+        vx = 0
+        vy = 0
         rotation = 0
         addition = 5
         wingaddition = 5
@@ -351,6 +356,8 @@
 
     Private Sub MainCanvas_MouseOver(sender As Object, e As MouseEventArgs) Handles MainCanvas.MouseMove
         CoordinatesLabel.Text = "Coordinates: X = " + e.X.ToString() + ", Y = " + e.Y.ToString()
+        dx = Math.Abs(OriginPosition.X - e.X)
+        dy = Math.Abs(OriginPosition.Y - e.Y)
     End Sub
 
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
@@ -428,21 +435,10 @@
         Return WCS
     End Function
 
-    Private Sub ChangeControl(sender As Object, e As EventArgs) Handles btnChange.Click
-        'FirstChicken = Not FirstChicken
-        ''        TimerAnimation.Enabled = Not TimerAnimation.Enabled
-        'TurnBodyAnimation.Enabled = True
-        MessageBox.Show(HTree.First.Child.First.Child.First.Nxt.Nxt.Nxt.Nxt.Child.First.Child.First.Obj.Vertices(0).X)
-    End Sub
-
     Dim bodyTurned As Integer = 0
 
     Dim turnLeft As Boolean = False 'Determine the first torso position
     Dim turnRight As Boolean = False
-    'Dim turnTopRight As Boolean = False
-    'Dim turnTopLeft As Boolean = False
-    'Dim turnBotRight As Boolean = False
-    'Dim turnBotLeft As Boolean = False
 
     Private Sub TurnBodyAnimation_Tick(sender As Object, e As EventArgs) Handles TurnBodyAnimation.Tick 'Last edited here
         If turnLeft Then
