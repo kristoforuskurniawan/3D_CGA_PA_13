@@ -40,14 +40,14 @@ Partial Class Form1
         Me.MainCanvas.BackColor = System.Drawing.Color.White
         Me.MainCanvas.Location = New System.Drawing.Point(13, 13)
         Me.MainCanvas.Name = "MainCanvas"
-        Me.MainCanvas.Size = New System.Drawing.Size(616, 483)
+        Me.MainCanvas.Size = New System.Drawing.Size(659, 483)
         Me.MainCanvas.TabIndex = 0
         Me.MainCanvas.TabStop = False
         '
         'FlyRadioButton
         '
         Me.FlyRadioButton.AutoSize = True
-        Me.FlyRadioButton.Location = New System.Drawing.Point(639, 13)
+        Me.FlyRadioButton.Location = New System.Drawing.Point(13, 502)
         Me.FlyRadioButton.Name = "FlyRadioButton"
         Me.FlyRadioButton.Size = New System.Drawing.Size(68, 17)
         Me.FlyRadioButton.TabIndex = 1
@@ -58,7 +58,7 @@ Partial Class Form1
         'WalkRadioButton
         '
         Me.WalkRadioButton.AutoSize = True
-        Me.WalkRadioButton.Location = New System.Drawing.Point(639, 37)
+        Me.WalkRadioButton.Location = New System.Drawing.Point(87, 502)
         Me.WalkRadioButton.Name = "WalkRadioButton"
         Me.WalkRadioButton.Size = New System.Drawing.Size(80, 17)
         Me.WalkRadioButton.TabIndex = 2
@@ -69,7 +69,7 @@ Partial Class Form1
         'CoordinatesLabel
         '
         Me.CoordinatesLabel.AutoSize = True
-        Me.CoordinatesLabel.Location = New System.Drawing.Point(636, 482)
+        Me.CoordinatesLabel.Location = New System.Drawing.Point(547, 504)
         Me.CoordinatesLabel.Name = "CoordinatesLabel"
         Me.CoordinatesLabel.Size = New System.Drawing.Size(125, 13)
         Me.CoordinatesLabel.TabIndex = 3
@@ -82,7 +82,7 @@ Partial Class Form1
         'RotateRadioButton
         '
         Me.RotateRadioButton.AutoSize = True
-        Me.RotateRadioButton.Location = New System.Drawing.Point(639, 60)
+        Me.RotateRadioButton.Location = New System.Drawing.Point(173, 502)
         Me.RotateRadioButton.Name = "RotateRadioButton"
         Me.RotateRadioButton.Size = New System.Drawing.Size(99, 17)
         Me.RotateRadioButton.TabIndex = 5
@@ -93,7 +93,7 @@ Partial Class Form1
         'ChickPos
         '
         Me.ChickPos.AutoSize = True
-        Me.ChickPos.Location = New System.Drawing.Point(636, 447)
+        Me.ChickPos.Location = New System.Drawing.Point(433, 504)
         Me.ChickPos.Name = "ChickPos"
         Me.ChickPos.Size = New System.Drawing.Size(108, 13)
         Me.ChickPos.TabIndex = 6
@@ -102,7 +102,7 @@ Partial Class Form1
         'DestPoint
         '
         Me.DestPoint.AutoSize = True
-        Me.DestPoint.Location = New System.Drawing.Point(635, 413)
+        Me.DestPoint.Location = New System.Drawing.Point(278, 504)
         Me.DestPoint.Name = "DestPoint"
         Me.DestPoint.Size = New System.Drawing.Size(149, 13)
         Me.DestPoint.TabIndex = 7
@@ -116,7 +116,7 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(806, 508)
+        Me.ClientSize = New System.Drawing.Size(689, 530)
         Me.Controls.Add(Me.DestPoint)
         Me.Controls.Add(Me.ChickPos)
         Me.Controls.Add(Me.RotateRadioButton)
