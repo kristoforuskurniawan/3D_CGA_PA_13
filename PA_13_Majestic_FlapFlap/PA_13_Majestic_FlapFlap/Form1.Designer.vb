@@ -40,7 +40,7 @@ Partial Class Form1
         Me.MainCanvas.BackColor = System.Drawing.Color.White
         Me.MainCanvas.Location = New System.Drawing.Point(13, 13)
         Me.MainCanvas.Name = "MainCanvas"
-        Me.MainCanvas.Size = New System.Drawing.Size(659, 483)
+        Me.MainCanvas.Size = New System.Drawing.Size(753, 483)
         Me.MainCanvas.TabIndex = 0
         Me.MainCanvas.TabStop = False
         '
@@ -69,7 +69,7 @@ Partial Class Form1
         'CoordinatesLabel
         '
         Me.CoordinatesLabel.AutoSize = True
-        Me.CoordinatesLabel.Location = New System.Drawing.Point(547, 504)
+        Me.CoordinatesLabel.Location = New System.Drawing.Point(626, 504)
         Me.CoordinatesLabel.Name = "CoordinatesLabel"
         Me.CoordinatesLabel.Size = New System.Drawing.Size(125, 13)
         Me.CoordinatesLabel.TabIndex = 3
@@ -93,7 +93,7 @@ Partial Class Form1
         'ChickPos
         '
         Me.ChickPos.AutoSize = True
-        Me.ChickPos.Location = New System.Drawing.Point(433, 504)
+        Me.ChickPos.Location = New System.Drawing.Point(481, 504)
         Me.ChickPos.Name = "ChickPos"
         Me.ChickPos.Size = New System.Drawing.Size(108, 13)
         Me.ChickPos.TabIndex = 6
@@ -116,7 +116,7 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(689, 530)
+        Me.ClientSize = New System.Drawing.Size(778, 530)
         Me.Controls.Add(Me.DestPoint)
         Me.Controls.Add(Me.ChickPos)
         Me.Controls.Add(Me.RotateRadioButton)
