@@ -473,13 +473,14 @@
     End Sub
 
     Private Sub Ascend(ByVal ascendSpeed As Double)
-        FlyPosition += ascendSpeed
         If FlyPosition > 5 Then 'Ascend
             'flyaddition = 0
             ascendSpeed = 0
-            'Descend(FlyPosition, flyaddition)
+            'Descend(descendSpeed)
             'ElseIf FlyPosition <= 0 Then
             '    flyaddition = -flyaddition
+        Else
+            FlyPosition += ascendSpeed
         End If
 
         g.Clear(Color.White)
@@ -488,11 +489,11 @@
 
     End Sub
 
-    Private Sub Descend(ByVal descendSPeed As Double)
-        'MessageBox.Show(FlyPosition)
-        FlyPosition -= descendSPeed
+    Private Sub Descend(ByVal descendSPeed As Double) ' Why is this not working? Where is my mistake?
         If FlyPosition <= 0 Then
             descendSPeed = 0
+        Else
+            FlyPosition -= descendSPeed
         End If
         'Dim firstPosition As New TPoint()
         'firstPosition.X = OriginPosition.X
