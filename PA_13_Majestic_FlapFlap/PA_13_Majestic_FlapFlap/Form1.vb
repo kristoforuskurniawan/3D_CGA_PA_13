@@ -13,7 +13,7 @@
     Dim DestinationTarget, OriginPosition As TPoint
     Dim targetpos As TPoint
     Dim headposition, beakposition As New Matrix4x4 'to get the degree of rotation between the chicken's front and destination 
-    Dim WingRotation, LegRotation, FlyPosition, wingaddition, legaddition, flyaddition As Double
+    Dim WingRotation, LegRotation, FlyPosition, wingaddition, legaddition, ascendSpeed, descendSpeed As Double
     Dim dy, dx, vx, vy, theta, cotTheta As Double
     Dim bodyTurned As Integer = 0
     Dim turnLeft As Boolean = False 'Determine the first torso position
@@ -33,7 +33,8 @@
         addition = 1
         wingaddition = 5
         legaddition = 5
-        flyaddition = 0.2
+        ascendSpeed = 0.2
+        descendSpeed = 0.2
         WalkMode = False
         FlyMode = True
         RotateMode = False
@@ -471,35 +472,46 @@
 
     End Sub
 
-    Private Sub Ascend(ByVal FlyPosition As Double, ByVal flayaddition As Double)
-        FlyPosition += flyaddition
+    Private Sub Ascend(ByVal ascendSpeed As Double)
+        FlyPosition += ascendSpeed
         If FlyPosition > 5 Then 'Ascend
             'flyaddition = 0
-            flyaddition = -flyaddition
-            Descend(FlyPosition, flyaddition)
+            ascendSpeed = 0
+            'Descend(FlyPosition, flyaddition)
             'ElseIf FlyPosition <= 0 Then
             '    flyaddition = -flyaddition
         End If
 
         g.Clear(Color.White)
-        HTree.First.Child.First.Transform.TranslateMat(0, flyaddition, 0)
+        HTree.First.Child.First.Transform.TranslateMat(0, ascendSpeed, 0)
         TranverseTree(HTree.First)
 
     End Sub
 
-    Private Sub Descend(ByVal FlyPosition As Double, ByVal flayaddition As Double)
+    Private Sub Descend(ByVal descendSPeed As Double)
+        'MessageBox.Show(FlyPosition)
+        FlyPosition -= descendSPeed
         If FlyPosition <= 0 Then
-            flyaddition = 0
+            descendSPeed = 0
         End If
+        'Dim firstPosition As New TPoint()
+        'firstPosition.X = OriginPosition.X
+        'firstPosition.Y = OriginPosition.Y
+        'firstPosition.Z = OriginPosition.Z
+        'MessageBox.Show(Math.Floor(FlyPosition))
+        'If Math.Floor(FlyPosition) = 5 Or FlyPosition >= 0 Then
+        '    MessageBox.Show(FlyPosition)
+        '    flyaddition = -flyaddition
+        '    'Ascend(FlyPosition, flyaddition)
+        'End If
         g.Clear(Color.White)
-        HTree.First.Child.First.Transform.TranslateMat(0, flyaddition, 0)
+        HTree.First.Child.First.Transform.TranslateMat(0, -descendSPeed, 0)
         TranverseTree(HTree.First)
     End Sub
 
     Private Sub FlyingChicken()
-        FlyPosition += flyaddition
-        Ascend(FlyPosition, flyaddition)
-        'Descend()
+        'Ascend(ascendSpeed)
+        Descend(descendSpeed)
         If OriginPosition.X < DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then 'Fly to bottom right
 
             'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
@@ -525,7 +537,7 @@
             'Ascend()
             'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         Else 'Descend, already reached destination
-            Descend(FlyPosition, flyaddition)
+            Descend(descendSpeed)
         End If
         FlapFlap()
     End Sub
