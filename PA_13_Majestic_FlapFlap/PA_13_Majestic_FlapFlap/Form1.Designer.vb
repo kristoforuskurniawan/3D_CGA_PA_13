@@ -32,6 +32,8 @@ Partial Class Form1
         Me.ChickPos = New System.Windows.Forms.Label()
         Me.DestPoint = New System.Windows.Forms.Label()
         Me.TurnBodyAnimation = New System.Windows.Forms.Timer(Me.components)
+        Me.angleTxt = New System.Windows.Forms.Label()
+        Me.rotationTxt = New System.Windows.Forms.Label()
         CType(Me.MainCanvas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -40,7 +42,7 @@ Partial Class Form1
         Me.MainCanvas.BackColor = System.Drawing.Color.White
         Me.MainCanvas.Location = New System.Drawing.Point(13, 13)
         Me.MainCanvas.Name = "MainCanvas"
-        Me.MainCanvas.Size = New System.Drawing.Size(753, 483)
+        Me.MainCanvas.Size = New System.Drawing.Size(849, 483)
         Me.MainCanvas.TabIndex = 0
         Me.MainCanvas.TabStop = False
         '
@@ -69,7 +71,7 @@ Partial Class Form1
         'CoordinatesLabel
         '
         Me.CoordinatesLabel.AutoSize = True
-        Me.CoordinatesLabel.Location = New System.Drawing.Point(626, 504)
+        Me.CoordinatesLabel.Location = New System.Drawing.Point(383, 531)
         Me.CoordinatesLabel.Name = "CoordinatesLabel"
         Me.CoordinatesLabel.Size = New System.Drawing.Size(125, 13)
         Me.CoordinatesLabel.TabIndex = 3
@@ -93,7 +95,7 @@ Partial Class Form1
         'ChickPos
         '
         Me.ChickPos.AutoSize = True
-        Me.ChickPos.Location = New System.Drawing.Point(481, 504)
+        Me.ChickPos.Location = New System.Drawing.Point(207, 531)
         Me.ChickPos.Name = "ChickPos"
         Me.ChickPos.Size = New System.Drawing.Size(108, 13)
         Me.ChickPos.TabIndex = 6
@@ -102,7 +104,7 @@ Partial Class Form1
         'DestPoint
         '
         Me.DestPoint.AutoSize = True
-        Me.DestPoint.Location = New System.Drawing.Point(278, 504)
+        Me.DestPoint.Location = New System.Drawing.Point(10, 531)
         Me.DestPoint.Name = "DestPoint"
         Me.DestPoint.Size = New System.Drawing.Size(149, 13)
         Me.DestPoint.TabIndex = 7
@@ -112,11 +114,31 @@ Partial Class Form1
         '
         Me.TurnBodyAnimation.Interval = 10
         '
+        'angleTxt
+        '
+        Me.angleTxt.AutoSize = True
+        Me.angleTxt.Location = New System.Drawing.Point(583, 531)
+        Me.angleTxt.Name = "angleTxt"
+        Me.angleTxt.Size = New System.Drawing.Size(37, 13)
+        Me.angleTxt.TabIndex = 8
+        Me.angleTxt.Text = "Angle:"
+        '
+        'rotationTxt
+        '
+        Me.rotationTxt.AutoSize = True
+        Me.rotationTxt.Location = New System.Drawing.Point(706, 530)
+        Me.rotationTxt.Name = "rotationTxt"
+        Me.rotationTxt.Size = New System.Drawing.Size(50, 13)
+        Me.rotationTxt.TabIndex = 9
+        Me.rotationTxt.Text = "Rotation:"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(778, 530)
+        Me.ClientSize = New System.Drawing.Size(874, 544)
+        Me.Controls.Add(Me.rotationTxt)
+        Me.Controls.Add(Me.angleTxt)
         Me.Controls.Add(Me.DestPoint)
         Me.Controls.Add(Me.ChickPos)
         Me.Controls.Add(Me.RotateRadioButton)
@@ -141,4 +163,6 @@ Partial Class Form1
     Friend WithEvents ChickPos As Label
     Friend WithEvents DestPoint As Label
     Friend WithEvents TurnBodyAnimation As Timer
+    Friend WithEvents angleTxt As Label
+    Friend WithEvents rotationTxt As Label
 End Class
