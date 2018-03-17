@@ -16,8 +16,8 @@
     Dim WingRotation, LegRotation, FlyPosition, wingaddition, legaddition, ascendSpeed, descendSpeed As Double
     Dim dy, dx, vx, vy, theta, cotTheta As Double
     Dim bodyTurned As Integer = 0
-    Dim turnLeft As Boolean = False 'Determine the first torso position
-    Dim turnRight As Boolean = False
+    Dim clockwise, counterClockwise As Boolean
+    Dim currentTheta As Integer = 0
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         WingRotation = 0
@@ -449,15 +449,15 @@
     End Function
 
     Private Sub TurnBodyAnimation_Tick(sender As Object, e As EventArgs) Handles TurnBodyAnimation.Tick 'Last edited here
-        If turnLeft Then
-            rotation -= addition
-            If Math.Abs(rotation) Mod (360 - theta) = 0 Then
+        If clockwise Then
+            rotation += addition
+            If Math.Abs(rotation) = theta Then
                 addition = 0
                 TurnBodyAnimation.Enabled = False
             End If
-        ElseIf turnRight Then
-            rotation += addition
-            If Math.Abs(rotation) Mod theta = 0 Then
+        ElseIf counterClockwise Then
+            rotation -= addition
+            If Math.Abs(rotation) = theta Then
                 addition = 0
                 TurnBodyAnimation.Enabled = False
             End If
@@ -574,6 +574,7 @@
     End Sub
 
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
+        Dim x, z As Integer
         If (OriginPosition.X = DestinationTarget.X And (OriginPosition.Y = DestinationTarget.Y Or OriginPosition.Z = DestinationTarget.Z)) Then 'Biar berhenti ayamnya masih belum jalan pas tapi.
             TimerAnimation.Enabled = False
         End If
@@ -582,64 +583,43 @@
             If OriginPosition.X = DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
                 TimerAnimation.Enabled = False
             End If
-            Dim x, z As Integer
+            If currentTheta < theta Then
+                clockwise = True
+                counterClockwise = False
+                TurnBodyAnimation.Enabled = True
+                currentTheta = theta
+            ElseIf currentTheta > theta Then
+                'Console.WriteLine(currentTheta)
+                'Console.WriteLine(theta)
+                clockwise = False
+                counterClockwise = True
+                TurnBodyAnimation.Enabled = True
+                currentTheta = theta
+            End If
             If OriginPosition.X > DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then 'Blom bener
-                turnLeft = True
-                If bodyTurned = 0 And turnLeft Then
-                    TurnBodyAnimation.Enabled = True
-                    x = -1
-                    z = -1
-                End If
+                x = -1
+                z = -1
             ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
-                turnRight = True
-                If bodyTurned = 0 And turnRight Then
-                    TurnBodyAnimation.Enabled = True
-                    x = -1
-                    z = 1
-                End If
+                x = -1
+                z = 1
             ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then
-                turnLeft = True
-                If bodyTurned = 0 And turnLeft Then
-                    TurnBodyAnimation.Enabled = True
-                    x = 1
-                    z = -1
-                End If
-            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y / 100 < DestinationTarget.Z / 100 Then
-                turnRight = True
-                If bodyTurned = 0 And turnRight Then
-                    TurnBodyAnimation.Enabled = True
-                    x = 1
-                    z = 1
-                End If
+                x = 1
+                z = -1
+            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
+                x = 1
+                z = 1
             ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
-                turnRight = True
-                If bodyTurned = 0 And turnRight Then
-                    TurnBodyAnimation.Enabled = True
-                    x = 0
-                    z = 1
-                End If
+                x = 0
+                z = 1
             ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then
-                turnLeft = True
-                If bodyTurned = 0 And turnLeft Then
-                    TurnBodyAnimation.Enabled = True
-                    x = 0
-                    z = -1
-                End If
-
+                x = 0
+                z = -1
             ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
-                turnLeft = True
-                If bodyTurned = 0 And turnLeft Then
-                    TurnBodyAnimation.Enabled = True
-                    x = -1
-                    z = 0
-                End If
+                x = -1
+                z = 0
             ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
-                turnRight = True
-                If bodyTurned = 0 And turnRight Then
-                    TurnBodyAnimation.Enabled = True
-                    x = 1
-                    z = 0
-                End If
+                x = 1
+                z = 0
             End If
             OriginPosition.X += x
             OriginPosition.Z += z
@@ -665,4 +645,5 @@
             TranverseTree(HTree.First)
         End If
     End Sub
+
 End Class
