@@ -377,7 +377,6 @@
         addition = 1
         '  dx = Math.Abs(OriginPosition.X - DestinationTarget.X)
         ' dy = Math.Abs(OriginPosition.Y - DestinationTarget.Y)
-        Console.WriteLine(OriginPosition.Z)
         GetDegreeForRotation()
         'DestinationTarget = GetWCSPosition()
         'MsgBox(DestinationTarget.X.ToString() + " " + DestinationTarget.Z.ToString() + " " + DestinationTarget.Z.ToString())
@@ -434,9 +433,9 @@
         ' St.T1(20, -20, 1, 300, 200, 0)
         St.ScaleMat(25, -25, 1) ' scale
         St.TranslateMat(300, 250, 0) 'translate Ini ternyata posisi awalnya ._. Kirain HTree.First.Child.First.Transformation diganti-ganti isinya sampai hasil perkaliannya = e.X & e.Y
-        InSt.OnePointProjection(-10)
-        InVt.ScaleMat(0.04, -0.04, 1)
-        InVt.TranslateMat(-12, 10, 0)
+        InVt.OnePointProjection(-10)
+        InSt.ScaleMat(0.04, -0.04, 1)
+        InSt.TranslateMat(-12, 10, 0)
 
         PV.Mat = MultiplyMat4x4(Vt, St)
         InversePV.Mat = MultiplyMat4x4(InSt, InVt)
@@ -557,11 +556,20 @@
                     z = 1
                 End If
             ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
-                x = 0
-                z = 1
+                turnRight = True
+                If bodyTurned = 0 And turnRight Then
+                    TurnBodyAnimation.Enabled = True
+                    x = 0
+                    z = 1
+                End If
             ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then
-                x = 0
-                z = -1
+                turnLeft = True
+                If bodyTurned = 0 And turnLeft Then
+                    TurnBodyAnimation.Enabled = True
+                    x = 0
+                    z = -1
+                End If
+
             ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
