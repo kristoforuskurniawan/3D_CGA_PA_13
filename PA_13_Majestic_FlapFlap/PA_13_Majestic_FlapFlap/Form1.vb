@@ -477,6 +477,7 @@
         If IsAscend And IsDescend = False Then 'Ascend
             'flyaddition = 0
             FlyPosition += heightChange
+            'OriginPosition.Y += heightChange
             g.Clear(Color.White)
             HTree.First.Child.First.Transform.TranslateMat(0, heightChange, 0)
             TranverseTree(HTree.First)
@@ -488,8 +489,9 @@
             'Descend(descendSpeed)
             'ElseIf FlyPosition <= 0 Then
             '    flyaddition = -flyaddition
-        ElseIf IsDescend And IsAscend = False Then
+        ElseIf IsDescend And IsAscend = False Then 'Descend
             FlyPosition -= heightChange
+            'OriginPosition.Y -= heightChange
             g.Clear(Color.White)
             HTree.First.Child.First.Transform.TranslateMat(0, -heightChange, 0)
             TranverseTree(HTree.First)
@@ -648,6 +650,7 @@
             TurnBodyAnimation.Enabled = True
             FlyingChicken()
         ElseIf RotateMode Then 'Only to test
+            TimerAnimation.Interval = 1 'Let's dance
             rotation += addition
             If rotation >= 360 Or rotation <= 0 Then
                 TimerAnimation.Enabled = False
