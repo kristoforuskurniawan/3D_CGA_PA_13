@@ -613,10 +613,10 @@
     End Function
 
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
-        Dim x, z As Integer
-        If (OriginPosition.X = DestinationTarget.X And (OriginPosition.Y = DestinationTarget.Y Or OriginPosition.Z = DestinationTarget.Z)) Then 'Biar berhenti ayamnya masih belum jalan pas tapi.
-            TimerAnimation.Enabled = False
-        End If
+        'Dim x, z As Integer
+        'If (OriginPosition.X = DestinationTarget.X And (OriginPosition.Y = DestinationTarget.Y Or OriginPosition.Z = DestinationTarget.Z)) Then 'Biar berhenti ayamnya masih belum jalan pas tapi.
+        '    TimerAnimation.Enabled = False
+        'End If
 
         If WalkMode Then 'Not yet completed (- body turned)
             If OriginPosition.X = DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
@@ -636,10 +636,25 @@
                 currentTheta = theta
             End If
         ElseIf FlyMode Then
+            If OriginPosition.X = DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
+                TimerAnimation.Enabled = False
+            End If
+            If currentTheta < theta Then
+                clockwise = True
+                counterClockwise = False
                 TurnBodyAnimation.Enabled = True
-                FlyingChicken()
-            ElseIf RotateMode Then 'Only to test
-                TimerAnimation.Interval = 1 'Let's dance
+                currentTheta = theta
+            ElseIf currentTheta > theta Then
+                'Console.WriteLine(currentTheta)
+                'Console.WriteLine(theta)
+                clockwise = False
+                counterClockwise = True
+                TurnBodyAnimation.Enabled = True
+                currentTheta = theta
+            End If
+            TurnBodyAnimation.Enabled = True
+            FlyingChicken()
+        ElseIf RotateMode Then 'Only to test
             rotation += addition
             If rotation >= 360 Or rotation <= 0 Then
                 TimerAnimation.Enabled = False
