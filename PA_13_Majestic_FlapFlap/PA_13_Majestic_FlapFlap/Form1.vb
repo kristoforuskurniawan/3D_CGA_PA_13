@@ -446,8 +446,6 @@
         Return WCS
     End Function
 
-
-
     'Private Sub TurnBodyAnimation_Tick(sender As Object, e As EventArgs) Handles TurnBodyAnimation.Tick 'Last edited here
     '    If turnLeft Then
     '        rotation += addition
@@ -484,30 +482,42 @@
         End If
     End Sub
 
+    Private Sub Descend()
+        flyaddition = -flyaddition
+        If FlyPosition = 0 Then
+            flyaddition = 0
+        End If
+        TimerAnimation.Enabled = False
+    End Sub
+
     Private Sub FlyingChicken()
         FlyPosition += flyaddition
         If OriginPosition.X < DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then 'Fly to bottom right
             Ascend()
+            Descend()
         ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then
             Ascend()
+            Descend()
         ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
             Ascend()
+            Descend()
         ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
             Ascend()
+            Descend()
         ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then
             Ascend()
+            Descend()
         ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
             Ascend()
+            Descend()
         ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Z = DestinationTarget.Z Then
             Ascend()
+            Descend()
         ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z = DestinationTarget.Z Then
             Ascend()
+            Descend()
         Else 'Descend, already reached destination
-            flyaddition = -flyaddition
-            If FlyPosition = 0 Then
-                flyaddition = 0
-            End If
-            TimerAnimation.Enabled = False
+            Descend()
         End If
 
         FlapFlap()
