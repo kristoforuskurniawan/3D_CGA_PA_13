@@ -365,10 +365,17 @@
 
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
         DestinationTarget = New TPoint(e.X, e.Y, e.Y)
+        OriginPosition = New TPoint
+        Dim CurrentPosition As New Matrix4x4
+        CurrentPosition.MultiplyMatrix4x4(HTree.First.Child.First.Transform)
+        CurrentPosition.MultiplyMatrix4x4(HTree.First.Transform)
+        OriginPosition = MultiplyMat(OriginPosition, CurrentPosition)
+        'MsgBox(OriginPosition.X.ToString() + " " + OriginPosition.Y.ToString())
         'rotation = 0
         addition = 1
         dx = Math.Abs(OriginPosition.X - DestinationTarget.X)
         dy = Math.Abs(OriginPosition.Y - DestinationTarget.Y)
+        GetDegreeForRotation()
         'DestinationTarget = GetWCSPosition()
         'MsgBox(DestinationTarget.X.ToString() + " " + DestinationTarget.Z.ToString() + " " + DestinationTarget.Z.ToString())
         TimerAnimation.Enabled = True
@@ -448,10 +455,11 @@
         ElseIf turnRight Then
             rotation -= addition
         End If
-        If Math.Abs(rotation) Mod 180 = 0 Then 'Limit rotation to 180 degree
-            addition = 0
-        End If
+        'If Math.Abs(rotation) Mod 180 = 0 Then 'Limit rotation to 180 degree
+        'addition = 0
+        'End If
         'rotation += addition
+        If rotation >= theta Then TurnBodyAnimation.Enabled = False
         g.Clear(Color.White)
         'HTree.First.Transform.RotateY(rotation)
         TranverseChange(HTree.First, "torso", rotation)
@@ -478,6 +486,27 @@
         HTree.First.Child.First.Transform.TranslateMat(0, flyaddition, 0)
 
     End Sub
+
+    Private Sub GetDegreeForRotation()
+        theta = GetAngle(OriginPosition.X, OriginPosition.Y, DestinationTarget.X, DestinationTarget.Y)
+        'rotation = theta
+    End Sub
+
+    Private Function GetAngle(cx As Double, cy As Double, ex As Double, ey As Double)
+        dy = DestinationTarget.Y - OriginPosition.Y
+        dx = DestinationTarget.X - OriginPosition.X
+        Dim temp As Double
+        temp = Math.Atan2(dy, dx) ' range (-PI, PI]
+        temp *= 180 / Math.PI ' rads To degs, range (-180, 180]
+        Return temp
+    End Function
+
+    Private Function GetAngle360(cx As Double, cy As Double, ex As Double, ey As Double)
+        Dim temp As Double
+        temp = GetAngle(cx, cy, ex, ey) ' range (-180, 180]
+        If temp < 0 Then theta = 360 + theta ' range [0, 360)
+        Return temp
+    End Function
 
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
 
@@ -550,9 +579,10 @@
             TurnBodyAnimation.Enabled = True
             FlyingChicken()
         ElseIf RotateMode Then 'Only to test
-            rotation += addition
+            rotation = theta
+            If rotation >= theta Or rotation <= theta Then TurnBodyAnimation.Enabled = False
             If rotation >= Round Or rotation <= -Round Then
-                addition = -addition
+                'addition = -addition
             End If
             g.Clear(Color.White)
             TranverseChange(HTree.First, "torso", rotation)
