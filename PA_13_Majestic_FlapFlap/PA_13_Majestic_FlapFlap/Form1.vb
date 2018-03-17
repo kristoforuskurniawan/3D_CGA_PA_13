@@ -14,15 +14,17 @@
     Dim targetpos As TPoint
     Dim headposition, beakposition As New Matrix4x4 'to get the degree of rotation between the chicken's front and destination 
     Dim WingRotation, LegRotation, FlyPosition, wingaddition, legaddition, heightChange, descendSpeed As Double
-    Dim dy, dx, vx, vy, theta, cotTheta As Double
+    Dim dx, dy, vx, vy, dirx, diry, theta, cotTheta As Double
     Dim bodyTurned As Integer = 0
     Dim clockwise, counterClockwise As Boolean
     Dim currentTheta As Integer = 0
+    Dim v As Integer
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         WingRotation = 0
         LegRotation = 0
         FlyPosition = 0
+        v = 5
         dy = 0
         dx = 0
         vx = 0
@@ -454,13 +456,40 @@
             rotation += addition
             If Math.Abs(rotation) = theta Then
                 addition = 0
-                TurnBodyAnimation.Enabled = False
+                ' TurnBodyAnimation.Enabled = False
             End If
         ElseIf counterClockwise Then
             rotation -= addition
             If Math.Abs(rotation) = theta Then
                 addition = 0
+                ' TurnBodyAnimation.Enabled = False
+            End If
+        End If
+        If addition = 0 Then
+            '    Console.WriteLine(Math.Abs(DestinationTarget.X - OriginPosition.X))
+            '   Console.WriteLine(Math.Abs(DestinationTarget.Z - OriginPosition.Y))
+            If Math.Abs(DestinationTarget.X - OriginPosition.X) < v And Math.Abs(DestinationTarget.Z - OriginPosition.Y) < 15 Then
                 TurnBodyAnimation.Enabled = False
+            Else
+                dirx = Math.Cos(theta * Math.PI / 180)
+                diry = Math.Sin(theta * Math.PI / 180)
+                '  Console.WriteLine(dirx)
+                '  Console.WriteLine(diry)
+                vx = v * dirx
+                vy = v * diry
+                Console.WriteLine(vx)
+                Console.WriteLine(vy)
+                OriginPosition.X += Math.Floor(vx)
+                OriginPosition.Y += Math.Floor(vy)
+                Console.WriteLine(OriginPosition.X)
+                Console.WriteLine(OriginPosition.Y)
+
+                ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Z = " + OriginPosition.Z.ToString()
+                WalkingChicken()
+                HTree.First.Child.First.Transform.TranslateMat(vx / 100, 0, -(vy / 100))
+                g.Clear(Color.White)
+                TranverseChange(HTree.First, "torso", rotation)
+                TranverseTree(HTree.First)
             End If
         End If
         rotationTxt.Text = "Rotation: " + rotation.ToString()
@@ -583,14 +612,6 @@
         Return temp
     End Function
 
-    Private Sub RotateChicken(ByVal theta As Double, ByRef HTree As TList3DObject, ByVal isLeft As Boolean, ByVal isRight As Boolean)
-        If isLeft Then
-
-        ElseIf isRight Then
-
-        End If
-    End Sub
-
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
         Dim x, z As Integer
         If (OriginPosition.X = DestinationTarget.X And (OriginPosition.Y = DestinationTarget.Y Or OriginPosition.Z = DestinationTarget.Z)) Then 'Biar berhenti ayamnya masih belum jalan pas tapi.
@@ -614,43 +635,11 @@
                 TurnBodyAnimation.Enabled = True
                 currentTheta = theta
             End If
-            If OriginPosition.X > DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then 'Blom bener
-                x = -1
-                z = -1
-            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
-                x = -1
-                z = 1
-            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then
-                x = 1
-                z = -1
-            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
-                x = 1
-                z = 1
-            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y < DestinationTarget.Z Then
-                x = 0
-                z = 1
-            ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Y > DestinationTarget.Z Then
-                x = 0
-                z = -1
-            ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
-                x = -1
-                z = 0
-            ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
-                x = 1
-                z = 0
-            End If
-            OriginPosition.X += x
-            OriginPosition.Z += z
-            ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Z = " + OriginPosition.Z.ToString()
-            '    HTree.First.Child.First.Transform.TranslateMat(x, 0, z)
-            g.Clear(Color.White)
-            TranverseChange(HTree.First, "torso", rotation)
-            TranverseTree(HTree.First)
         ElseIf FlyMode Then
-            TurnBodyAnimation.Enabled = True
-            FlyingChicken()
-        ElseIf RotateMode Then 'Only to test
-            TimerAnimation.Interval = 1 'Let's dance
+                TurnBodyAnimation.Enabled = True
+                FlyingChicken()
+            ElseIf RotateMode Then 'Only to test
+                TimerAnimation.Interval = 1 'Let's dance
             rotation += addition
             If rotation >= 360 Or rotation <= 0 Then
                 TimerAnimation.Enabled = False
