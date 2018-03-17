@@ -475,19 +475,38 @@
 
     End Sub
 
+    Private Sub Ascend()
+        If FlyPosition > 5 Then 'Ascend
+            flyaddition = 0
+            'flyaddition = -flyaddition
+            'ElseIf FlyPosition <= 0 Then
+            '    flyaddition = -flyaddition
+        End If
+    End Sub
+
     Private Sub FlyingChicken()
         FlyPosition += flyaddition
-        If OriginPosition.Z < DestinationTarget.Z Then 'Click in front of (below) the chicken
-            If FlyPosition > 5 Then 'Ascend
-                flyaddition = 0
-                'flyaddition = -flyaddition
-                'ElseIf FlyPosition <= 0 Then
-                '    flyaddition = -flyaddition
-            End If
-        ElseIf OriginPosition.Z > DestinationTarget.Z Then 'Click behind (above right or left) the chicken
-
-        Else 'Descend
+        If OriginPosition.X < DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then 'Fly to bottom right
+            Ascend()
+        ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then
+            Ascend()
+        ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
+            Ascend()
+        ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
+            Ascend()
+        ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then
+            Ascend()
+        ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
+            Ascend()
+        ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Z = DestinationTarget.Z Then
+            Ascend()
+        ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z = DestinationTarget.Z Then
+            Ascend()
+        Else 'Descend, already reached destination
             flyaddition = -flyaddition
+            If FlyPosition = 0 Then
+                flyaddition = 0
+            End If
             TimerAnimation.Enabled = False
         End If
 
