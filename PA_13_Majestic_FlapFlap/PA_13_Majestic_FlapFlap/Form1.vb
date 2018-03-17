@@ -471,10 +471,12 @@
 
     End Sub
 
-    Private Sub Ascend()
+    Private Sub Ascend(ByVal FlyPosition As Double, ByVal flayaddition As Double)
+        FlyPosition += flyaddition
         If FlyPosition > 5 Then 'Ascend
-            flyaddition = 0
-            'flyaddition = -flyaddition
+            'flyaddition = 0
+            flyaddition = -flyaddition
+            Descend(FlyPosition, flyaddition)
             'ElseIf FlyPosition <= 0 Then
             '    flyaddition = -flyaddition
         End If
@@ -485,42 +487,45 @@
 
     End Sub
 
-    Private Sub Descend()
-        flyaddition = -flyaddition
-        If FlyPosition = 0 Then
+    Private Sub Descend(ByVal FlyPosition As Double, ByVal flayaddition As Double)
+        If FlyPosition <= 0 Then
             flyaddition = 0
         End If
-        TimerAnimation.Enabled = False
+        g.Clear(Color.White)
+        HTree.First.Child.First.Transform.TranslateMat(0, flyaddition, 0)
+        TranverseTree(HTree.First)
     End Sub
 
     Private Sub FlyingChicken()
         FlyPosition += flyaddition
+        Ascend(FlyPosition, flyaddition)
+        'Descend()
         If OriginPosition.X < DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then 'Fly to bottom right
-            Ascend()
+
             'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then
-            Ascend()
+            'Ascend()
             'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
-            Ascend()
+            ' Ascend()
             'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
-            Ascend()
+            'Ascend()
             'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then
-            Ascend()
+            ' Ascend()
             'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
-            Ascend()
+            'Ascend()
             'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Z = DestinationTarget.Z Then
-            Ascend()
+            'Ascend()
             'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z = DestinationTarget.Z Then
-            Ascend()
+            'Ascend()
             'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         Else 'Descend, already reached destination
-            Descend()
+            Descend(FlyPosition, flyaddition)
         End If
         FlapFlap()
     End Sub
