@@ -1,5 +1,5 @@
 ﻿Public Class Form1
-    Dim FirstChicken, WalkMode, FlyMode, RotateMode As Boolean 'movement type
+    Dim FirstChicken, WalkMode, FlyMode, RotateMode, IsAscend, IsDescend As Boolean 'movement type
     Dim bit As Bitmap 'manipulate the screen
     Dim g As Graphics ' to draw
     Dim blackPen As Pen ' for chicken's color
@@ -13,7 +13,7 @@
     Dim DestinationTarget, OriginPosition As TPoint
     Dim targetpos As TPoint
     Dim headposition, beakposition As New Matrix4x4 'to get the degree of rotation between the chicken's front and destination 
-    Dim WingRotation, LegRotation, FlyPosition, wingaddition, legaddition, ascendSpeed, descendSpeed As Double
+    Dim WingRotation, LegRotation, FlyPosition, wingaddition, legaddition, heightChange, descendSpeed As Double
     Dim dy, dx, vx, vy, theta, cotTheta As Double
     Dim bodyTurned As Integer = 0
     Dim clockwise, counterClockwise As Boolean
@@ -33,8 +33,9 @@
         addition = 1
         wingaddition = 5
         legaddition = 5
-        ascendSpeed = 0.2
-        descendSpeed = 0.2
+        heightChange = 0.2
+        IsAscend = True
+        IsDescend = False
         WalkMode = False
         FlyMode = True
         RotateMode = False
@@ -472,74 +473,88 @@
 
     End Sub
 
-    Private Sub Ascend(ByVal ascendSpeed As Double)
-        If FlyPosition > 5 Then 'Ascend
+    Private Sub AscendOrDescend(ByVal heightChange As Double) 'OK sekarang ini work.... Panggil di FlyMode tinggal ubah boolean IsAscend sama IsDescend sesuai yang dibutuhin
+        If IsAscend And IsDescend = False Then 'Ascend
             'flyaddition = 0
-            ascendSpeed = 0
+            FlyPosition += heightChange
+            g.Clear(Color.White)
+            HTree.First.Child.First.Transform.TranslateMat(0, heightChange, 0)
+            TranverseTree(HTree.First)
+            If (FlyPosition > 5) Then
+                IsAscend = False
+                IsDescend = True
+                FlyPosition = 5
+            End If
             'Descend(descendSpeed)
             'ElseIf FlyPosition <= 0 Then
             '    flyaddition = -flyaddition
-        Else
-            FlyPosition += ascendSpeed
+        ElseIf IsDescend And IsAscend = False Then
+            FlyPosition -= heightChange
+            g.Clear(Color.White)
+            HTree.First.Child.First.Transform.TranslateMat(0, -heightChange, 0)
+            TranverseTree(HTree.First)
+            If FlyPosition <= 0 Then
+                IsAscend = True
+                IsDescend = False
+            End If
         End If
-
-        g.Clear(Color.White)
-        HTree.First.Child.First.Transform.TranslateMat(0, ascendSpeed, 0)
-        TranverseTree(HTree.First)
-
     End Sub
 
-    Private Sub Descend(ByVal descendSPeed As Double) ' Why is this not working? Where is my mistake?
-        If FlyPosition <= 0 Then
-            descendSPeed = 0
-        Else
-            FlyPosition -= descendSPeed
-        End If
-        'Dim firstPosition As New TPoint()
-        'firstPosition.X = OriginPosition.X
-        'firstPosition.Y = OriginPosition.Y
-        'firstPosition.Z = OriginPosition.Z
-        'MessageBox.Show(Math.Floor(FlyPosition))
-        'If Math.Floor(FlyPosition) = 5 Or FlyPosition >= 0 Then
-        '    MessageBox.Show(FlyPosition)
-        '    flyaddition = -flyaddition
-        '    'Ascend(FlyPosition, flyaddition)
-        'End If
-        g.Clear(Color.White)
-        HTree.First.Child.First.Transform.TranslateMat(0, -descendSPeed, 0)
-        TranverseTree(HTree.First)
-    End Sub
+    'Private Sub Descend(ByVal descendSPeed As Double) ' Why is this not working? Where is my mistake?
+    '    If OriginPosition.Y >= 250 Then
+    '        'descendSPeed = 0
+    '        g.Clear(Color.White)
+    '        HTree.First.Child.First.Transform.TranslateMat(0, -descendSPeed, 0)
+    '        TranverseTree(HTree.First)
+    '    Else
+    '        'FlyPosition -= descendSPeed
+    '        descendSPeed = 0
+    '    End If
+    '    'Dim firstPosition As New TPoint()
+    '    'firstPosition.X = OriginPosition.X
+    '    'firstPosition.Y = OriginPosition.Y
+    '    'firstPosition.Z = OriginPosition.Z
+    '    'MessageBox.Show(Math.Floor(FlyPosition))
+    '    'If Math.Floor(FlyPosition) = 5 Or FlyPosition >= 0 Then
+    '    '    MessageBox.Show(FlyPosition)
+    '    '    flyaddition = -flyaddition
+    '    '    'Ascend(FlyPosition, flyaddition)
+    '    'End If
+    '    'g.Clear(Color.White)
+    '    'HTree.First.Child.First.Transform.TranslateMat(0, -descendSPeed, 0)
+    '    'TranverseTree(HTree.First)
+    'End Sub
 
     Private Sub FlyingChicken()
-        'Ascend(ascendSpeed)
-        Descend(descendSpeed)
-        If OriginPosition.X < DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then 'Fly to bottom right
+        AscendOrDescend(heightChange)
+        'Descend(descendSpeed)
+        'If OriginPosition.X < DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then 'Fly to bottom right
 
-            'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
-        ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then
-            'Ascend()
-            'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
-        ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
-            ' Ascend()
-            'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
-        ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
-            'Ascend()
-            'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
-        ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then
-            ' Ascend()
-            'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
-        ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
-            'Ascend()
-            'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
-        ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Z = DestinationTarget.Z Then
-            'Ascend()
-            'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
-        ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z = DestinationTarget.Z Then
-            'Ascend()
-            'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
-        Else 'Descend, already reached destination
-            Descend(descendSpeed)
-        End If
+        '    'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
+        'ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then
+        '    'Ascend()
+        '    'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
+        'ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
+        '    ' Ascend()
+        '    'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
+        'ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
+        '    'Ascend()
+        '    'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
+        'ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then
+        '    ' Ascend()
+        '    'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
+        'ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
+        '    'Ascend()
+        '    'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
+        'ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Z = DestinationTarget.Z Then
+        '    'Ascend()
+        '    'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
+        'ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z = DestinationTarget.Z Then
+        '    'Ascend()
+        '    'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
+        'Else 'Descend, already reached destination
+        '    Descend(descendSpeed)
+        'End If
         FlapFlap()
     End Sub
 
