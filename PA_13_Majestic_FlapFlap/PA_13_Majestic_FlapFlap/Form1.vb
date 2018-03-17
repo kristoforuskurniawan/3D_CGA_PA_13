@@ -452,17 +452,22 @@
             rotation -= addition
             If Math.Abs(rotation) Mod (360 - theta) = 0 Then
                 addition = 0
+                'rotation = 0
                 TurnBodyAnimation.Enabled = False
             End If
         ElseIf turnRight Then
             rotation += addition
             If Math.Abs(rotation) Mod theta = 0 Then
                 addition = 0
+                'rotation = 0
                 TurnBodyAnimation.Enabled = False
             End If
         End If
         rotationTxt.Text = "Rotation: " + rotation.ToString()
         g.Clear(Color.White)
+        FlapFlap()
+        WalkingChicken()
+        'HTree.First.Transform.RotateY(rotation)
         TranverseChange(HTree.First, "torso", rotation)
         TranverseTree(HTree.First)
     End Sub
@@ -490,32 +495,10 @@
 
     Private Sub FlyingChicken()
         FlyPosition += flyaddition
-        If OriginPosition.X < DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then 'Fly to bottom right
-            Ascend()
-            Descend()
-        ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then
-            Ascend()
-            Descend()
-        ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
-            Ascend()
-            Descend()
-        ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
-            Ascend()
-            Descend()
-        ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then
-            Ascend()
-            Descend()
-        ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
-            Ascend()
-            Descend()
-        ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Z = DestinationTarget.Z Then
-            Ascend()
-            Descend()
-        ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z = DestinationTarget.Z Then
-            Ascend()
-            Descend()
-        Else 'Descend, already reached destination
-            Descend()
+        If FlyPosition >= 10 Then
+            flyaddition = -flyaddition
+        ElseIf FlyPosition <= 0 Then
+            flyaddition = -flyaddition
         End If
 
         FlapFlap()
