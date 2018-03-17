@@ -480,6 +480,11 @@
             'ElseIf FlyPosition <= 0 Then
             '    flyaddition = -flyaddition
         End If
+
+        g.Clear(Color.White)
+        HTree.First.Child.First.Transform.TranslateMat(0, flyaddition, 0)
+        TranverseTree(HTree.First)
+
     End Sub
 
     Private Sub Descend()
@@ -494,36 +499,32 @@
         FlyPosition += flyaddition
         If OriginPosition.X < DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then 'Fly to bottom right
             Ascend()
-            Descend()
+            'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then
             Ascend()
-            Descend()
+            'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
             Ascend()
-            Descend()
+            'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
             Ascend()
-            Descend()
+            'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then
             Ascend()
-            Descend()
+            'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
             Ascend()
-            Descend()
+            'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Z = DestinationTarget.Z Then
             Ascend()
-            Descend()
+            'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z = DestinationTarget.Z Then
             Ascend()
-            Descend()
+            'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
         Else 'Descend, already reached destination
             Descend()
         End If
-
         FlapFlap()
-        g.Clear(Color.White)
-        HTree.First.Child.First.Transform.TranslateMat(0, flyaddition, 0)
-        TranverseTree(HTree.First)
     End Sub
 
     Private Sub GetDegreeForRotation()
