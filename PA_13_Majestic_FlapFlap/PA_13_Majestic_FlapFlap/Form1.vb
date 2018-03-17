@@ -453,11 +453,15 @@
         End If
         'rotation += addition
         g.Clear(Color.White)
-        FlapFlap()
-        WalkingChicken()
         'HTree.First.Transform.RotateY(rotation)
         TranverseChange(HTree.First, "torso", rotation)
         TranverseTree(HTree.First)
+        If WalkMode Then
+            FlapFlap()
+        ElseIf FlyMode Then
+            WalkingChicken()
+        End If
+
     End Sub
 
     Private Sub MovingChicken()
