@@ -365,6 +365,12 @@
 
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
         DestinationTarget = New TPoint(e.X, e.Y, e.Y)
+        OriginPosition = New TPoint
+        Dim CurrentPosition As New Matrix4x4
+        CurrentPosition.MultiplyMatrix4x4(HTree.First.Child.First.Transform)
+        CurrentPosition.MultiplyMatrix4x4(HTree.First.Transform)
+        OriginPosition = MultiplyMat(OriginPosition, CurrentPosition)
+        'MsgBox(OriginPosition.X.ToString() + " " + OriginPosition.Y.ToString())
         'rotation = 0
         addition = 1
         dx = Math.Abs(OriginPosition.X - DestinationTarget.X)
@@ -478,7 +484,7 @@
     End Sub
 
     Private Sub GetDegreeForRotation()
-        theta = GetAngle360(OriginPosition.X, OriginPosition.Y, DestinationTarget.X, DestinationTarget.Y)
+        theta = GetAngle(OriginPosition.X, OriginPosition.Y, DestinationTarget.X, DestinationTarget.Y)
         'rotation = theta
     End Sub
 
