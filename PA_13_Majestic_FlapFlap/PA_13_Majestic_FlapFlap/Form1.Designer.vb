@@ -86,10 +86,10 @@ Partial Class Form1
         Me.RotateRadioButton.AutoSize = True
         Me.RotateRadioButton.Location = New System.Drawing.Point(173, 502)
         Me.RotateRadioButton.Name = "RotateRadioButton"
-        Me.RotateRadioButton.Size = New System.Drawing.Size(99, 17)
+        Me.RotateRadioButton.Size = New System.Drawing.Size(111, 17)
         Me.RotateRadioButton.TabIndex = 5
         Me.RotateRadioButton.TabStop = True
-        Me.RotateRadioButton.Text = "Rotate Chicken"
+        Me.RotateRadioButton.Text = "Chicken Beyblade"
         Me.RotateRadioButton.UseVisualStyleBackColor = True
         '
         'ChickPos
