@@ -71,7 +71,7 @@ Partial Class Form1
         'CoordinatesLabel
         '
         Me.CoordinatesLabel.AutoSize = True
-        Me.CoordinatesLabel.Location = New System.Drawing.Point(383, 531)
+        Me.CoordinatesLabel.Location = New System.Drawing.Point(513, 506)
         Me.CoordinatesLabel.Name = "CoordinatesLabel"
         Me.CoordinatesLabel.Size = New System.Drawing.Size(125, 13)
         Me.CoordinatesLabel.TabIndex = 3
@@ -79,7 +79,7 @@ Partial Class Form1
         '
         'TimerAnimation
         '
-        Me.TimerAnimation.Interval = 20
+        Me.TimerAnimation.Interval = 1
         '
         'RotateRadioButton
         '
@@ -95,16 +95,16 @@ Partial Class Form1
         'ChickPos
         '
         Me.ChickPos.AutoSize = True
-        Me.ChickPos.Location = New System.Drawing.Point(207, 531)
+        Me.ChickPos.Location = New System.Drawing.Point(243, 522)
         Me.ChickPos.Name = "ChickPos"
-        Me.ChickPos.Size = New System.Drawing.Size(108, 13)
+        Me.ChickPos.Size = New System.Drawing.Size(139, 13)
         Me.ChickPos.TabIndex = 6
-        Me.ChickPos.Text = "Chicken: X = 0, Y = 0"
+        Me.ChickPos.Text = "Chicken: X = 0, Y = 0, Z = 0"
         '
         'DestPoint
         '
         Me.DestPoint.AutoSize = True
-        Me.DestPoint.Location = New System.Drawing.Point(10, 531)
+        Me.DestPoint.Location = New System.Drawing.Point(10, 522)
         Me.DestPoint.Name = "DestPoint"
         Me.DestPoint.Size = New System.Drawing.Size(149, 13)
         Me.DestPoint.TabIndex = 7
@@ -117,7 +117,7 @@ Partial Class Form1
         'angleTxt
         '
         Me.angleTxt.AutoSize = True
-        Me.angleTxt.Location = New System.Drawing.Point(583, 531)
+        Me.angleTxt.Location = New System.Drawing.Point(314, 504)
         Me.angleTxt.Name = "angleTxt"
         Me.angleTxt.Size = New System.Drawing.Size(37, 13)
         Me.angleTxt.TabIndex = 8
@@ -126,7 +126,7 @@ Partial Class Form1
         'rotationTxt
         '
         Me.rotationTxt.AutoSize = True
-        Me.rotationTxt.Location = New System.Drawing.Point(706, 530)
+        Me.rotationTxt.Location = New System.Drawing.Point(412, 504)
         Me.rotationTxt.Name = "rotationTxt"
         Me.rotationTxt.Size = New System.Drawing.Size(50, 13)
         Me.rotationTxt.TabIndex = 9
