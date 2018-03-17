@@ -261,7 +261,6 @@
 
         'Root of Tree
         HTree.First = New TElement3DObject(Chicken)
-
     End Sub
 
     Private Sub TranverseTree(HObject As TElement3DObject)
@@ -478,13 +477,24 @@
 
     Private Sub FlyingChicken()
         FlyPosition += flyaddition
-        If FlyPosition >= 10 Then
-            flyaddition = -flyaddition
-        ElseIf FlyPosition <= 0 Then
-            flyaddition = -flyaddition
-        End If
-        HTree.First.Child.First.Transform.TranslateMat(0, flyaddition, 0)
+        If OriginPosition.Z < DestinationTarget.Z Then 'Click in front of (below) the chicken
+            If FlyPosition > 5 Then 'Ascend
+                flyaddition = 0
+                'flyaddition = -flyaddition
+                'ElseIf FlyPosition <= 0 Then
+                '    flyaddition = -flyaddition
+            End If
+        ElseIf OriginPosition.Z > DestinationTarget.Z Then 'Click behind (above right or left) the chicken
 
+        Else 'Descend
+            flyaddition = -flyaddition
+            TimerAnimation.Enabled = False
+        End If
+
+        FlapFlap()
+        g.Clear(Color.White)
+        HTree.First.Child.First.Transform.TranslateMat(0, flyaddition, 0)
+        TranverseTree(HTree.First)
     End Sub
 
     Private Sub GetDegreeForRotation()
@@ -510,10 +520,27 @@
 
     Private Sub RotateChicken(ByVal theta As Double, ByRef HTree As TList3DObject, ByVal isLeft As Boolean, ByVal isRight As Boolean)
         If isLeft Then
-
+            rotation += theta
         ElseIf isRight Then
-
+            rotation -= theta
         End If
+
+        If rotation >= 360 Or rotation <= 0 Then
+            theta = 0
+        End If
+        'If rotation >= Round Or rotation <= -Round Then
+        '    'addition = -addition
+        'End If
+        g.Clear(Color.White)
+        TranverseChange(HTree.First, "torso", rotation)
+        TranverseTree(HTree.First)
+
+        'If rotation >= theta Then TurnBodyAnimation.Enabled = False
+        'g.Clear(Color.White)
+        ''HTree.First.Transform.RotateY(rotation)
+        'TranverseChange(HTree.First, "torso", rotation)
+        'TranverseTree(HTree.First)
+
     End Sub
 
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
@@ -530,6 +557,7 @@
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     'TurnBodyAnimation.Enabled = True
+                    RotateChicken(addition, HTree, turnLeft, turnRight)
                     x = -1
                     z = -1
                 End If
@@ -537,6 +565,7 @@
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     'TurnBodyAnimation.Enabled = True
+                    RotateChicken(addition, HTree, turnLeft, turnRight)
                     x = -1
                     z = 1
                 End If
@@ -544,6 +573,7 @@
                 turnRight = True
                 If bodyTurned = 0 And turnRight Then
                     'TurnBodyAnimation.Enabled = True
+                    RotateChicken(addition, HTree, turnLeft, turnRight)
                     x = 1
                     z = -1
                 End If
@@ -551,6 +581,7 @@
                 turnRight = True
                 If bodyTurned = 0 And turnRight Then
                     'TurnBodyAnimation.Enabled = True
+                    RotateChicken(addition, HTree, turnLeft, turnRight)
                     x = 1
                     z = 1
                 End If
@@ -564,6 +595,7 @@
                 turnLeft = True
                 If bodyTurned = 0 And turnLeft Then
                     'TurnBodyAnimation.Enabled = True
+                    RotateChicken(addition, HTree, turnLeft, turnRight)
                     x = -1
                     z = 0
                 End If
@@ -571,6 +603,7 @@
                 turnRight = True
                 If bodyTurned = 0 And turnRight Then
                     'TurnBodyAnimation.Enabled = True
+                    RotateChicken(addition, HTree, turnLeft, turnRight)
                     x = 1
                     z = 0
                 End If
@@ -583,7 +616,7 @@
             TranverseChange(HTree.First, "torso", rotation)
             TranverseTree(HTree.First)
         ElseIf FlyMode Then
-            TurnBodyAnimation.Enabled = True
+            'TurnBodyAnimation.Enabled = True
             FlyingChicken()
         ElseIf RotateMode Then 'Only to test
             rotation += addition
