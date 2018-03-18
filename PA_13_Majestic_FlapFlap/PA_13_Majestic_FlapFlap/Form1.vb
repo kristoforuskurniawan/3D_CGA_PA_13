@@ -499,7 +499,6 @@
             TranverseChange(HObject.Child.First, target, value)
         End If
         TranverseChange(HObject.Nxt, target, value)
-
     End Sub
 
     Private Sub FlapFlap() 'Animation of wing
@@ -521,7 +520,6 @@
         ElseIf LegRotation <= -45 Then
             legaddition = -legaddition
         End If
-
         TranverseChange(HTree.First, "leftleg", LegRotation)
         TranverseChange(HTree.First, "rightleg", -LegRotation)
     End Sub
@@ -534,21 +532,21 @@
         DrawCube(Obj, topofstack)
     End Sub
 
-    Private Sub Process(E As TElement3DObject) 'From Mr. Edo
-        Dim M As New Matrix4x4
-        Dim T As New Matrix4x4
+    'Private Sub Process(E As TElement3DObject) 'From Mr. Edo
+    '    Dim M As New Matrix4x4
+    '    Dim T As New Matrix4x4
 
-        While E IsNot Nil
-            T = MultiplyMat4x4(E.Transform, nStack.Peek)
-            nStack.Push(T)
-            Process(E.Child.First)
-            nStack.Pop()
-            If E.Obj IsNot Nil Then
-                DrawCube(E.Obj, M)
-            End If
-            E = E.Nxt
-        End While
-    End Sub
+    '    While E IsNot Nil
+    '        T = MultiplyMat4x4(E.Transform, nStack.Peek)
+    '        nStack.Push(T)
+    '        Process(E.Child.First)
+    '        nStack.Pop()
+    '        If E.Obj IsNot Nil Then
+    '            DrawCube(E.Obj, M)
+    '        End If
+    '        E = E.Nxt
+    '    End While
+    'End Sub
 
     Private Sub MainCanvas_MouseOver(sender As Object, e As MouseEventArgs) Handles MainCanvas.MouseMove
         CoordinatesLabel.Text = "Coordinates: X = " + e.X.ToString() + ", Y = " + e.Y.ToString()
@@ -619,7 +617,6 @@
 
         PV.Mat = MultiplyMat4x4(Vt, St)
         InversePV.Mat = MultiplyMat4x4(InSt, InVt)
-
     End Sub
 
     Private Function GetWCSPosition() As TPoint
@@ -823,5 +820,4 @@
             TranverseTree(HTree.First)
         End If
     End Sub
-
 End Class
