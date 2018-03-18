@@ -35,6 +35,8 @@ Partial Class Form1
         Me.angleTxt = New System.Windows.Forms.Label()
         Me.rotationTxt = New System.Windows.Forms.Label()
         Me.btnChange = New System.Windows.Forms.Button()
+        Me.ChickenSelectorLabel = New System.Windows.Forms.Label()
+        Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.MainCanvas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -43,7 +45,7 @@ Partial Class Form1
         Me.MainCanvas.BackColor = System.Drawing.Color.White
         Me.MainCanvas.Location = New System.Drawing.Point(13, 13)
         Me.MainCanvas.Name = "MainCanvas"
-        Me.MainCanvas.Size = New System.Drawing.Size(849, 483)
+        Me.MainCanvas.Size = New System.Drawing.Size(849, 472)
         Me.MainCanvas.TabIndex = 0
         Me.MainCanvas.TabStop = False
         '
@@ -72,7 +74,7 @@ Partial Class Form1
         'CoordinatesLabel
         '
         Me.CoordinatesLabel.AutoSize = True
-        Me.CoordinatesLabel.Location = New System.Drawing.Point(513, 506)
+        Me.CoordinatesLabel.Location = New System.Drawing.Point(557, 502)
         Me.CoordinatesLabel.Name = "CoordinatesLabel"
         Me.CoordinatesLabel.Size = New System.Drawing.Size(125, 13)
         Me.CoordinatesLabel.TabIndex = 3
@@ -135,18 +137,38 @@ Partial Class Form1
         '
         'btnChange
         '
-        Me.btnChange.Location = New System.Drawing.Point(787, 509)
+        Me.btnChange.Location = New System.Drawing.Point(769, 517)
         Me.btnChange.Name = "btnChange"
-        Me.btnChange.Size = New System.Drawing.Size(75, 23)
+        Me.btnChange.Size = New System.Drawing.Size(93, 23)
         Me.btnChange.TabIndex = 10
         Me.btnChange.Text = "Change Chicken"
         Me.btnChange.UseVisualStyleBackColor = True
+        '
+        'ChickenSelectorLabel
+        '
+        Me.ChickenSelectorLabel.AutoSize = True
+        Me.ChickenSelectorLabel.Location = New System.Drawing.Point(557, 522)
+        Me.ChickenSelectorLabel.Name = "ChickenSelectorLabel"
+        Me.ChickenSelectorLabel.Size = New System.Drawing.Size(107, 13)
+        Me.ChickenSelectorLabel.TabIndex = 11
+        Me.ChickenSelectorLabel.Text = "Moved: First Chicken"
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(769, 491)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(93, 23)
+        Me.Button1.TabIndex = 12
+        Me.Button1.Text = "Both Chicken"
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(874, 544)
+        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.ChickenSelectorLabel)
         Me.Controls.Add(Me.btnChange)
         Me.Controls.Add(Me.rotationTxt)
         Me.Controls.Add(Me.angleTxt)
@@ -177,4 +199,6 @@ Partial Class Form1
     Friend WithEvents angleTxt As Label
     Friend WithEvents rotationTxt As Label
     Friend WithEvents btnChange As Button
+    Friend WithEvents ChickenSelectorLabel As Label
+    Friend WithEvents Button1 As Button
 End Class

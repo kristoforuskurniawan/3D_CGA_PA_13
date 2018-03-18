@@ -1,5 +1,5 @@
 ﻿Public Class Form1
-    Dim FirstChicken, WalkMode, FlyMode, RotateMode, IsAscend, IsDescend As Boolean 'movement type
+    Dim FirstChicken, SecondChicken, WalkMode, FlyMode, RotateMode, IsAscend, IsDescend As Boolean 'movement type
     Dim bit As Bitmap 'manipulate the screen
     Dim g As Graphics ' to draw
     Dim blackPen As Pen ' for chicken's color
@@ -43,6 +43,7 @@
         FlyMode = True
         RotateMode = False
         FirstChicken = True
+        SecondChicken = False
         DestinationTarget = New TPoint()
         OriginPosition = New TPoint()
         nStack = New Stack(Of Matrix4x4)
@@ -88,6 +89,28 @@
     Private Sub SetEdges(x As Integer, y As Integer)
         Dim temp As New TLine(x, y)
         EdgeList.Add(temp)
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        FirstChicken = True
+        SecondChicken = True
+        ChickenSelectorLabel.Text = "Moved: Both Chicken"
+    End Sub
+
+    Private Sub btnChange_Click(sender As Object, e As EventArgs) Handles btnChange.Click
+        If FirstChicken And SecondChicken = False Then
+            SecondChicken = True
+            FirstChicken = False
+            ChickenSelectorLabel.Text = "Moved: First Chicken"
+        ElseIf SecondChicken And FirstChicken = False Then
+            FirstChicken = True
+            SecondChicken = False
+            ChickenSelectorLabel.Text = "Moved: Second Chicken"
+        Else 'Kalau habis gerakin dua-duanya
+            SecondChicken = True
+            FirstChicken = False
+            ChickenSelectorLabel.Text = "Moved: First Chicken"
+        End If
     End Sub
 
     Private Sub DrawCube(obj As Model3D, M As Matrix4x4)
@@ -639,16 +662,6 @@
                 'heightChange = 0
                 FlyPosition = 5
             End If
-            'ElseIf IsDescend Then 'Descend
-            '    FlyPosition -= heightChange
-            '    g.Clear(Color.White)
-            '    HTree.First.Child.First.Transform.TranslateMat(0, -heightChange, 0)
-            '    TranverseTree(HTree.First)
-            '    If FlyPosition < 0 Then
-            '        'IsAscend = True
-            '        IsDescend = False
-            '        FlyPosition = 0
-            '    End If
         End If
     End Sub
 
@@ -667,17 +680,12 @@
     End Sub
 
     Private Sub FlyingChicken()
-        'If OriginPosition.X = DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
-        '    TimerAnimation.Enabled = False
-        'End If
         If currentTheta < theta Then
             clockwise = True
             counterClockwise = False
             TurnBodyAnimation.Enabled = True
             currentTheta = theta
         ElseIf currentTheta > theta Then
-            'Console.WriteLine(currentTheta)
-            'Console.WriteLine(theta)
             clockwise = False
             counterClockwise = True
             TurnBodyAnimation.Enabled = True
