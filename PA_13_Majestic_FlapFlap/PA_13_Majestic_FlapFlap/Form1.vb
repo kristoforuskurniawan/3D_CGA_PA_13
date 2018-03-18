@@ -379,6 +379,7 @@
         addition = 1
         'dx = Math.Abs(OriginPosition.X - DestinationTarget.X)
         'dy = Math.Abs(OriginPosition.Y - DestinationTarget.Y)
+        'MessageBox.Show("test")
         GetDegreeForRotation()
         'DestinationTarget = GetWCSPosition()
         'MsgBox(DestinationTarget.X.ToString() + " " + DestinationTarget.Z.ToString() + " " + DestinationTarget.Z.ToString())
@@ -610,10 +611,17 @@
                 currentTheta = theta
             End If
             If addition = 0 Then
-                Console.WriteLine(Math.Abs(DestinationTarget.X - OriginPosition.X))
-                Console.WriteLine(Math.Abs(DestinationTarget.Z - OriginPosition.Y))
-                If OriginPosition.X >= 2 * DestinationTarget.X And OriginPosition.Y >= 2 * DestinationTarget.Z Then
+                '  Console.WriteLine(Math.Abs(Math.Floor(OriginPosition.Y)))
+                ' Console.WriteLine(Math.Floor((1.75 * DestinationTarget.Z)))
+                Console.WriteLine(Math.Floor(OriginPosition.Y))
+                Console.WriteLine(Math.Floor(DestinationTarget.Z))
+                'OriginPosition.Y = 250
+                ' Console.WriteLine(Math.Abs(Math.Floor(1.75 * DestinationTarget.Z) - Math.Floor(OriginPosition.Y)))
+                If DestinationTarget.Z > OriginPosition.Y And Math.Floor(DestinationTarget.Z) - Math.Floor(OriginPosition.Y) < v Then
+                    ' MessageBox.Show("Test")
                     TimerAnimation.Enabled = False
+                    ' ElseIf Math.Floor(DestinationTarget.Z) + Math.Floor(OriginPosition.Y) < v Then
+                    '    TimerAnimation.Enabled = False
                 Else
                     dirx = Math.Cos(theta * Math.PI / 180)
                     diry = Math.Sin(theta * Math.PI / 180)
@@ -625,11 +633,10 @@
                     '   Console.WriteLine(vy)
                     OriginPosition.X += vx
                     OriginPosition.Y += vy
-                    '  Console.WriteLine(OriginPosition.X)
-                    ' Console.WriteLine(OriginPosition.Y)
-                    ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Y = 0" + ", Z = " + OriginPosition.Y.ToString()
+
+                    ChickPos.Text = "Chicken: X = " + (OriginPosition.X).ToString() + ", Y = 0" + ", Z = " + (OriginPosition.Y).ToString()
                     WalkingChicken()
-                    HTree.First.Child.First.Transform.TranslateMat(vx / 100, 0, -(vy / 100))
+                    HTree.First.Child.First.Transform.TranslateMat(vx / 50, 0, -(vy / 50))
                     g.Clear(Color.White)
                     TranverseChange(HTree.First, "torso", rotation)
                     TranverseTree(HTree.First)
