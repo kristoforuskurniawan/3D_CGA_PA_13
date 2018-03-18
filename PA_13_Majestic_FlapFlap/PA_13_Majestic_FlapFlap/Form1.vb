@@ -614,7 +614,6 @@
                 '  Console.WriteLine(Math.Abs(Math.Floor(OriginPosition.Y)))
                 ' Console.WriteLine(Math.Floor((1.75 * DestinationTarget.Z)))
                 Console.WriteLine(Math.Floor(OriginPosition.Y))
-                Console.WriteLine(Math.Floor(DestinationTarget.Z))
                 'OriginPosition.Y = 250
                 ' Console.WriteLine(Math.Abs(Math.Floor(1.75 * DestinationTarget.Z) - Math.Floor(OriginPosition.Y)))
                 If DestinationTarget.Z > OriginPosition.Y And Math.Floor(DestinationTarget.Z) - Math.Floor(OriginPosition.Y) < v Then
@@ -634,7 +633,7 @@
                     OriginPosition.X += vx
                     OriginPosition.Y += vy
 
-                    ChickPos.Text = "Chicken: X = " + (OriginPosition.X).ToString() + ", Y = 0" + ", Z = " + (OriginPosition.Y).ToString()
+                    ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Y = 0" + ", Z = " + (OriginPosition.Y).ToString()
                     WalkingChicken()
                     HTree.First.Child.First.Transform.TranslateMat(vx / 50, 0, -(vy / 50))
                     g.Clear(Color.White)
