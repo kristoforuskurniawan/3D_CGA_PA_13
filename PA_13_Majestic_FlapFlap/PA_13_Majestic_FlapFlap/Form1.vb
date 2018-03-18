@@ -75,6 +75,7 @@
     End Sub
 
     Private Sub RotateRadioButton_Click(sender As Object, e As EventArgs) Handles RotateRadioButton.CheckedChanged
+        'MessageBox.Show("We are sorry but this feature is only for testing and cannot be used right now.")
         WalkMode = False
         FlyMode = False
         RotateMode = True
@@ -851,12 +852,12 @@
             End If
         ElseIf RotateMode Then 'Only to test
             rotation += addition
-            If rotation >= 360 Or rotation <= 0 Then
-                TimerAnimation.Enabled = False
-                TurnBodyAnimation.Enabled = False
-            End If
+            'If rotation >= 360 Or rotation <= 0 Then
+            '    TimerAnimation.Enabled = False
+            '    TurnBodyAnimation.Enabled = False
+            'End If
             If rotation >= Round Or rotation <= -Round Then
-                'addition = -addition
+                addition = -addition
             End If
             g.Clear(Color.White)
             TranverseChange(HTree.First, "torso", rotation)
