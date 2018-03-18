@@ -20,6 +20,7 @@
     Dim currentTheta As Integer = 0
     Dim v As Integer
 
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         WingRotation = 0
         LegRotation = 0
@@ -109,11 +110,25 @@
         MainCanvas.Image = bit
     End Sub
 
+    Dim left_foot As New TElement3DObject
+    Dim right_foot As New TElement3DObject
+    Dim left_lower_wing As New TElement3DObject
+    Dim right_lower_wing As New TElement3DObject
+    Dim beak As New TElement3DObject
+    Dim head As New TElement3DObject
+    Dim neck As New TElement3DObject
+    Dim right_upper_wing As New TElement3DObject
+    Dim left_upper_wing As New TElement3DObject
+    Dim right_leg As New TElement3DObject
+    Dim left_leg As New TElement3DObject
+    Dim torso As New TElement3DObject
+    Dim Chicken As New TElement3DObject
+
     Private Sub CreationOfChicken()
         'Declaration of Chicken in Hierarchical Model
         'Must start from the child
 
-        Dim left_foot As New TElement3DObject
+        'Left foot
         left_foot.label = "leftfoot"
         left_foot.Rotation_Axis = RotationAxis.x
         left_foot.Rotation_Angle = 0
@@ -125,7 +140,7 @@
 
         Dim LeftFoot As New TList3DObject(left_foot)
 
-        Dim right_foot As New TElement3DObject
+        'Right foot
         right_foot.label = "rightfoot"
         right_foot.Rotation_Axis = RotationAxis.x
         right_foot.Rotation_Angle = 0
@@ -137,7 +152,7 @@
 
         Dim RightFoot As New TList3DObject(right_foot)
 
-        Dim left_lower_wing As New TElement3DObject
+        'Left lower wing
         left_lower_wing.label = "leftlowerwing"
         left_lower_wing.Rotation_Axis = RotationAxis.z
         left_lower_wing.Rotation_Angle = 0
@@ -151,7 +166,7 @@
 
         Dim LeftWing As New TList3DObject(left_lower_wing)
 
-        Dim right_lower_wing As New TElement3DObject
+        'Right lower wing
         right_lower_wing.label = "rightlowerwing"
         right_lower_wing.Rotation_Axis = RotationAxis.z
         right_lower_wing.Rotation_Angle = 0
@@ -165,7 +180,7 @@
 
         Dim RightWing As New TList3DObject(right_lower_wing)
 
-        Dim beak As New TElement3DObject
+        'Beak
         beak.label = "beak"
         beak.Rotation_Axis = RotationAxis.none
         beak.Rotation_Angle = 0
@@ -177,7 +192,7 @@
 
         Dim MainBeak As New TList3DObject(beak)
 
-        Dim head As New TElement3DObject
+        'Head
         head.label = "head"
         head.Rotation_Axis = RotationAxis.y
         head.Rotation_Angle = 0
@@ -189,7 +204,7 @@
 
         Dim MainHead As New TList3DObject(head)
 
-        Dim neck As New TElement3DObject
+        'Neck
         neck.label = "neck"
         neck.Rotation_Axis = RotationAxis.y
         neck.Rotation_Angle = 0
@@ -200,7 +215,7 @@
         neck.Transform.ScaleMat(0.3, 0.5, 0.3)
 
 
-        Dim right_upper_wing As New TElement3DObject
+        'Right upper wing
         right_upper_wing.label = "rightupperwing"
         right_upper_wing.Rotation_Axis = RotationAxis.z
         right_upper_wing.Rotation_Angle = 0
@@ -211,7 +226,7 @@
         right_upper_wing.Transform.ScaleMat(0.4, 0.2, 0.5)
         'right_upper_wing.Transform.ShearMat(0.25, 0)
 
-        Dim left_upper_wing As New TElement3DObject
+        'Left upper wing
         left_upper_wing.label = "leftupperwing"
         left_upper_wing.Rotation_Axis = RotationAxis.z
         left_upper_wing.Rotation_Angle = 0
@@ -222,7 +237,7 @@
         left_upper_wing.Transform.ScaleMat(0.4, 0.2, 0.5)
         'left_upper_wing.Transform.ShearMat(-0.25, 0) 'w bingung yg shear
 
-        Dim right_leg As New TElement3DObject
+        'Right leg
         right_leg.label = "rightleg"
         right_leg.Rotation_Axis = RotationAxis.x
         right_leg.Rotation_Angle = 0
@@ -232,7 +247,7 @@
         right_leg.Transform.TranslateMat(-1.25, -3.05, 0)
         right_leg.Transform.ScaleMat(0.3, 0.5, 0.3)
 
-        Dim left_leg As New TElement3DObject
+        'Left leg
         left_leg.label = "leftleg"
         left_leg.Rotation_Axis = RotationAxis.x
         left_leg.Rotation_Angle = 0
@@ -244,7 +259,7 @@
 
         Dim AfterTorso As New TList3DObject(left_leg)
 
-        Dim torso As New TElement3DObject
+        'Torso
         torso.label = "torso"
         torso.Rotation_Axis = RotationAxis.y
         torso.Rotation_Angle = 0
@@ -257,7 +272,7 @@
 
         Dim MainTorso As New TList3DObject(torso)
 
-        Dim Chicken As New TElement3DObject
+        'Chicken
         Chicken.label = "chicken1"
         Chicken.Rotation_Axis = RotationAxis.none
         Chicken.Rotation_Angle = 0
@@ -342,7 +357,6 @@
 
     Private Sub ChangeRotation(ByRef target As TElement3DObject, value As Double)
         target.Rotation_Angle = value
-
     End Sub
 
     Private Sub DrawFromTree(Obj As Model3D, topofstack As Matrix4x4)
