@@ -7,7 +7,7 @@
     Dim EdgeList As List(Of TLine)
     Dim Object3D As Model3D 'boring cube
     Dim PV, InversePV As New Matrix4x4 'won't be changed
-    Dim HTree As TList3DObject
+    Dim HTree(2) As TList3DObject 'Buat ayamnya bisa beranak cucu
     Dim nStack As Stack(Of Matrix4x4)
     Dim rotation, addition As Double
     Dim DestinationTarget, OriginPosition As TPoint
@@ -47,7 +47,9 @@
         nStack = New Stack(Of Matrix4x4)
         blackPen = New Pen(Color.Black, 1)
         bit = New Bitmap(MainCanvas.Width, MainCanvas.Height)
-        HTree = New TList3DObject
+        For i = 0 To 1
+            HTree(i) = New TList3DObject
+        Next
         EdgeList = New List(Of TLine)
         VerticesList = New List(Of TPoint)
         Object3D = New Model3D
@@ -56,7 +58,7 @@
         Projection()
         'DrawCube(Object3D, PV)
         CreationOfChicken()
-        TranverseTree(HTree.First)
+        TranverseTree(HTree(0).First)
 
     End Sub
 
@@ -265,7 +267,7 @@
         Chicken.Transform.MultiplyMatrix4x4(PV)
 
         'Root of Tree
-        HTree.First = New TElement3DObject(Chicken)
+        HTree(0).First = New TElement3DObject(Chicken)
     End Sub
 
     Private Sub TranverseTree(HObject As TElement3DObject)
@@ -322,8 +324,8 @@
             wingaddition = -wingaddition
         End If
 
-        TranverseChange(HTree.First, "leftupperwing", WingRotation)
-        TranverseChange(HTree.First, "rightupperwing", -WingRotation)
+        TranverseChange(HTree(0).First, "leftupperwing", WingRotation)
+        TranverseChange(HTree(0).First, "rightupperwing", -WingRotation)
     End Sub
 
     Private Sub WalkingChicken() ' Animation of chicken's leg
@@ -334,8 +336,8 @@
             legaddition = -legaddition
         End If
 
-        TranverseChange(HTree.First, "leftleg", LegRotation)
-        TranverseChange(HTree.First, "rightleg", -LegRotation)
+        TranverseChange(HTree(0).First, "leftleg", LegRotation)
+        TranverseChange(HTree(0).First, "rightleg", -LegRotation)
     End Sub
 
     Private Sub ChangeRotation(ByRef target As TElement3DObject, value As Double)
@@ -373,8 +375,8 @@
         DestinationTarget = New TPoint(e.X, e.Y, e.Y)
         OriginPosition = New TPoint()
         Dim CurrentPosition As New Matrix4x4
-        CurrentPosition.MultiplyMatrix4x4(HTree.First.Child.First.Transform)
-        CurrentPosition.MultiplyMatrix4x4(HTree.First.Transform)
+        CurrentPosition.MultiplyMatrix4x4(HTree(0).First.Child.First.Transform)
+        CurrentPosition.MultiplyMatrix4x4(HTree(0).First.Transform)
         OriginPosition = MultiplyMat(OriginPosition, CurrentPosition)
         addition = 1
         GetDegreeForRotation()
@@ -457,8 +459,8 @@
 
         rotationTxt.Text = "Rotation: " + rotation.ToString()
         g.Clear(Color.White)
-        TranverseChange(HTree.First, "torso", rotation)
-        TranverseTree(HTree.First)
+        TranverseChange(HTree(0).First, "torso", rotation)
+        TranverseTree(HTree(0).First)
     End Sub
 
     Private Sub Ascend(ByVal heightChange As Double) 'Akhirnya jadi.
@@ -467,8 +469,8 @@
             FlyPosition += heightChange
             'OriginPosition.Y += heightChange
             g.Clear(Color.White)
-            HTree.First.Child.First.Transform.TranslateMat(0, heightChange, 0)
-            TranverseTree(HTree.First)
+            HTree(0).First.Child.First.Transform.TranslateMat(0, heightChange, 0)
+            TranverseTree(HTree(0).First)
             If (FlyPosition > 5) Then
                 IsAscend = False
                 'IsDescend = True
@@ -492,8 +494,8 @@
         FlyPosition -= heightChange
         If IsDescend Then
             g.Clear(Color.White)
-            HTree.First.Child.First.Transform.TranslateMat(0, -heightChange, 0)
-            TranverseTree(HTree.First)
+            HTree(0).First.Child.First.Transform.TranslateMat(0, -heightChange, 0)
+            TranverseTree(HTree(0).First)
             If FlyPosition < 0 Then
                 IsDescend = False
                 FlyPosition = 0
@@ -535,10 +537,10 @@
                 OriginPosition.Y += vy
 
                 ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Y = 0" + ", Z = " + (OriginPosition.Y).ToString()
-                HTree.First.Child.First.Transform.TranslateMat(vx / 50, 0, -(vy / 50))
+                HTree(0).First.Child.First.Transform.TranslateMat(vx / 50, 0, -(vy / 50))
                 g.Clear(Color.White)
-                TranverseChange(HTree.First, "torso", rotation)
-                TranverseTree(HTree.First)
+                TranverseChange(HTree(0).First, "torso", rotation)
+                TranverseTree(HTree(0).First)
             End If
         End If
     End Sub
@@ -614,10 +616,10 @@
 
                     ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Y = 0" + ", Z = " + (OriginPosition.Y).ToString()
                     WalkingChicken()
-                    HTree.First.Child.First.Transform.TranslateMat(vx / 50, 0, -(vy / 50))
+                    HTree(0).First.Child.First.Transform.TranslateMat(vx / 50, 0, -(vy / 50))
                     g.Clear(Color.White)
-                    TranverseChange(HTree.First, "torso", rotation)
-                    TranverseTree(HTree.First)
+                    TranverseChange(HTree(0).First, "torso", rotation)
+                    TranverseTree(HTree(0).First)
                 End If
             End If
         ElseIf FlyMode Then
@@ -647,8 +649,8 @@
                 'addition = -addition
             End If
             g.Clear(Color.White)
-            TranverseChange(HTree.First, "torso", rotation)
-            TranverseTree(HTree.First)
+            TranverseChange(HTree(0).First, "torso", rotation)
+            TranverseTree(HTree(0).First)
         End If
     End Sub
 
