@@ -460,8 +460,10 @@
         TranverseTree(HTree.First)
     End Sub
 
+    Dim FinishDescend As Boolean = False
+
     Private Sub AscendOrDescend(ByVal heightChange As Double) 'OK sekarang ini work.... Panggil di FlyMode tinggal ubah boolean IsAscend sama IsDescend sesuai yang dibutuhin
-        If IsAscend And IsDescend = False Then 'Ascend
+        If IsAscend Then 'Ascend
             'flyaddition = 0
             FlyPosition += heightChange
             'OriginPosition.Y += heightChange
@@ -470,38 +472,31 @@
             TranverseTree(HTree.First)
             If (FlyPosition > 5) Then
                 IsAscend = False
-                IsDescend = True
+                'IsDescend = True
                 FlyPosition = 0
             End If
-            'Descend(descendSpeed)
-            'ElseIf FlyPosition <= 0 Then
-            '    flyaddition = -flyaddition
         ElseIf IsDescend Then 'Descend
             FlyPosition -= heightChange
-            'OriginPosition.Y -= heightChange
             g.Clear(Color.White)
             HTree.First.Child.First.Transform.TranslateMat(0, -heightChange, 0)
             TranverseTree(HTree.First)
-            If FlyPosition < -5 Then
-                IsAscend = True
+            If FlyPosition < 0 Then
+                'IsAscend = True
+                'MessageBox.Show("Test")
                 IsDescend = False
+                FinishDescend = True
                 FlyPosition = 0
             End If
         End If
     End Sub
 
-    Private Sub DescendOnly()
-        g.Clear(Color.White)
-        HTree.First.Child.First.Transform.TranslateMat(0, -heightChange, 0)
-        TranverseTree(HTree.First)
-        'If (HTree.First.Ob) Then
-    End Sub
+
 
     Private Sub FlyingChicken()
+        'If OriginPosition.X = DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
+        '    TimerAnimation.Enabled = False
+        'End If
         FlapFlap()
-        If OriginPosition.X = DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
-            TimerAnimation.Enabled = False
-        End If
         If currentTheta < theta Then
             clockwise = True
             counterClockwise = False
@@ -515,12 +510,15 @@
             TurnBodyAnimation.Enabled = True
             currentTheta = theta
         End If
+
         If addition = 0 Then
-            AscendOrDescend(heightChange)
+            AscendOrDescend(heightChange) 'Ascend
             If DestinationTarget.Z > OriginPosition.Y And Math.Floor(DestinationTarget.Z) - Math.Floor(OriginPosition.Y) < v Then
-                ' MessageBox.Show("Test")
-                AscendAndDescend(heightChange)
-                TimerAnimation.Enabled = False
+                IsDescend = True
+                AscendOrDescend(heightChange)
+                If FinishDescend Then
+                    TimerAnimation.Enabled = False
+                End If
                 ' ElseIf Math.Floor(DestinationTarget.Z) + Math.Floor(OriginPosition.Y) < v Then
                 '    TimerAnimation.Enabled = False
             Else
@@ -623,9 +621,6 @@
             End If
         ElseIf FlyMode Then
             'TurnBodyAnimation.Enabled = True
-            If OriginPosition.X = DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
-                TimerAnimation.Enabled = False
-            End If
             If currentTheta < theta Then
                 clockwise = True
                 counterClockwise = False
