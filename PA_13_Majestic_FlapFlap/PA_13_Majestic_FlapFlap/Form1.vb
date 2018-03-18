@@ -533,35 +533,54 @@
 
     Private Sub FlyingChicken()
         AscendOrDescend(heightChange)
-        'Descend(descendSpeed)
-        'If OriginPosition.X < DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then 'Fly to bottom right
-
-        '    'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
-        'ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then
-        '    'Ascend()
-        '    'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
-        'ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
-        '    ' Ascend()
-        '    'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
-        'ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
-        '    'Ascend()
-        '    'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
-        'ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Z < DestinationTarget.Z Then
-        '    ' Ascend()
-        '    'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
-        'ElseIf OriginPosition.X = DestinationTarget.X And OriginPosition.Z > DestinationTarget.Z Then
-        '    'Ascend()
-        '    'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
-        'ElseIf OriginPosition.X < DestinationTarget.X And OriginPosition.Z = DestinationTarget.Z Then
-        '    'Ascend()
-        '    'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
-        'ElseIf OriginPosition.X > DestinationTarget.X And OriginPosition.Z = DestinationTarget.Z Then
-        '    'Ascend()
-        '    'HTree.First.Child.First.Transform.TranslateMat(1, 0, 1)
-        'Else 'Descend, already reached destination
-        '    Descend(descendSpeed)
-        'End If
         FlapFlap()
+        If OriginPosition.X = DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
+            TimerAnimation.Enabled = False
+        End If
+        If currentTheta < theta Then
+            clockwise = True
+            counterClockwise = False
+            TurnBodyAnimation.Enabled = True
+            currentTheta = theta
+        ElseIf currentTheta > theta Then
+            'Console.WriteLine(currentTheta)
+            'Console.WriteLine(theta)
+            clockwise = False
+            counterClockwise = True
+            TurnBodyAnimation.Enabled = True
+            currentTheta = theta
+        End If
+        If addition = 0 Then
+            '  Console.WriteLine(Math.Abs(Math.Floor(OriginPosition.Y)))
+            ' Console.WriteLine(Math.Floor((1.75 * DestinationTarget.Z)))
+            Console.WriteLine(Math.Floor(OriginPosition.Y))
+            'OriginPosition.Y = 250
+            ' Console.WriteLine(Math.Abs(Math.Floor(1.75 * DestinationTarget.Z) - Math.Floor(OriginPosition.Y)))
+            If DestinationTarget.Z > OriginPosition.Y And Math.Floor(DestinationTarget.Z) - Math.Floor(OriginPosition.Y) < v Then
+                ' MessageBox.Show("Test")
+                TimerAnimation.Enabled = False
+                ' ElseIf Math.Floor(DestinationTarget.Z) + Math.Floor(OriginPosition.Y) < v Then
+                '    TimerAnimation.Enabled = False
+            Else
+                dirx = Math.Cos(theta * Math.PI / 180)
+                diry = Math.Sin(theta * Math.PI / 180)
+                '  Console.WriteLine(dirx)
+                '  Console.WriteLine(diry)
+                vx = v * dirx
+                vy = v * diry
+                '    Console.WriteLine(vx)
+                '   Console.WriteLine(vy)
+                OriginPosition.X += vx
+                OriginPosition.Y += vy
+
+                ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Y = 0" + ", Z = " + (OriginPosition.Y).ToString()
+                WalkingChicken()
+                HTree.First.Child.First.Transform.TranslateMat(vx / 50, 0, -(vy / 50))
+                g.Clear(Color.White)
+                TranverseChange(HTree.First, "torso", rotation)
+                TranverseTree(HTree.First)
+            End If
+        End If
     End Sub
 
     Private Sub GetDegreeForRotation()
@@ -593,7 +612,7 @@
             TimerAnimation.Enabled = False
         End If
 
-        If WalkMode Then 'Not yet completed (- body turned)
+        If WalkMode Then
             If OriginPosition.X = DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
                 TimerAnimation.Enabled = False
             End If
@@ -642,10 +661,10 @@
                 End If
             End If
         ElseIf FlyMode Then
-                TurnBodyAnimation.Enabled = True
-                FlyingChicken()
-            ElseIf RotateMode Then 'Only to test
-                TimerAnimation.Interval = 1 'Let's dance
+            TurnBodyAnimation.Enabled = True
+            FlyingChicken()
+        ElseIf RotateMode Then 'Only to test
+            TimerAnimation.Interval = 1 'Let's dance
             rotation += addition
             If rotation >= 360 Or rotation <= 0 Then
                 TimerAnimation.Enabled = False
