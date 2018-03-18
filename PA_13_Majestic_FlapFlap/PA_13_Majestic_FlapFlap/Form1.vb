@@ -508,9 +508,16 @@
         ElseIf WingRotation <= -45 Then
             wingaddition = -wingaddition
         End If
-
-        TranverseChange(HTree.First, "leftupperwing", WingRotation)
-        TranverseChange(HTree.First, "rightupperwing", -WingRotation)
+        If (FirstChicken) Then 'Faker semuanya tambahin condition ini....
+            'Yaudah untuk sementara gerakinnya sekaligus
+            TranverseChange(HTree.First, "leftupperwing", WingRotation)
+            TranverseChange(HTree.First, "rightupperwing", -WingRotation)
+            TranverseChange(HTree.First.Nxt, "leftupperwing", WingRotation)
+            TranverseChange(HTree.First.Nxt, "rightupperwing", -WingRotation)
+        ElseIf (SecondChicken) Then
+            'TranverseChange(HTree.First.Nxt, "leftupperwing", WingRotation)
+            'TranverseChange(HTree.First.Nxt, "rightupperwing", -WingRotation)
+        End If
     End Sub
 
     Private Sub WalkingChicken() ' Animation of chicken's leg
@@ -522,6 +529,9 @@
         End If
         TranverseChange(HTree.First, "leftleg", LegRotation)
         TranverseChange(HTree.First, "rightleg", -LegRotation)
+
+        'TranverseChange(HTree.First.Nxt, "leftleg", LegRotation) 'Punya ayam kedua
+        'TranverseChange(HTree.First.Nxt, "rightleg", -LegRotation)
     End Sub
 
     Private Sub ChangeRotation(ByRef target As TElement3DObject, value As Double)
@@ -643,6 +653,9 @@
         g.Clear(Color.White)
         TranverseChange(HTree.First, "torso", rotation)
         TranverseTree(HTree.First)
+
+        'TranverseChange(HTree.First.Nxt, "torso", rotation)
+        'TranverseTree(HTree.First.Nxt)
     End Sub
 
     Private Sub Ascend(ByVal heightChange As Double) 'Akhirnya jadi.
@@ -651,8 +664,17 @@
             FlyPosition += heightChange
             'OriginPosition.Y += heightChange
             g.Clear(Color.White)
-            HTree.First.Child.First.Transform.TranslateMat(0, heightChange, 0)
-            TranverseTree(HTree.First)
+            If FirstChicken Then
+                HTree.First.Child.First.Transform.TranslateMat(0, heightChange, 0)
+                TranverseTree(HTree.First)
+
+                'HTree.First.Nxt.Child.First.Transform.TranslateMat(0, heightChange, 0)
+                'TranverseTree(HTree.First.Nxt)
+
+            ElseIf SecondChicken Then
+                HTree.First.Nxt.Child.First.Transform.TranslateMat(0, heightChange, 0)
+                TranverseTree(HTree.First.Nxt)
+            End If
             If (FlyPosition > 5) Then
                 IsAscend = False
                 'IsDescend = True
@@ -666,8 +688,16 @@
         FlyPosition -= heightChange
         If IsDescend Then
             g.Clear(Color.White)
-            HTree.First.Child.First.Transform.TranslateMat(0, -heightChange, 0)
-            TranverseTree(HTree.First)
+            If FirstChicken Then
+                HTree.First.Child.First.Transform.TranslateMat(0, -heightChange, 0)
+                TranverseTree(HTree.First)
+
+                'HTree.First.Child.First.Nxt.Transform.TranslateMat(0, -heightChange, 0)
+                'TranverseTree(HTree.First.Nxt)
+            ElseIf SecondChicken Then
+                HTree.First.Nxt.Child.First.Transform.TranslateMat(0, -heightChange, 0)
+                TranverseTree(HTree.First.Nxt)
+            End If
             If FlyPosition < 0 Then
                 IsDescend = False
                 FlyPosition = 0
@@ -705,9 +735,13 @@
 
                 ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Y = 0" + ", Z = " + (OriginPosition.Y).ToString()
                 HTree.First.Child.First.Transform.TranslateMat(vx / 50, 0, -(vy / 50))
+                'HTree.First.Nxt.Child.First.Transform.TranslateMat(vx / 50, 0, -(vy / 50))
                 g.Clear(Color.White)
                 TranverseChange(HTree.First, "torso", rotation)
                 TranverseTree(HTree.First)
+
+                'TranverseChange(HTree.First.Nxt, "torso", rotation)
+                'TranverseTree(HTree.First.Nxt)
             End If
         End If
     End Sub
@@ -784,6 +818,7 @@
                     ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Y = 0" + ", Z = " + (OriginPosition.Y).ToString()
                     WalkingChicken()
                     HTree.First.Child.First.Transform.TranslateMat(vx / 50, 0, -(vy / 50))
+                    'HTree.First.Nxt.Child.First.Transform.TranslateMat(vx / 50, 0, -(vy / 50))
                     g.Clear(Color.White)
                     TranverseChange(HTree.First, "torso", rotation)
                     TranverseTree(HTree.First)
@@ -806,7 +841,6 @@
                 currentTheta = theta
             End If
         ElseIf RotateMode Then 'Only to test
-            TimerAnimation.Interval = 1 'Let's dance
             rotation += addition
             If rotation >= 360 Or rotation <= 0 Then
                 TimerAnimation.Enabled = False
@@ -818,6 +852,9 @@
             g.Clear(Color.White)
             TranverseChange(HTree.First, "torso", rotation)
             TranverseTree(HTree.First)
+
+            'TranverseChange(HTree.First.Nxt, "torso", rotation)
+            'TranverseTree(HTree.First.Nxt)
         End If
     End Sub
 End Class
