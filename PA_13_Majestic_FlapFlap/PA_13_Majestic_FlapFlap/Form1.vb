@@ -862,7 +862,7 @@
             g.Clear(Color.White)
             TranverseChange(HTree.First, "torso", rotation)
             TranverseTree(HTree.First)
-
+            'asdfsadf
             TranverseChange(HTree.First.Nxt, "torso", rotation)
             TranverseTree(HTree.First.Nxt)
         End If
