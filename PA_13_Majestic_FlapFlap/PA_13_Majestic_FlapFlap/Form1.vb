@@ -368,7 +368,8 @@
     End Sub
 
     Private Sub MainCanvas_Click(sender As Object, e As MouseEventArgs) Handles MainCanvas.Click
-
+        IsAscend = True
+        IsDescend = False
         DestinationTarget = New TPoint(e.X, e.Y, e.Y)
         OriginPosition = New TPoint()
         Dim CurrentPosition As New Matrix4x4
@@ -460,7 +461,7 @@
         TranverseTree(HTree.First)
     End Sub
 
-    Private Sub AscendOrDescend(ByVal heightChange As Double) 'Terbangnya agak lompat-lompat tapi udah bener.
+    Private Sub Ascend(ByVal heightChange As Double) 'Akhirnya jadi.
         If IsAscend Then 'Ascend
             'flyaddition = 0
             FlyPosition += heightChange
@@ -470,29 +471,41 @@
             TranverseTree(HTree.First)
             If (FlyPosition > 5) Then
                 IsAscend = False
-                IsDescend = True
+                'IsDescend = True
+                'heightChange = 0
                 FlyPosition = 5
             End If
-        ElseIf IsDescend Then 'Descend
-            FlyPosition -= heightChange
+            'ElseIf IsDescend Then 'Descend
+            '    FlyPosition -= heightChange
+            '    g.Clear(Color.White)
+            '    HTree.First.Child.First.Transform.TranslateMat(0, -heightChange, 0)
+            '    TranverseTree(HTree.First)
+            '    If FlyPosition < 0 Then
+            '        'IsAscend = True
+            '        IsDescend = False
+            '        FlyPosition = 0
+            '    End If
+        End If
+    End Sub
+
+    Private Sub Descend(ByVal heightChange As Double)
+        FlyPosition -= heightChange
+        If IsDescend Then
             g.Clear(Color.White)
             HTree.First.Child.First.Transform.TranslateMat(0, -heightChange, 0)
             TranverseTree(HTree.First)
             If FlyPosition < 0 Then
-                IsAscend = True
                 IsDescend = False
                 FlyPosition = 0
+                TimerAnimation.Enabled = False
             End If
         End If
     End Sub
-
-
 
     Private Sub FlyingChicken()
         'If OriginPosition.X = DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
         '    TimerAnimation.Enabled = False
         'End If
-        FlapFlap()
         If currentTheta < theta Then
             clockwise = True
             counterClockwise = False
@@ -508,13 +521,11 @@
         End If
 
         If addition = 0 Then
-            AscendOrDescend(heightChange) 'Ascend
+            FlapFlap()
+            Ascend(heightChange) 'Ascend
             If DestinationTarget.Z > OriginPosition.Y And Math.Floor(DestinationTarget.Z) - Math.Floor(OriginPosition.Y) < v Then
-                'IsDescend = True
-                AscendOrDescend(heightChange)
-                'If FinishDescend Then
-                TimerAnimation.Enabled = False
-                'End If
+                IsDescend = True
+                Descend(heightChange)
             Else
                 dirx = Math.Cos(theta * Math.PI / 180)
                 diry = Math.Sin(theta * Math.PI / 180)
