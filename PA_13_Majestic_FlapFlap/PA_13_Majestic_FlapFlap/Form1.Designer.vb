@@ -34,6 +34,7 @@ Partial Class Form1
         Me.TurnBodyAnimation = New System.Windows.Forms.Timer(Me.components)
         Me.angleTxt = New System.Windows.Forms.Label()
         Me.rotationTxt = New System.Windows.Forms.Label()
+        Me.btnChange = New System.Windows.Forms.Button()
         CType(Me.MainCanvas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -132,11 +133,21 @@ Partial Class Form1
         Me.rotationTxt.TabIndex = 9
         Me.rotationTxt.Text = "Rotation:"
         '
+        'btnChange
+        '
+        Me.btnChange.Location = New System.Drawing.Point(787, 509)
+        Me.btnChange.Name = "btnChange"
+        Me.btnChange.Size = New System.Drawing.Size(75, 23)
+        Me.btnChange.TabIndex = 10
+        Me.btnChange.Text = "Change Chicken"
+        Me.btnChange.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(874, 544)
+        Me.Controls.Add(Me.btnChange)
         Me.Controls.Add(Me.rotationTxt)
         Me.Controls.Add(Me.angleTxt)
         Me.Controls.Add(Me.DestPoint)
@@ -165,4 +176,5 @@ Partial Class Form1
     Friend WithEvents TurnBodyAnimation As Timer
     Friend WithEvents angleTxt As Label
     Friend WithEvents rotationTxt As Label
+    Friend WithEvents btnChange As Button
 End Class

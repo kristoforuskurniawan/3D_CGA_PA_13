@@ -56,6 +56,7 @@
         Projection()
         'DrawCube(Object3D, PV)
         CreationOfChicken()
+        CreationOfChicken2()
         TranverseTree(HTree.First)
 
     End Sub
@@ -86,6 +87,10 @@
     Private Sub SetEdges(x As Integer, y As Integer)
         Dim temp As New TLine(x, y)
         EdgeList.Add(temp)
+    End Sub
+
+    Private Sub btnChange_Click(sender As Object, e As EventArgs) Handles btnChange.Click
+        FirstChicken = Not FirstChicken
     End Sub
 
     Private Sub DrawCube(obj As Model3D, M As Matrix4x4)
@@ -268,6 +273,167 @@
         HTree.First = New TElement3DObject(Chicken)
     End Sub
 
+    Private Sub CreationOfChicken2()
+        'Declaration of Chicken 2 in Hierarchical Model
+        'Must start from the child
+
+        Dim left_foot As New TElement3DObject
+        left_foot.label = "leftfoot"
+        left_foot.Rotation_Axis = RotationAxis.x
+        left_foot.Rotation_Angle = 0
+        left_foot.Child = Nothing
+        left_foot.Nxt = Nothing
+        left_foot.Obj = New Model3D(Object3D)
+        left_foot.Transform.TranslateMat(0.2, -2.6, 0)
+        left_foot.Transform.ScaleMat(1.2, 0.6, 1)
+
+        Dim LeftFoot As New TList3DObject(left_foot)
+
+        Dim right_foot As New TElement3DObject
+        right_foot.label = "rightfoot"
+        right_foot.Rotation_Axis = RotationAxis.x
+        right_foot.Rotation_Angle = 0
+        right_foot.Child = Nothing
+        right_foot.Nxt = Nothing
+        right_foot.Obj = New Model3D(Object3D)
+        right_foot.Transform.TranslateMat(-0.2, -2.6, 0)
+        right_foot.Transform.ScaleMat(1.2, 0.6, 1)
+
+        Dim RightFoot As New TList3DObject(right_foot)
+
+        Dim left_lower_wing As New TElement3DObject
+        left_lower_wing.label = "leftlowerwing"
+        left_lower_wing.Rotation_Axis = RotationAxis.z
+        left_lower_wing.Rotation_Angle = 0
+        left_lower_wing.Child = Nothing
+        left_lower_wing.Nxt = Nothing
+        left_lower_wing.Obj = New Model3D(Object3D)
+        left_lower_wing.Transform.TranslateMat(1, 0, 0)
+        left_lower_wing.Transform.RotateZ(-30)
+        'left_lower_wing.Transform.ShearMat(0, 2)
+        left_lower_wing.Transform.ScaleMat(2.5, 1, 1)
+
+        Dim LeftWing As New TList3DObject(left_lower_wing)
+
+        Dim right_lower_wing As New TElement3DObject
+        right_lower_wing.label = "rightlowerwing"
+        right_lower_wing.Rotation_Axis = RotationAxis.z
+        right_lower_wing.Rotation_Angle = 0
+        right_lower_wing.Child = Nothing
+        right_lower_wing.Nxt = Nothing
+        right_lower_wing.Obj = New Model3D(Object3D)
+        right_lower_wing.Transform.TranslateMat(-1, 0, 0)
+        right_lower_wing.Transform.RotateZ(30)
+        'right_lower_wing.Transform.ShearMat(0, 2)
+        right_lower_wing.Transform.ScaleMat(2.5, 1, 1)
+
+        Dim RightWing As New TList3DObject(right_lower_wing)
+
+        Dim beak As New TElement3DObject
+        beak.label = "beak"
+        beak.Rotation_Axis = RotationAxis.none
+        beak.Rotation_Angle = 0
+        beak.Child = Nothing
+        beak.Nxt = Nothing
+        beak.Obj = New Model3D(Object3D)
+        beak.Transform.TranslateMat(0, 0, 2)
+        beak.Transform.ScaleMat(0.5, 0.5, 1)
+
+        Dim MainBeak As New TList3DObject(beak)
+
+        Dim head As New TElement3DObject
+        head.label = "head"
+        head.Rotation_Axis = RotationAxis.y
+        head.Rotation_Angle = 0
+        head.Child = MainBeak
+        head.Nxt = Nothing
+        head.Obj = New Model3D(Object3D)
+        head.Transform.TranslateMat(0, 2.45, 0)
+        head.Transform.ScaleMat(2, 0.7, 1)
+
+        Dim MainHead As New TList3DObject(head)
+
+        Dim neck As New TElement3DObject
+        neck.label = "neck"
+        neck.Rotation_Axis = RotationAxis.y
+        neck.Rotation_Angle = 0
+        neck.Child = MainHead
+        neck.Nxt = Nothing
+        neck.Obj = New Model3D(Object3D)
+        neck.Transform.TranslateMat(0, 3, 0)
+        neck.Transform.ScaleMat(0.3, 0.5, 0.3)
+
+
+        Dim right_upper_wing As New TElement3DObject
+        right_upper_wing.label = "rightupperwing"
+        right_upper_wing.Rotation_Axis = RotationAxis.z
+        right_upper_wing.Rotation_Angle = 0
+        right_upper_wing.Child = RightWing
+        right_upper_wing.Nxt = neck
+        right_upper_wing.Obj = New Model3D(Object3D)
+        right_upper_wing.Transform.TranslateMat(-3, 3.5, 0)
+        right_upper_wing.Transform.ScaleMat(0.4, 0.2, 0.5)
+        'right_upper_wing.Transform.ShearMat(0.25, 0)
+
+        Dim left_upper_wing As New TElement3DObject
+        left_upper_wing.label = "leftupperwing"
+        left_upper_wing.Rotation_Axis = RotationAxis.z
+        left_upper_wing.Rotation_Angle = 0
+        left_upper_wing.Child = LeftWing
+        left_upper_wing.Nxt = right_upper_wing
+        left_upper_wing.Obj = New Model3D(Object3D)
+        left_upper_wing.Transform.TranslateMat(3, 3.5, 0)
+        left_upper_wing.Transform.ScaleMat(0.4, 0.2, 0.5)
+        'left_upper_wing.Transform.ShearMat(-0.25, 0) 'w bingung yg shear
+
+        Dim right_leg As New TElement3DObject
+        right_leg.label = "rightleg"
+        right_leg.Rotation_Axis = RotationAxis.x
+        right_leg.Rotation_Angle = 0
+        right_leg.Child = RightFoot
+        right_leg.Nxt = left_upper_wing
+        right_leg.Obj = New Model3D(Object3D)
+        right_leg.Transform.TranslateMat(-1.25, -3.05, 0)
+        right_leg.Transform.ScaleMat(0.3, 0.5, 0.3)
+
+        Dim left_leg As New TElement3DObject
+        left_leg.label = "leftleg"
+        left_leg.Rotation_Axis = RotationAxis.x
+        left_leg.Rotation_Angle = 0
+        left_leg.Child = LeftFoot
+        left_leg.Nxt = right_leg
+        left_leg.Obj = New Model3D(Object3D)
+        left_leg.Transform.TranslateMat(1.25, -3.05, 0)
+        left_leg.Transform.ScaleMat(0.3, 0.5, 0.3)
+
+        Dim AfterTorso As New TList3DObject(left_leg)
+
+        Dim torso As New TElement3DObject
+        torso.label = "torso"
+        torso.Rotation_Axis = RotationAxis.y
+        torso.Rotation_Angle = 0
+        torso.Child = AfterTorso
+        torso.Nxt = Nothing
+        torso.Obj = New Model3D(Object3D)
+        torso.Transform.TranslateMat(0, 0, 0)
+        torso.Transform.ScaleMat(0.5, 0.5, 0.5)
+        torso.Transform.RotateY(90)
+
+        Dim MainTorso As New TList3DObject(torso)
+
+        Dim Chicken As New TElement3DObject
+        Chicken.label = "chicken2"
+        Chicken.Rotation_Axis = RotationAxis.none
+        Chicken.Rotation_Angle = 0
+        Chicken.Child = MainTorso
+        Chicken.Nxt = Nothing
+        Chicken.Obj = Nothing
+        Chicken.Transform.MultiplyMatrix4x4(PV)
+
+        'Root of Tree
+        HTree.First.Nxt = New TElement3DObject(Chicken)
+    End Sub
+
     Private Sub TranverseTree(HObject As TElement3DObject)
         If HObject Is Nothing Then
             Return
@@ -293,6 +459,10 @@
     Private Sub TranverseChange(HObject As TElement3DObject, target As String, value As Double)
         If HObject Is Nothing Then
             Return
+        End If
+
+        If String.Equals("chicken1", HObject.label) And FirstChicken = False Then
+            HObject = HObject.Nxt
         End If
 
         If String.Equals("head", HObject.label) Then
@@ -372,8 +542,13 @@
         DestinationTarget = New TPoint(e.X, e.Y, e.Y)
         OriginPosition = New TPoint()
         Dim CurrentPosition As New Matrix4x4
-        CurrentPosition.MultiplyMatrix4x4(HTree.First.Child.First.Transform)
-        CurrentPosition.MultiplyMatrix4x4(HTree.First.Transform)
+        If FirstChicken = True Then
+            CurrentPosition.MultiplyMatrix4x4(HTree.First.Child.First.Transform)
+            CurrentPosition.MultiplyMatrix4x4(HTree.First.Transform)
+        Else
+            CurrentPosition.MultiplyMatrix4x4(HTree.First.Nxt.Child.First.Transform)
+            CurrentPosition.MultiplyMatrix4x4(HTree.First.Nxt.Transform)
+        End If
         OriginPosition = MultiplyMat(OriginPosition, CurrentPosition)
         addition = 1
         GetDegreeForRotation()
@@ -472,7 +647,7 @@
             TranverseTree(HTree.First)
             If (FlyPosition > 5) Then
                 IsAscend = False
-                'IsDescend = True
+                IsDescend = True
                 FlyPosition = 0
             End If
         ElseIf IsDescend Then 'Descend
@@ -481,7 +656,7 @@
             HTree.First.Child.First.Transform.TranslateMat(0, -heightChange, 0)
             TranverseTree(HTree.First)
             If FlyPosition < 0 Then
-                'IsAscend = True
+                IsAscend = True
                 'MessageBox.Show("Test")
                 IsDescend = False
                 FinishDescend = True
@@ -515,6 +690,7 @@
             AscendOrDescend(heightChange) 'Ascend
             If DestinationTarget.Z > OriginPosition.Y And Math.Floor(DestinationTarget.Z) - Math.Floor(OriginPosition.Y) < v Then
                 IsDescend = True
+                'Console.WriteLine("true")
                 AscendOrDescend(heightChange)
                 If FinishDescend Then
                     TimerAnimation.Enabled = False
@@ -524,7 +700,7 @@
             Else
                 dirx = Math.Cos(theta * Math.PI / 180)
                 diry = Math.Sin(theta * Math.PI / 180)
-                '  Console.WriteLine(dirx)
+                'Console.WriteLine(dirx)
                 '  Console.WriteLine(diry)
                 vx = v * dirx
                 vy = v * diry
