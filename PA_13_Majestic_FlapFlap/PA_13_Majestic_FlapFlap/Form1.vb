@@ -374,21 +374,9 @@
         CurrentPosition.MultiplyMatrix4x4(HTree.First.Child.First.Transform)
         CurrentPosition.MultiplyMatrix4x4(HTree.First.Transform)
         OriginPosition = MultiplyMat(OriginPosition, CurrentPosition)
-        'MsgBox(OriginPosition.X.ToString() + " " + OriginPosition.Y.ToString())
-        'rotation = 0
         addition = 1
-        'dx = Math.Abs(OriginPosition.X - DestinationTarget.X)
-        'dy = Math.Abs(OriginPosition.Y - DestinationTarget.Y)
-        'MessageBox.Show("test")
         GetDegreeForRotation()
-        'DestinationTarget = GetWCSPosition()
-        'MsgBox(DestinationTarget.X.ToString() + " " + DestinationTarget.Z.ToString() + " " + DestinationTarget.Z.ToString())
         TimerAnimation.Enabled = True
-        'if timeranimation.enabled then
-        '    timeranimation.enabled = false
-        'else
-        '    timeranimation.enabled = true
-        'end if
         DestPoint.Text = "Destination Point: X = " + DestinationTarget.X.ToString() + ", Z = " + DestinationTarget.Z.ToString()
     End Sub
 
@@ -457,13 +445,11 @@
             rotation += addition
             If Math.Abs(rotation) = theta Then
                 addition = 0
-                ' TurnBodyAnimation.Enabled = False
             End If
         ElseIf counterClockwise Then
             rotation -= addition
             If Math.Abs(rotation) = theta Then
                 addition = 0
-                ' TurnBodyAnimation.Enabled = False
             End If
         End If
 
@@ -471,10 +457,6 @@
         g.Clear(Color.White)
         TranverseChange(HTree.First, "torso", rotation)
         TranverseTree(HTree.First)
-    End Sub
-
-    Private Sub MovingChicken()
-
     End Sub
 
     Private Sub AscendOrDescend(ByVal heightChange As Double) 'OK sekarang ini work.... Panggil di FlyMode tinggal ubah boolean IsAscend sama IsDescend sesuai yang dibutuhin
@@ -532,8 +514,6 @@
     'End Sub
 
     Private Sub FlyingChicken()
-        AscendOrDescend(heightChange)
-        FlapFlap()
         If OriginPosition.X = DestinationTarget.X And OriginPosition.Y = DestinationTarget.Z Then
             TimerAnimation.Enabled = False
         End If
@@ -551,11 +531,7 @@
             currentTheta = theta
         End If
         If addition = 0 Then
-            '  Console.WriteLine(Math.Abs(Math.Floor(OriginPosition.Y)))
-            ' Console.WriteLine(Math.Floor((1.75 * DestinationTarget.Z)))
-            Console.WriteLine(Math.Floor(OriginPosition.Y))
-            'OriginPosition.Y = 250
-            ' Console.WriteLine(Math.Abs(Math.Floor(1.75 * DestinationTarget.Z) - Math.Floor(OriginPosition.Y)))
+            AscendOrDescend(heightChange)
             If DestinationTarget.Z > OriginPosition.Y And Math.Floor(DestinationTarget.Z) - Math.Floor(OriginPosition.Y) < v Then
                 ' MessageBox.Show("Test")
                 TimerAnimation.Enabled = False
@@ -574,7 +550,7 @@
                 OriginPosition.Y += vy
 
                 ChickPos.Text = "Chicken: X = " + OriginPosition.X.ToString() + ", Y = 0" + ", Z = " + (OriginPosition.Y).ToString()
-                WalkingChicken()
+                FlapFlap()
                 HTree.First.Child.First.Transform.TranslateMat(vx / 50, 0, -(vy / 50))
                 g.Clear(Color.White)
                 TranverseChange(HTree.First, "torso", rotation)
