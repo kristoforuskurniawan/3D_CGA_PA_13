@@ -460,9 +460,7 @@
         TranverseTree(HTree.First)
     End Sub
 
-    Dim FinishDescend As Boolean = False
-
-    Private Sub AscendOrDescend(ByVal heightChange As Double) 'OK sekarang ini work.... Panggil di FlyMode tinggal ubah boolean IsAscend sama IsDescend sesuai yang dibutuhin
+    Private Sub AscendOrDescend(ByVal heightChange As Double) 'Terbangnya agak lompat-lompat tapi udah bener.
         If IsAscend Then 'Ascend
             'flyaddition = 0
             FlyPosition += heightChange
@@ -472,8 +470,8 @@
             TranverseTree(HTree.First)
             If (FlyPosition > 5) Then
                 IsAscend = False
-                'IsDescend = True
-                FlyPosition = 0
+                IsDescend = True
+                FlyPosition = 5
             End If
         ElseIf IsDescend Then 'Descend
             FlyPosition -= heightChange
@@ -481,10 +479,8 @@
             HTree.First.Child.First.Transform.TranslateMat(0, -heightChange, 0)
             TranverseTree(HTree.First)
             If FlyPosition < 0 Then
-                'IsAscend = True
-                'MessageBox.Show("Test")
+                IsAscend = True
                 IsDescend = False
-                FinishDescend = True
                 FlyPosition = 0
             End If
         End If
@@ -514,22 +510,16 @@
         If addition = 0 Then
             AscendOrDescend(heightChange) 'Ascend
             If DestinationTarget.Z > OriginPosition.Y And Math.Floor(DestinationTarget.Z) - Math.Floor(OriginPosition.Y) < v Then
-                IsDescend = True
+                'IsDescend = True
                 AscendOrDescend(heightChange)
-                If FinishDescend Then
-                    TimerAnimation.Enabled = False
-                End If
-                ' ElseIf Math.Floor(DestinationTarget.Z) + Math.Floor(OriginPosition.Y) < v Then
-                '    TimerAnimation.Enabled = False
+                'If FinishDescend Then
+                TimerAnimation.Enabled = False
+                'End If
             Else
                 dirx = Math.Cos(theta * Math.PI / 180)
                 diry = Math.Sin(theta * Math.PI / 180)
-                '  Console.WriteLine(dirx)
-                '  Console.WriteLine(diry)
                 vx = v * dirx
                 vy = v * diry
-                '    Console.WriteLine(vx)
-                '   Console.WriteLine(vy)
                 OriginPosition.X += vx
                 OriginPosition.Y += vy
 
@@ -566,7 +556,7 @@
     End Function
 
     Private Sub TimerAnimation_Tick(sender As Object, e As EventArgs) Handles TimerAnimation.Tick
-        Dim x, z As Integer
+        'Dim x, z As Integer
         If (OriginPosition.X = DestinationTarget.X And (OriginPosition.Y = DestinationTarget.Y Or OriginPosition.Z = DestinationTarget.Z)) Then 'Biar berhenti ayamnya masih belum jalan pas tapi.
             TimerAnimation.Enabled = False
         End If
@@ -621,6 +611,7 @@
             End If
         ElseIf FlyMode Then
             'TurnBodyAnimation.Enabled = True
+            FlyingChicken()
             If currentTheta < theta Then
                 clockwise = True
                 counterClockwise = False
@@ -634,7 +625,6 @@
                 TurnBodyAnimation.Enabled = True
                 currentTheta = theta
             End If
-            FlyingChicken()
         ElseIf RotateMode Then 'Only to test
             TimerAnimation.Interval = 1 'Let's dance
             rotation += addition
