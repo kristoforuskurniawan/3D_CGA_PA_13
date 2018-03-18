@@ -375,12 +375,8 @@
         CurrentPosition.MultiplyMatrix4x4(HTree.First.Child.First.Transform)
         CurrentPosition.MultiplyMatrix4x4(HTree.First.Transform)
         OriginPosition = MultiplyMat(OriginPosition, CurrentPosition)
-        'MsgBox(OriginPosition.X.ToString() + " " + OriginPosition.Y.ToString())
-        'rotation = 0
         addition = 1
-        'MessageBox.Show("test")
         GetDegreeForRotation()
-        'DestinationTarget = GetWCSPosition()
         TimerAnimation.Enabled = True
         DestPoint.Text = "Destination Point: X = " + DestinationTarget.X.ToString() + ", Z = " + DestinationTarget.Z.ToString()
     End Sub
@@ -450,13 +446,11 @@
             rotation += addition
             If Math.Abs(rotation) = theta Then
                 addition = 0
-                ' TurnBodyAnimation.Enabled = False
             End If
         ElseIf counterClockwise Then
             rotation -= addition
             If Math.Abs(rotation) = theta Then
                 addition = 0
-                ' TurnBodyAnimation.Enabled = False
             End If
         End If
 
@@ -466,12 +460,8 @@
         TranverseTree(HTree.First)
     End Sub
 
-    Private Sub MovingChicken()
-
-    End Sub
-
-    Private Sub AscendAndDescend(ByVal heightChange As Double) 'OK sekarang ini work.... Panggil di FlyMode tinggal ubah boolean IsAscend sama IsDescend sesuai yang dibutuhin
-        If IsAscend Then 'Ascend
+    Private Sub AscendOrDescend(ByVal heightChange As Double) 'OK sekarang ini work.... Panggil di FlyMode tinggal ubah boolean IsAscend sama IsDescend sesuai yang dibutuhin
+        If IsAscend And IsDescend = False Then 'Ascend
             'flyaddition = 0
             FlyPosition += heightChange
             'OriginPosition.Y += heightChange
@@ -526,12 +516,7 @@
             currentTheta = theta
         End If
         If addition = 0 Then
-            AscendAndDescend(heightChange)
-            '  Console.WriteLine(Math.Abs(Math.Floor(OriginPosition.Y)))
-            ' Console.WriteLine(Math.Floor((1.75 * DestinationTarget.Z)))
-            Console.WriteLine(Math.Floor(OriginPosition.Y))
-            'OriginPosition.Y = 250
-            ' Console.WriteLine(Math.Abs(Math.Floor(1.75 * DestinationTarget.Z) - Math.Floor(OriginPosition.Y)))
+            AscendOrDescend(heightChange)
             If DestinationTarget.Z > OriginPosition.Y And Math.Floor(DestinationTarget.Z) - Math.Floor(OriginPosition.Y) < v Then
                 ' MessageBox.Show("Test")
                 AscendAndDescend(heightChange)
