@@ -2,7 +2,7 @@
     Dim FirstChicken, SecondChicken, WalkMode, FlyMode, RotateMode, IsAscend, IsDescend As Boolean 'movement type
     Dim bit As Bitmap 'manipulate the screen
     Dim g As Graphics ' to draw
-    Dim blackPen, whitePen As Pen ' for chicken's color
+    Dim blackPen As Pen ' for chicken's color
     Dim VerticesList As List(Of TPoint)
     Dim EdgeList As List(Of TLine)
     Dim Object3D As Model3D 'boring cube
@@ -48,7 +48,6 @@
         OriginPosition = New TPoint()
         nStack = New Stack(Of Matrix4x4)
         blackPen = New Pen(Color.Black, 1)
-        whitePen = New Pen(Color.White, 1)
         bit = New Bitmap(MainCanvas.Width, MainCanvas.Height)
         HTree = New TList3DObject
         EdgeList = New List(Of TLine)
@@ -102,7 +101,6 @@
         If FirstChicken And SecondChicken = False Then
             SecondChicken = True
             FirstChicken = False
-            'HideChicken(HTree.First.Child.First.Obj, )
             ChickenSelectorLabel.Text = "Moved: First Chicken"
         ElseIf SecondChicken And FirstChicken = False Then
             FirstChicken = True
@@ -114,25 +112,6 @@
             ChickenSelectorLabel.Text = "Moved: First Chicken"
         End If
     End Sub
-
-    'Private Sub HideChicken(ByRef chickenTarget As Model3D, M As Matrix4x4, pen As Pen) 'Not working yet
-    '    Dim temp As New List(Of TPoint)
-    '    temp.AddRange(chickenTarget.Vertices)
-    '    For i As Integer = 0 To 7
-    '        temp(i) = MultiplyMat(temp(i), M)
-    '    Next
-
-    '    Dim a, b, c, d As Single
-
-    '    For i As Integer = 0 To chickenTarget.Edges.Count - 1
-    '        a = temp(chickenTarget.Edges(i).PointA).X
-    '        b = temp(chickenTarget.Edges(i).PointA).Y
-    '        c = temp(chickenTarget.Edges(i).PointB).X
-    '        d = temp(chickenTarget.Edges(i).PointB).Y
-    '        g.DrawLine(pen, a, b, c, d)
-    '    Next
-    '    MainCanvas.Image = bit
-    'End Sub
 
     Private Sub DrawCube(obj As Model3D, M As Matrix4x4)
         Dim temp As New List(Of TPoint)
@@ -535,17 +514,11 @@
             TranverseChange(HTree.First, "leftupperwing", WingRotation)
             TranverseChange(HTree.First, "rightupperwing", -WingRotation)
 
-            'TranverseChange(HTree.First.Nxt, "leftupperwing", WingRotation)
-            'TranverseChange(HTree.First.Nxt, "rightupperwing", -WingRotation)
+            TranverseChange(HTree.First.Nxt, "leftupperwing", WingRotation)
+            TranverseChange(HTree.First.Nxt, "rightupperwing", -WingRotation)
         ElseIf (SecondChicken) Then
             'TranverseChange(HTree.First.Nxt, "leftupperwing", WingRotation)
             'TranverseChange(HTree.First.Nxt, "rightupperwing", -WingRotation)
-        Else 'Both
-            TranverseChange(HTree.First, "leftupperwing", WingRotation)
-            TranverseChange(HTree.First, "rightupperwing", -WingRotation)
-
-            TranverseChange(HTree.First.Nxt, "leftupperwing", WingRotation)
-            TranverseChange(HTree.First.Nxt, "rightupperwing", -WingRotation)
         End If
     End Sub
 
@@ -556,27 +529,11 @@
         ElseIf LegRotation <= -45 Then
             legaddition = -legaddition
         End If
+        TranverseChange(HTree.First, "leftleg", LegRotation)
+        TranverseChange(HTree.First, "rightleg", -LegRotation)
 
-        If FirstChicken Then
-            TranverseChange(HTree.First, "leftleg", LegRotation)
-            TranverseChange(HTree.First, "rightleg", -LegRotation)
-
-            'TranverseChange(HTree.First.Nxt, "leftleg", LegRotation) 'Punya ayam kedua
-            'TranverseChange(HTree.First.Nxt, "rightleg", -LegRotation)
-        ElseIf SecondChicken Then
-            'TranverseChange(HTree.First, "leftleg", LegRotation)
-            'TranverseChange(HTree.First, "rightleg", -LegRotation)
-
-            TranverseChange(HTree.First.Nxt, "leftleg", LegRotation) 'Punya ayam kedua
-            TranverseChange(HTree.First.Nxt, "rightleg", -LegRotation)
-        Else 'Both
-            TranverseChange(HTree.First, "leftleg", LegRotation)
-            TranverseChange(HTree.First, "rightleg", -LegRotation)
-
-            TranverseChange(HTree.First.Nxt, "leftleg", LegRotation) 'Punya ayam kedua
-            TranverseChange(HTree.First.Nxt, "rightleg", -LegRotation)
-        End If
-
+        TranverseChange(HTree.First.Nxt, "leftleg", LegRotation) 'Punya ayam kedua
+        TranverseChange(HTree.First.Nxt, "rightleg", -LegRotation)
     End Sub
 
     Private Sub ChangeRotation(ByRef target As TElement3DObject, value As Double)
@@ -702,25 +659,11 @@
 
         rotationTxt.Text = "Rotation: " + rotation.ToString()
         g.Clear(Color.White)
-        If FirstChicken Then
-            TranverseChange(HTree.First, "torso", rotation)
-            TranverseTree(HTree.First)
+        TranverseChange(HTree.First, "torso", rotation)
+        TranverseTree(HTree.First)
 
-            'TranverseChange(HTree.First.Nxt, "torso", rotation)
-            'TranverseTree(HTree.First.Nxt)
-        ElseIf SecondChicken Then
-            'TranverseChange(HTree.First, "torso", rotation)
-            'TranverseTree(HTree.First)
-
-            TranverseChange(HTree.First.Nxt, "torso", rotation)
-            TranverseTree(HTree.First.Nxt)
-        Else
-            TranverseChange(HTree.First, "torso", rotation)
-            TranverseTree(HTree.First)
-
-            TranverseChange(HTree.First.Nxt, "torso", rotation)
-            TranverseTree(HTree.First.Nxt)
-        End If
+        TranverseChange(HTree.First.Nxt, "torso", rotation)
+        TranverseTree(HTree.First.Nxt)
     End Sub
 
     Private Sub Ascend(ByVal heightChange As Double) 'Akhirnya jadi.
@@ -733,15 +676,9 @@
                 HTree.First.Child.First.Transform.TranslateMat(0, heightChange, 0)
                 TranverseTree(HTree.First)
 
-                'HTree.First.Nxt.Child.First.Transform.TranslateMat(0, heightChange, 0)
-                'TranverseTree(HTree.First.Nxt)
-            ElseIf SecondChicken Then
                 HTree.First.Nxt.Child.First.Transform.TranslateMat(0, heightChange, 0)
                 TranverseTree(HTree.First.Nxt)
-            Else
-                HTree.First.Child.First.Transform.TranslateMat(0, heightChange, 0)
-                TranverseTree(HTree.First)
-
+            ElseIf SecondChicken Then
                 HTree.First.Nxt.Child.First.Transform.TranslateMat(0, heightChange, 0)
                 TranverseTree(HTree.First.Nxt)
             End If
@@ -762,15 +699,9 @@
                 HTree.First.Child.First.Transform.TranslateMat(0, -heightChange, 0)
                 TranverseTree(HTree.First)
 
-                'HTree.First.Nxt.Child.First.Transform.TranslateMat(0, -heightChange, 0)
-                'TranverseTree(HTree.First.Nxt)
-            ElseIf SecondChicken Then
                 HTree.First.Nxt.Child.First.Transform.TranslateMat(0, -heightChange, 0)
                 TranverseTree(HTree.First.Nxt)
-            Else
-                HTree.First.Child.First.Transform.TranslateMat(0, -heightChange, 0)
-                TranverseTree(HTree.First)
-
+            ElseIf SecondChicken Then
                 HTree.First.Nxt.Child.First.Transform.TranslateMat(0, -heightChange, 0)
                 TranverseTree(HTree.First.Nxt)
             End If
@@ -813,20 +744,11 @@
                 HTree.First.Child.First.Transform.TranslateMat(vx / 50, 0, -(vy / 50))
                 HTree.First.Nxt.Child.First.Transform.TranslateMat(vx / 50, 0, -(vy / 50))
                 g.Clear(Color.White)
+                TranverseChange(HTree.First, "torso", rotation)
+                TranverseTree(HTree.First)
 
-                If FirstChicken Then
-                    TranverseChange(HTree.First, "torso", rotation)
-                    TranverseTree(HTree.First)
-                ElseIf SecondChicken Then
-                    TranverseChange(HTree.First.Nxt, "torso", rotation)
-                    TranverseTree(HTree.First.Nxt)
-                Else
-                    TranverseChange(HTree.First, "torso", rotation)
-                    TranverseTree(HTree.First)
-
-                    TranverseChange(HTree.First.Nxt, "torso", rotation)
-                    TranverseTree(HTree.First.Nxt)
-                End If
+                TranverseChange(HTree.First.Nxt, "torso", rotation)
+                TranverseTree(HTree.First.Nxt)
             End If
         End If
     End Sub
@@ -881,9 +803,13 @@
                 '  Console.WriteLine(Math.Abs(Math.Floor(OriginPosition.Y)))
                 ' Console.WriteLine(Math.Floor((1.75 * DestinationTarget.Z)))
                 Console.WriteLine(Math.Floor(OriginPosition.Y))
+                'OriginPosition.Y = 250
                 ' Console.WriteLine(Math.Abs(Math.Floor(1.75 * DestinationTarget.Z) - Math.Floor(OriginPosition.Y)))
                 If DestinationTarget.Z > OriginPosition.Y And Math.Floor(DestinationTarget.Z) - Math.Floor(OriginPosition.Y) < v Then
+                    ' MessageBox.Show("Test")
                     TimerAnimation.Enabled = False
+                    ' ElseIf Math.Floor(DestinationTarget.Z) + Math.Floor(OriginPosition.Y) < v Then
+                    '    TimerAnimation.Enabled = False
                 Else
                     dirx = Math.Cos(theta * Math.PI / 180)
                     diry = Math.Sin(theta * Math.PI / 180)
@@ -901,20 +827,11 @@
                     HTree.First.Child.First.Transform.TranslateMat(vx / 50, 0, -(vy / 50))
                     HTree.First.Nxt.Child.First.Transform.TranslateMat(vx / 50, 0, -(vy / 50))
                     g.Clear(Color.White)
+                    TranverseChange(HTree.First, "torso", rotation)
+                    TranverseTree(HTree.First)
 
-                    If FirstChicken Then
-                        TranverseChange(HTree.First, "torso", rotation)
-                        TranverseTree(HTree.First)
-                    ElseIf SecondChicken Then
-                        TranverseChange(HTree.First.Nxt, "torso", rotation)
-                        TranverseTree(HTree.First.Nxt)
-                    Else
-                        TranverseChange(HTree.First, "torso", rotation)
-                        TranverseTree(HTree.First)
-
-                        TranverseChange(HTree.First.Nxt, "torso", rotation)
-                        TranverseTree(HTree.First.Nxt)
-                    End If
+                    TranverseChange(HTree.First.Nxt, "torso", rotation)
+                    TranverseTree(HTree.First.Nxt)
                 End If
             End If
         ElseIf FlyMode Then
@@ -935,24 +852,19 @@
             End If
         ElseIf RotateMode Then 'Only to test
             rotation += addition
+            'If rotation >= 360 Or rotation <= 0 Then
+            '    TimerAnimation.Enabled = False
+            '    TurnBodyAnimation.Enabled = False
+            'End If
             If rotation >= Round Or rotation <= -Round Then
                 addition = -addition
             End If
             g.Clear(Color.White)
-
-            If FirstChicken Then
-                TranverseChange(HTree.First, "torso", rotation)
-                TranverseTree(HTree.First)
-            ElseIf SecondChicken Then
-                TranverseChange(HTree.First.Nxt, "torso", rotation)
-                TranverseTree(HTree.First.Nxt)
-            Else
-                TranverseChange(HTree.First, "torso", rotation)
-                TranverseTree(HTree.First)
-
-                TranverseChange(HTree.First.Nxt, "torso", rotation)
-                TranverseTree(HTree.First.Nxt)
-            End If
+            TranverseChange(HTree.First, "torso", rotation)
+            TranverseTree(HTree.First)
+            'asdfsadf
+            TranverseChange(HTree.First.Nxt, "torso", rotation)
+            TranverseTree(HTree.First.Nxt)
         End If
     End Sub
 End Class
